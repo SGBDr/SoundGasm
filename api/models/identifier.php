@@ -1,20 +1,21 @@
 <?php
 
-    /**
-     * $identifier_id
-     * $$email
-     * $password -- encrypted with sha1 function
-     * $active
-     * $role -- [ADMIN - USER]
-     */
-    public class Identifier{
-        private $identifier_id;
-        private $email;
-        private $password;
-        private $active;
-        private $role;
+    class Identifier{
+        private int $identifier_id;
+        private string $email;
+        private string $password;
+        private bool $active;
+        private string $role;
 
-        public __construct($identifier_id, $email, $password, $active, $role){
+        /**
+         * Summary of __construct
+         * @param int $identifier_id
+         * @param string $email
+         * @param string $password
+         * @param bool $active
+         * @param string $role -- ["USER", "ADMIN"]
+         */
+        function __construct(int $identifier_id, string $email, string $password, bool $active, string $role){
             $this->identifier_id = $identifier_id;
             $this->email = $email;
             $this->password = $password;
@@ -22,17 +23,17 @@
             $this->role = $role;
         }
 
-        public function getIdentifier_id(){return $this->identifier_id;}
-        public function getEmail(){return $this->email;}
-        public function getPassword(){return $this->password;}
-        public function getActive(){return $this->active;}
-        public function getRole(){return $this->role;}
+        public function getIdentifier_id(): int{return $this->identifier_id;}
+        public function getEmail(): string{return $this->email;}
+        public function getPassword(): string{return $this->password;}
+        public function getActive(): bool{return $this->active;}
+        public function getRole(): string{return $this->role;}
 
-        public function setIdentifier_id($identifier_id){$this->identifier_id = $identifier_id;}
-        public function setEmail($email){$this->email = $email;}
-        public function setPassword($password){$this->password = sha1($password);}
-        public function setActive($active){$this->active = $active;}
-        public function setRole($role){$this->role = $role;}
+        public function setIdentifier_id(int $identifier_id): void{$this->identifier_id = $identifier_id;}
+        public function setEmail(string $email): void{$this->email = $email;}
+        public function setPassword(string $password): void{$this->password = sha1($password);}
+        public function setActive(bool $active): void{$this->active = $active;}
+        public function setRole(string $role): void{$this->role = $role;}
 }
 
 

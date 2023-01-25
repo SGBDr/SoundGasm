@@ -4,24 +4,28 @@
      * number ob database connexion openned
      */
 
-    public class PDO_N{
-        private $host = 'localhost';
-        private $dbname = 'soudgasm';
-        private $username = 'postgres';
-        private $password = '';
+    class PDO_N{
+        const host = 'localhost';
+        const dbname = 'soudgasm';
+        const username = 'postgres';
+        const password = '';
         // string line for connexion
-        private $db = "pgsql:host=$host;port=5432;dbname=$dbname;user=$username;password=$password";
+        const db = "pgsql:host=".self::host.";port=5432;dbname=".self::dbname.";user=".self::username.";password=".self::password;
 
-        $conn = null;
+        private static PDO $conn;
 
-        private __construct(){}
+        private function __construct(){}
 
-        public static getInstance(){
-            if($conn == null){
+        /**
+         * Summary of getInstance
+         * @return PDO
+         */
+        public static function getInstance(): PDO{
+            if(self::$conn == null){
                 try{
-                    $conn = new PDO($db);
+                    $conn = new PDO(self::db);
                     if($conn){
-                     echo "Connecté à $dbname avec succès!";
+                     echo "Succesfull connected to ". self::dbname;
                     }
                  }catch (PDOException $e){
                     echo $e->getMessage();
