@@ -16,7 +16,7 @@
             $result = $this->con->query("SELECT * FROM musics");
             $list = array();
             while($row = $result->fetch())
-                array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"]));
+                array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], $row["release_date"]));
             return $list;
         }
 
@@ -30,7 +30,7 @@
             $result = $this->con->query("SELECT * FROM musics WHERE `name` LIKE `%".$artistORname."%` OR `artist` LIKE `%".$artistORname."%`");
             $list = array();
             while($row = $result->fetch())
-                array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"]));
+            array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], $row["release_date"]));
             return $list;        
         }
 
@@ -52,11 +52,14 @@
          * @return Music
          */
         public function addMusic(Music $music): Music{
-            $stmt = $this->con->prepare("INSERT INTO musics(`name`,`rep_image`,`track`,`artist`) VALUES(:name, :rep_image, :track, :artist)");
+            $stmt = $this->con->prepare("INSERT INTO musics(`name`,`rep_image`,`track`,`artist`,`style`,`country`,`release_date`) VALUES(:name, :rep_image, :track, :artist, :style, :country, :release_date)");
             $stmt->bindValue(':name', $music->getName());
             $stmt->bindValue(':rep_image', $music->getRep_image());
             $stmt->bindValue(':track', $music->getTrack());
             $stmt->bindValue(':artist', $music->getArtist());
+            $stmt->bindValue(':style', $music->getStyle());
+            $stmt->bindValue(':country', $music->getCountry());
+            $stmt->bindValue(':release_date', $music->getRelease_date());
             if($stmt->execute()){
                 $music->setMusic_id($this->con->lastInsertId());
                 return $music;
@@ -71,12 +74,15 @@
          */
         public function updateMusic($music){
             // update music in param from table
-            $stmt = $this->con->prepare("UPDATE musics SET `name` = :name AND `rep_image` = :rep_image AND `track` = :track AND `artist` = :artist WHERE `music_id` = :music_id");
+            $stmt = $this->con->prepare("UPDATE musics SET `name` = :name AND `rep_image` = :rep_image AND `track` = :track AND `artist` = :artist AND `style` = :style AND `country` = :country AND `release_date` = :release_date WHERE `music_id` = :music_id");
             $stmt->bindValue(':name', $music->getName());
             $stmt->bindValue(':rep_image', $music->getRep_image());
             $stmt->bindValue(':track', $music->getTrack());
             $stmt->bindValue(':artist', $music->getArtist());
             $stmt->bindValue(':music_id', $music->getMusic_id());
+            $stmt->bindValue(':style', $music->getStyle());
+            $stmt->bindValue(':country', $music->getCountry());
+            $stmt->bindValue(':release_date', $music->getRelease_date());
             return $stmt->execute();
         }
 

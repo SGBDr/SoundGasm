@@ -35,7 +35,11 @@ CREATE TABLE musics(
    rep_image VARCHAR(300) NOT NULL,
    track VARCHAR(300) NOT NULL,
    artist VARCHAR(100) NOT NULL,
-   PRIMARY KEY(music_id)
+   style VARCHAR(100),
+   country VARCHAR(100),
+   release_date DATE,
+   PRIMARY KEY(music_id),
+   UNIQUE(track)
 );
 
 CREATE TABLE artists(
