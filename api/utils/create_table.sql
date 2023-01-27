@@ -5,7 +5,7 @@ DELETE DATABASE IF EXISTS soundgasm;
 -- create of the database
 CREATE DATABASE soundgasm;
 
--- It's possible that creation of database is not possible with the same fils of table creation
+-- It's possible that the creation of database is not possible with the same fils of table creation
 -- if it's your case, create the database first ab open an sql script editor on dbeaver an execute
 -- the rest.
 

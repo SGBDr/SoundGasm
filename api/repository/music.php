@@ -21,6 +21,21 @@
         }
 
         /**
+         * summary of findById
+         * @param int $music_id
+         * @return Music | null
+         */
+        public function findById(int $music_id): Music | null{
+            // get music by id
+            $result = $this->con->query("SELECT * FROM musics WHERE music_id = " . $music_id);
+            $list = array();
+            if($row = $result->fetch()){
+               return new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], $row["release_date"]);
+            }
+            return null;
+        }
+
+        /**
          * Summary of findMusicByNameOrArtist
          * @param mixed $artistORname
          * @return array<Music>
@@ -39,7 +54,7 @@
          * @param mixed $music_id
          * @return bool
          */
-        public function deletMusic($music_id): bool{
+        public function deleteMusic($music_id): bool{
             // remove some music in table
             $stmt = $this->con->prepare("DELETE FROM musics WHERE `music_id` = :music_id");
             $stmt->bindValue(':music_id', $music_id);
@@ -49,9 +64,9 @@
         /**
          * Summary of addMusic
          * @param Music $music
-         * @return Music
+         * @return Music | null
          */
-        public function addMusic(Music $music): Music{
+        public function addMusic(Music $music): Music | null{
             $stmt = $this->con->prepare("INSERT INTO musics(`name`,`rep_image`,`track`,`artist`,`style`,`country`,`release_date`) VALUES(:name, :rep_image, :track, :artist, :style, :country, :release_date)");
             $stmt->bindValue(':name', $music->getName());
             $stmt->bindValue(':rep_image', $music->getRep_image());
@@ -72,7 +87,7 @@
          * @param mixed $music
          * @return bool
          */
-        public function updateMusic($music){
+        public function updateMusic($music): bool{
             // update music in param from table
             $stmt = $this->con->prepare("UPDATE musics SET `name` = :name AND `rep_image` = :rep_image AND `track` = :track AND `artist` = :artist AND `style` = :style AND `country` = :country AND `release_date` = :release_date WHERE `music_id` = :music_id");
             $stmt->bindValue(':name', $music->getName());
