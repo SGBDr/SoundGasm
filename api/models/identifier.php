@@ -23,6 +23,17 @@
             $this->role = $role;
         }
 
+        public function json(): array{
+            $se = [
+                "identifier_id" => $this->identifier_id,
+                "email" => $this->email,
+                "password" => $this->password,
+                "active" => $this->active,
+                "role" => $this->role
+            ];
+            return $se;
+        }
+
         public function getIdentifier_id(): int{return $this->identifier_id;}
         public function getEmail(): string{return $this->email;}
         public function getPassword(): string{return $this->password;}

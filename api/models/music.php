@@ -33,6 +33,20 @@
             $this->release_date = $release_date;
         }
 
+        public function json(): array{
+            $se = [
+                "music_id" => $this->music_id,
+                "name" => $this->name,
+                "rep_image" => $this->rep_image,
+                "track" => $this->track,
+                "artist" => $this->artist,
+                "style" => $this->style,
+                "country" => $this->country,
+                "release_date" => $this->release_date
+            ];
+            return $se;
+        }
+
         public function getMusic_id(): int{return $this->music_id;}
         public function getName(): string{return $this->name;}
         public function getRep_image(): string{return $this->rep_image;}
