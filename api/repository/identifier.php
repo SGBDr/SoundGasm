@@ -43,14 +43,14 @@
          */
         public function findByEmailAndPassword(string $email, string $password): Identifier | null{
             // get identifier by email and password (trying authetification)
-            $result = $this->con->query("SELECT * FROM identifiers WHERE `email` = ".$identifier_id." AND `password` = ".$password);
+            $result = $this->con->query("SELECT * FROM identifiers WHERE `email` = ".$email." AND `password` = ".$password);
             $list = array();
             if($row = $result->fetch())
                 return new Identifier($row["identifier_id"], $row["email"], $row["password"], $row["active"], $row["role"]);
             return null;             
         }
 
-        public function
+      
     }
 
 
