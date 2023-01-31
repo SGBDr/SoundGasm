@@ -1,33 +1,29 @@
 <?php
 
-   include_once("./../db/pdo.php");
-   include_once("./../models/music.php");
+   include_once("./db/pdo.php");
+   include_once("./models/playlist.php");
 
    class PlayListRepo{
     private PDO $con = PDO_N::getInstance();
 
-    public function __construct(){
-   
-    }
+    public function __construct(){}
 
-        /**
+    /**
      * Récupère une playlist à partir de son identifiant.
      * @param int $id L'identifiant de la playlist.
      * @return PlayList|null La playlist correspondant à l'identifiant, ou null si aucune playlist n'a été trouvée.
      */
-    public function findById(int $id): ?PlayList {
-        $stmt = $this->connection->prepare("SELECT * FROM playlists WHERE playlist_id = :id");
-        $stmt->bindParam(':id', $id);
+    public function findById(int $playlist_id): PlayList {
+        $stmt = $this->con->prepare("SELECT * FROM playlists WHERE `playlist_id` = :playlist_id");
+        $stmt->bindValue(':playlist_id', $playlist_id);
         $stmt->execute();
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($row === false) {
+        if ($row === false)
             return null;
-        }
 
-        $musics = [];
-        // Récupérer les musiques associées à la playlist à partir de la source de données
-        // ...
+        $musics = array();
+        $row = $stmt = $this->con->prepare("SELECT * FROM playlists p, m musics, mp playlist WHERE `playlist_id` = :playlist_id");
 
         return new PlayList($row['playlist_id'], $row['name'], $musics);
     }
@@ -57,7 +53,7 @@
     public function findAll(): array {
         $stmt = $this->connection->prepare("SELECT * FROM playlists");
         $stmt->execute();
-        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $playlists = [];
         foreach ($rows as $row) {

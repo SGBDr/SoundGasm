@@ -34,7 +34,12 @@
         // Envoie une réponse d'erreur 404 si le fichier de contrôleur n'existe pas
         //http_response_code(404);
         include_once("./models/artist.php");
-        echo json_encode(  (new Artist(2, "Rihanna"))->json()  );
+        include_once("./db/pdo.php");
+        include_once("./repositories/music.php");
+        $musicRepo = new MusicRepo();
+
+        echo json_encode(  $musicRepo->findById(1)->json()  , JSON_PRETTY_PRINT);
+        //foreach ($_SERVER as $parm => $value)  echo "$parm = '$value'\n";
         exit;
     }
 

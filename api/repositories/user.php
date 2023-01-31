@@ -5,18 +5,16 @@
 class UserRepo {
     
     private PDO $con = PDO_N::getInstance();
-    public function __construct() {
-   }
+    public function __construct() {}
     
     /**
      * Summary of getUserById
      * @param int $user_id
      * @return User
      */
-
     public function getUserById(int $user_id): User {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $user_id]);
+        $stmt->execute(array(':user_id' => $user_id));
         $result = $stmt->fetch();
         if (!$result) {
             return null;
@@ -37,7 +35,6 @@ class UserRepo {
      * @param int $user_id
      * @return array
      */
-
     public function getLikeMusicsByUserId(int $user_id): array {
         $stmt = $this->pdo->prepare("SELECT music_id FROM like_musics WHERE user_id = :user_id");
         $stmt->execute([':user_id' => $user_id]);

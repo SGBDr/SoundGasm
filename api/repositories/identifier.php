@@ -1,7 +1,7 @@
 <?php
     include_once("./../db/pdo.php");
     include_once("./../models/identifier.php");
-
+//OKK
 
     class IdentifierRepo{
         private PDO $con = PDO_N::getInstance();
@@ -84,6 +84,7 @@
         }
 
         /**
+         * summary of updateActive
          * @param int $identifier_id
          * @param bool $value
          * @return bool

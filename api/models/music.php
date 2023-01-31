@@ -42,7 +42,7 @@
                 "artist" => $this->artist,
                 "style" => $this->style,
                 "country" => $this->country,
-                "release_date" => $this->release_date
+                "release_date" => $this->release_date->format("Y-m-d")
             ];
             return $se;
         }

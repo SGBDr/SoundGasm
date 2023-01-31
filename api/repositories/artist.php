@@ -1,11 +1,11 @@
 <?php
     include_once("./../db/pdo.php");
-    include_once("./../models/identifier.php");
+    include_once("./../models/artist.php");
+//OKK
     class ArtistRepo {
         private PDO $con = PDO_N::getInstance();
       
-        public function __construct() {
-        }
+        public function __construct() {}
       
         /**
          * Récupère un artiste par son ID
@@ -15,8 +15,22 @@
          */
         public function getById(int $artist_id) {
           $stmt = $this->con->query('SELECT * FROM artists WHERE artist_id = '.$artist_id);
-          $artist = $stmt->fetch(PDO::FETCH_ASSOC);
-          return $artist ? new Artist($artist['artist_id'], $artist['name']) : null;
+          if ($artist = $stmt->fetch(PDO::FETCH_ASSOC))
+            return new Artist($artist['artist_id'], $artist['name']);
+          return null;
+        }
+
+        /**
+         * Récupère un artiste par son ID
+         *
+         * @param int $artist_id ID de l'artiste à récupérer
+         * @return Artist|null Retourne un objet Artist si trouvé, null sinon
+         */
+        public function getByName(string $name) {
+          $stmt = $this->con->query('SELECT * FROM artists WHERE `name` = '.$name);
+          if ($artist = $stmt->fetch(PDO::FETCH_ASSOC))
+            return new Artist($artist['artist_id'], $artist['name']);
+          return null;
         }
       
         /**
@@ -24,12 +38,11 @@
          *
          * @return Artist[] Retourne un tableau d'objets Artist
          */
-        public function getAll() {
+        public function getAll(): array {
           $stmt = $this->con->query('SELECT * FROM artists');
-          $artists = [];
-          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $artists[] = new Artist($row['artist_id'], $row['name']);
-          }
+          $artists = array();
+          while($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            array_push($artists, new Artist($row['artist_id'], $row['name']));
           return $artists;
         }
       
@@ -40,8 +53,8 @@
          * @return bool Retourne true si l'ajout a réussi, false sinon
          */
         public function add(Artist $artist) {
-          $stmt = $this->con->prepare('INSERT INTO artists (name) VALUES (?)');
-          return $stmt->execute([$artist->getName()]);
+          $stmt = $this->con->prepare('INSERT INTO artists(`name`) VALUES(:name)');
+          return $stmt->execute(array(':name' => $artist->getName()));
         }
       
         /**
@@ -51,8 +64,8 @@
          * @return bool Retourne true si la mise à jour a réussi, false sinon
          */
         public function update(Artist $artist) {
-          $stmt = $this->con->prepare('UPDATE artists SET name = ? WHERE artist_id = ?');
-          return $stmt->execute([$artist->getName(), $artist->getArtist_id()]);
+          $stmt = $this->con->prepare('UPDATE artists SET `name` = :name WHERE `artist_id` = :artist_id');
+          return $stmt->execute(array(":name" => $artist->getName(), ":artist_id" => $artist->getArtist_id()));
         }
       
         /**
@@ -62,10 +75,10 @@
          * @return bool Retourne true si la suppression a réussi, false sinon
          */
         public function delete(int $artist_id) {
-          $stmt = $this->con->prepare('DELETE FROM artists WHERE artist_id = ?');
-          return $stmt->execute([$artist_id]);
+          $stmt = $this->con->prepare('DELETE FROM artists WHERE `artist_id` = :artist_id');
+          return $stmt->execute(arrya(":artist_id" => $artist_id));
         }
-      }
+    }
 
 
 ?>
