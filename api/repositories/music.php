@@ -37,7 +37,7 @@
 
         /**
          * Summary of findMusicByNameOrArtist
-         * @param mixed $artistORname
+         * @param string $artistORname
          * @return array<Music>
          */
         public function findMusicByNameOrArtist(string $artistORname): array{
@@ -51,7 +51,7 @@
 
         /**
          * Summary of deletMusic
-         * @param mixed $music_id
+         * @param int $music_id
          * @return bool
          */
         public function deleteMusic($music_id): bool{
@@ -84,7 +84,7 @@
 
         /**
          * Summary of updateMusic
-         * @param mixed $music
+         * @param Music $music
          * @return bool
          */
         public function updateMusic($music): bool{

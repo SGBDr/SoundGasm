@@ -52,6 +52,7 @@ CREATE TABLE artists(
 CREATE TABLE groups(
    group_id BIGSERIAL,
    user_id BIGINT NOT NULL,
+   name VARCHAR(50) NOT NULL,
    description TEXT,
    date_creation DATE NOT NULL,
    FOREIGN KEY(user_id) REFERENCES users(user_id)

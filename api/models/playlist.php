@@ -18,6 +18,18 @@
             $this->musics = $musics;
         }
 
+        public function json(): array{
+            $music_s = array();
+            foreach ($this->musics as $key => $value)
+                array_push($music_s, $value->json());
+            $se = [
+                "playlist_id" => $this->playlist_id,
+                "name" => $this->name,
+                "musics" => $music_s
+            ];
+            return $se;
+        }
+
         public function getPlaylist_id(): int{return $this->playlist_id;}
         public function getName(): string{return $this->name;}
         public function getMusics(): array{return $this->musics;}
