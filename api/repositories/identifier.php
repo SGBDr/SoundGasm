@@ -89,7 +89,7 @@
          * @param bool $value
          * @return bool
          */
-        public function updateActive(int $identifier_id, bool $value): bool{
+        public function updateActive(identifier $identifier,int $identifier_id, bool $value): bool{
             $stmt = $this->con->prepare("UPDATE identifiers SET `active` = :active WHERE identifier_id = :identifier_id");
             $stmt->bindValue(':active', $value);
             $stmt->bindValue(':identifier_id', $identifier->getIdentifier_id());

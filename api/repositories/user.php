@@ -13,7 +13,7 @@ class UserRepo {
      * @return User
      */
     public function getUserById(int $user_id): User {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_id = :user_id");
+        $stmt = $this->con->prepare("SELECT * FROM users WHERE user_id = :user_id");
         $stmt->execute(array(':user_id' => $user_id));
         $result = $stmt->fetch();
         if (!$result) {
@@ -23,7 +23,7 @@ class UserRepo {
             $result['user_id'],
             $result['name'],
             new DateTime($result['birthday']),
-            new Identifier($result['identifier_id'], $result['identifier_value']),
+            new Identifier($result['identifier._id'], $result["email"], $result["password"], $result["active"], $result["role"]),
             $this->getLikeMusicsByUserId($user_id),
             $this->getPlaylistsByUserId($user_id),
             $this->getGroupsByUserId($user_id)
@@ -36,7 +36,7 @@ class UserRepo {
      * @return array
      */
     public function getLikeMusicsByUserId(int $user_id): array {
-        $stmt = $this->pdo->prepare("SELECT music_id FROM like_musics WHERE user_id = :user_id");
+        $stmt = $this->con->prepare("SELECT music_id FROM like_musics WHERE user_id = :user_id");
         $stmt->execute([':user_id' => $user_id]);
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
@@ -47,7 +47,7 @@ class UserRepo {
      * @return array
      */
     public function getPlaylistsByUserId(int $user_id): array {
-        $stmt = $this->pdo->prepare("SELECT playlist_id FROM playlists WHERE user_id = :user_id");
+        $stmt = $this->con->prepare("SELECT playlist_id FROM playlists WHERE user_id = :user_id");
         $stmt->execute([':user_id' => $user_id]);
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
@@ -58,7 +58,7 @@ class UserRepo {
      * @return array
      */
     public function getGroupsByUserId(int $user_id): array {
-        $stmt = $this->pdo->prepare("SELECT group_id FROM groups WHERE user_id = :user_id");
+        $stmt = $this->con->prepare("SELECT group_id FROM groups WHERE user_id = :user_id");
         $stmt->execute([':user_id' => $user_id]);
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
@@ -69,7 +69,7 @@ class UserRepo {
      * @return bool
      */
     public function save(User $user): bool {
-        $stmt = $this->pdo->prepare("
+        $stmt = $this->con->prepare("
             INSERT INTO users (name, birthday, identifier_id) 
             VALUES (:name, :birthday, :identifier_id)
         ");
