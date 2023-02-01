@@ -27,7 +27,7 @@
          * @return Artist|null Retourne un objet Artist si trouvé, null sinon
          */
         public function getByName(string $name) {
-          $stmt = $this->con->query('SELECT * FROM artists WHERE `name` = '.$name);
+          $stmt = $this->con->query('SELECT * FROM artists WHERE name = '.$name);
           if ($artist = $stmt->fetch(PDO::FETCH_ASSOC))
             return new Artist($artist['artist_id'], $artist['name']);
           return null;
@@ -53,7 +53,7 @@
          * @return bool Retourne true si l'ajout a réussi, false sinon
          */
         public function add(Artist $artist) {
-          $stmt = $this->con->prepare('INSERT INTO artists(`name`) VALUES(:name)');
+          $stmt = $this->con->prepare('INSERT INTO artists(name) VALUES(:name)');
           return $stmt->execute(array(':name' => $artist->getName()));
         }
       
@@ -64,7 +64,7 @@
          * @return bool Retourne true si la mise à jour a réussi, false sinon
          */
         public function update(Artist $artist) {
-          $stmt = $this->con->prepare('UPDATE artists SET `name` = :name WHERE `artist_id` = :artist_id');
+          $stmt = $this->con->prepare('UPDATE artists SET name = :name WHERE artist_id = :artist_id');
           return $stmt->execute(array(":name" => $artist->getName(), ":artist_id" => $artist->getArtist_id()));
         }
       
@@ -75,7 +75,7 @@
          * @return bool Retourne true si la suppression a réussi, false sinon
          */
         public function delete(int $artist_id) {
-          $stmt = $this->con->prepare('DELETE FROM artists WHERE `artist_id` = :artist_id');
+          $stmt = $this->con->prepare('DELETE FROM artists WHERE artist_id = :artist_id');
           return $stmt->execute(arrya(":artist_id" => $artist_id));
         }
     }
