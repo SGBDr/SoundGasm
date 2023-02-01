@@ -76,7 +76,7 @@
          */
         public function delete(int $artist_id) {
           $stmt = $this->con->prepare('DELETE FROM artists WHERE `artist_id` = :artist_id');
-          return $stmt->execute(arrya(":artist_id" => $artist_id));
+          return $stmt->execute(array(":artist_id" => $artist_id));
         }
     }
 
