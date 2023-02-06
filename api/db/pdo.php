@@ -6,13 +6,13 @@
 
     class PDO_N{
         const host = 'localhost';
-        const dbname = 'soudgasm';
+        const dbname = 'soundgasm';
         const username = 'postgres';
-        const password = '';
+        const password = 'postgrespw';
         // string line for connexion
-        const db = "pgsql:host=".self::host.";port=5432;dbname=".self::dbname.";user=".self::username.";password=".self::password;
+        const db = "pgsql:host=".self::host.";port=49156;dbname=".self::dbname.";user=".self::username.";password=".self::password;
 
-        private static PDO $conn;
+        private static ?PDO $conn = null;
 
         private function __construct(){}
 
@@ -20,18 +20,15 @@
          * Summary of getInstance
          * @return PDO
          */
-        public static function getInstance(): PDO{
+        public static function getInstance(): ?PDO{
             if(self::$conn == null){
                 try{
-                    $conn = new PDO(self::db);
-                    if($conn){
-                     echo "Succesfull connected to ". self::dbname;
-                    }
+                    self::$conn = new PDO(self::db);
                  }catch (PDOException $e){
                     echo $e->getMessage();
                  }
             }
-            return $conn;
+            return self::$conn;
         }
     }
 

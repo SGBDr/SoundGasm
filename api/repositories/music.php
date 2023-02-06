@@ -1,11 +1,13 @@
 <?php
-    include_once("./../db/pdo.php");
-    include_once("./../models/music.php");
-
+    include_once("./db/pdo.php");
+    include_once("./models/music.php");
+//OKK
     class MusicRepo {
-        private PDO $con = PDO_N::getInstance();
+        private PDO $con;
 
-        function __construct(){}
+        function __construct(){
+            $this->con = PDO_N::getInstance();
+        }
 
         /**
          * Summary of findAll
@@ -16,7 +18,7 @@
             $result = $this->con->query("SELECT * FROM musics");
             $list = array();
             while($row = $result->fetch())
-                array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], $row["release_date"]));
+                array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime(($row["release_date"]))));
             return $list;
         }
 
@@ -25,36 +27,36 @@
          * @param int $music_id
          * @return Music | null
          */
-        public function findById(int $music_id): Music | null{
+        public function findById(int $music_id): ?Music{
             // get music by id
             $result = $this->con->query("SELECT * FROM musics WHERE music_id = " . $music_id);
             $list = array();
-            if($row = $result->fetch()){
-               return new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], $row["release_date"]);
-            }
+            if($row = $result->fetch())
+               return new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime($row["release_date"]));
+            
             return null;
         }
 
         /**
          * Summary of findMusicByNameOrArtist
-         * @param mixed $artistORname
+         * @param string $artistORname
          * @return array<Music>
          */
         public function findMusicByNameOrArtist(string $artistORname): array{
             // get music with param config
-            $result = $this->con->query("SELECT * FROM musics WHERE `name` LIKE `%".$artistORname."%` OR `artist` LIKE `%".$artistORname."%`");
+            $result = $this->con->query("SELECT * FROM musics WHERE LOWER(name) LIKE '%".strtolower($artistORname)."%' OR LOWER(artist) LIKE '%".strtolower($artistORname)."%'");
             $list = array();
             while($row = $result->fetch())
-            array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], $row["release_date"]));
+                array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime($row["release_date"])));
             return $list;        
         }
 
         /**
          * Summary of deletMusic
-         * @param mixed $music_id
+         * @param int $music_id
          * @return bool
          */
-        public function deleteMusic($music_id): bool{
+        public function deleteMusic(int $music_id): bool{
             // remove some music in table
             $stmt = $this->con->prepare("DELETE FROM musics WHERE `music_id` = :music_id");
             $stmt->bindValue(':music_id', $music_id);
@@ -66,7 +68,7 @@
          * @param Music $music
          * @return Music | null
          */
-        public function addMusic(Music $music): Music | null{
+        public function addMusic(Music $music): ?Music{
             $stmt = $this->con->prepare("INSERT INTO musics(`name`,`rep_image`,`track`,`artist`,`style`,`country`,`release_date`) VALUES(:name, :rep_image, :track, :artist, :style, :country, :release_date)");
             $stmt->bindValue(':name', $music->getName());
             $stmt->bindValue(':rep_image', $music->getRep_image());
@@ -74,7 +76,7 @@
             $stmt->bindValue(':artist', $music->getArtist());
             $stmt->bindValue(':style', $music->getStyle());
             $stmt->bindValue(':country', $music->getCountry());
-            $stmt->bindValue(':release_date', $music->getRelease_date());
+            $stmt->bindValue(':release_date', $music->getRelease_date()->format("Y-m-d"));
             if($stmt->execute()){
                 $music->setMusic_id($this->con->lastInsertId());
                 return $music;
@@ -84,7 +86,7 @@
 
         /**
          * Summary of updateMusic
-         * @param mixed $music
+         * @param Music $music
          * @return bool
          */
         public function updateMusic($music): bool{
