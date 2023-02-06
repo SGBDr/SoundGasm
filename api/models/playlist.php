@@ -5,6 +5,7 @@
         private int $playlist_id;
         private string $name;
         private array $musics;
+        private int $user_id;
 
         /**
          * Summary of __construct
@@ -12,10 +13,11 @@
          * @param string $name
          * @param array<Music> $musics
          */
-        function __construct(int $playlist_id, string $name, array $musics){
+        function __construct(int $playlist_id, string $name, int $user_id, array $musics){
             $this->playlist_id = $playlist_id;
             $this->name = $name;
             $this->musics = $musics;
+            $this->user_id = $user_id;
         }
 
         public function json(): array{
@@ -25,6 +27,7 @@
             $se = [
                 "playlist_id" => $this->playlist_id,
                 "name" => $this->name,
+                "user_id" => $this->user_id,
                 "musics" => $music_s
             ];
             return $se;
