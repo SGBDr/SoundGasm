@@ -31,6 +31,30 @@
             $this->groups = $groups;
         }
 
+        public function json(): array{
+            $like_s = array();
+            $playlist_s = array();
+            $group_s = array();
+            foreach ($this->like_musics as $key => $value)
+                array_push($like_s, $value->json());
+            foreach ($this->playlists as $key => $value)
+                array_push($playlist_s, $value->json());
+            foreach ($this->groups as $key => $value)
+                array_push($group_s, $value->json());
+
+            $se = [
+                "user_id" => $this->user_id,
+                "name" => $this->name,
+                "birthday" => $this->birthday,
+                "identifier" => $this->identifier->json(),
+                "like_musics" => $this->like_musics,
+                "playlists" => $this->playlists,
+                "groups" => $this->groups
+            ];
+
+            return $se;
+        }
+
         public function getUser_id(): int{return $this->user_id;}
         public function getName(): string{return $this->name;}
         public function getBirthday(): datetime{return $this->birthday;}
