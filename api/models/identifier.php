@@ -18,7 +18,7 @@
         function __construct(int $identifier_id, string $email, string $password, bool $active, string $role){
             $this->identifier_id = $identifier_id;
             $this->email = $email;
-            $this->password = $password;
+            $this->password = sha1($password);
             $this->active = $active;
             $this->role = $role;
         }

@@ -28,7 +28,7 @@
          */
         public function findById(int $identifier_id): Identifier | null{
             // get identifier by id
-            $result = $this->con->query("SELECT * FROM identifiers WHERE `identifier_id` = ".$identifier_id);
+            $result = $this->con->query("SELECT * FROM identifiers WHERE identifier_id = ".$identifier_id);
             $list = array();
             if($row = $result->fetch())
                 return new Identifier($row["identifier_id"], $row["email"], $row["password"], $row["active"], $row["role"]);
@@ -43,7 +43,7 @@
          */
         public function findByEmailAndPassword(string $email, string $password): Identifier | null{
             // get identifier by email and password (trying authetification)
-            $result = $this->con->query("SELECT * FROM identifiers WHERE `email` = ".$identifier_id." AND `password` = ".$password);
+            $result = $this->con->query("SELECT * FROM identifiers WHERE email = ".$identifier_id." AND password = ".$password);
             $list = array();
             if($row = $result->fetch())
                 return new Identifier($row["identifier_id"], $row["email"], $row["password"], $row["active"], $row["role"]);
@@ -56,7 +56,7 @@
          * @return bool
          */
         public function update(Identifier $identifier): bool{
-            $stmt = $this->con->prepare("UPDATE identifiers SET `email` = :email AND `password` = :password AND `active` = :active AND `role` = :role WHERE `identifier_id` = :identifier_id");
+            $stmt = $this->con->prepare("UPDATE identifiers SET email = :email AND password = :password AND active = :active AND role = :role WHERE identifier_id = :identifier_id");
             $stmt->bindValue(':email', $identifier->getEmail());
             $stmt->bindValue(':password', $identifier->getPassword());
             $stmt->bindValue(':active', $identifier->getActive());
@@ -71,7 +71,7 @@
          * @return Identifier | null
          */
         public function add(Identifier $identifier): Identifier | null{
-            $stmt = $this->con->prepare("INSERT INTO musics(`email`,`password`,`active`,`role`) VALUES(:email, :password, :active, :role)");
+            $stmt = $this->con->prepare("INSERT INTO musics(email,password,active,role) VALUES(:email, :password, :active, :role)");
             $stmt->bindValue(':email', $identifier->getEmail());
             $stmt->bindValue(':password', $identifier->getPassword());
             $stmt->bindValue(':active', $identifier->getActive());
@@ -89,7 +89,7 @@
          * @param bool $value
          * @return bool
          */
-        public function updateActive(int $identifier_id, bool $value): bool{
+        public function updateActive(identifier $identifier,int $identifier_id, bool $value): bool{
             $stmt = $this->con->prepare("UPDATE identifiers SET `active` = :active WHERE identifier_id = :identifier_id");
             $stmt->bindValue(':active', $value);
             $stmt->bindValue(':identifier_id', $identifier->getIdentifier_id());
