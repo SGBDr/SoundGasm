@@ -22,6 +22,31 @@
             return $list;
         }
 
+        public function findLikeSongOfUser(int $user_id): array{
+            $result = $this->con->query("SELECT music_id FROM like_music WHERE user_id = " . $user_id);
+            $musics = array();
+            while($row = $result->fetch()){
+                $result = $this->con->query("SELECT * FROM music WHERE music_id = " . $row["music_id"]);
+                if($row = $result->fetch())
+                    array_push($musics, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime(($row["release_date"]))));
+            }
+            return $music;
+        }
+
+        public function likeSong(int $music_id, int $user_id){
+            $stmt = $this->con->prepare("INSERT INTO like_music(user_id,music_id) VALUES(:user_id,:music_id)");
+            $stmt->bindValue(':music_id', $music_id);
+            $stmt->bindValue(':user_id', $user_id);
+            return $stmt->execute();
+        }
+
+        public function unLikeSong(int $music_id, int $user_id){
+            $stmt = $this->con->prepare("DELETE like_music WHERE user_id = :user_id AND music_id = :music_id");
+            $stmt->bindValue(':music_id', $music_id);
+            $stmt->bindValue(':user_id', $user_id);
+            return $stmt->execute();
+        }
+
         /**
          * summary of findById
          * @param int $music_id

@@ -36,10 +36,12 @@
         public function getPlaylist_id(): int{return $this->playlist_id;}
         public function getName(): string{return $this->name;}
         public function getMusics(): array{return $this->musics;}
+        public function getUser_id(): int{return $this->user_id;}
 
         public function setPlaylist_id(int $playlist_id){$this->playlist_id = $playlist_id;}
         public function setName(string $name){$this->name = $name;}
         public function setMusics(array $musics){$this->musics = $musics;}
+        public function setUser_id(int $user_id){$this->user_id = $user_id;}
     }
 
 

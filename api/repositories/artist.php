@@ -13,7 +13,7 @@
          * @param int $artist_id ID de l'artiste à récupérer
          * @return Artist|null Retourne un objet Artist si trouvé, null sinon
          */
-        public function getById(int $artist_id) {
+        public function findById(int $artist_id) {
           $stmt = $this->con->query('SELECT * FROM artists WHERE artist_id = '.$artist_id);
           if ($artist = $stmt->fetch(PDO::FETCH_ASSOC))
             return new Artist($artist['artist_id'], $artist['name']);
@@ -26,19 +26,30 @@
          * @param int $artist_id ID de l'artiste à récupérer
          * @return Artist|null Retourne un objet Artist si trouvé, null sinon
          */
-        public function getByName(string $name) {
+        public function findByName(string $name) {
           $stmt = $this->con->query('SELECT * FROM artists WHERE name = '.$name);
           if ($artist = $stmt->fetch(PDO::FETCH_ASSOC))
             return new Artist($artist['artist_id'], $artist['name']);
           return null;
         }
-      
+
+        public function findByUserPreference(int $user_id) {
+          $artists = array();
+          $stmt = $this->con->query('SELECT artist_id FROM artist_user WHERE artist_id = '.$artist_id);
+          while ($a_id = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $artist = $this->findById($row["artist_id"]);
+            if($artist != null)
+              array_push($artists, $artist);
+          }
+          return $artists
+        }
+
         /**
          * Récupère tous les artistes
          *
          * @return Artist[] Retourne un tableau d'objets Artist
          */
-        public function getAll(): array {
+        public function findAll(): array {
           $stmt = $this->con->query('SELECT * FROM artists');
           $artists = array();
           while($row = $stmt->fetch(PDO::FETCH_ASSOC))
@@ -52,7 +63,7 @@
          * @param Artist $artist Objet Artist à ajouter
          * @return bool Retourne true si l'ajout a réussi, false sinon
          */
-        public function add(Artist $artist) {
+        public function save(Artist $artist) {
           $stmt = $this->con->prepare('INSERT INTO artists(name) VALUES(:name)');
           return $stmt->execute(array(':name' => $artist->getName()));
         }

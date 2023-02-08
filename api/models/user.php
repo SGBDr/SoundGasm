@@ -10,6 +10,7 @@
         private array $like_musics;
         private array $playlists;
         private array $groups;
+        private array $artists;
 
         /**
          * Summary of __construct
@@ -21,7 +22,7 @@
          * @param array $playlists
          * @param array $groups
          */
-        function __construct(int $user_id, string $name, datetime $birthday, Identifier $identifier, array $like_songs, array $playlists, array $groups){
+        function __construct(int $user_id, string $name, datetime $birthday, Identifier $identifier, array $like_songs, array $playlists, array $groups, array $artists){
             $this->user_id = $user_id;
             $this->name = $name;
             $this->birthday = $birthday;
@@ -29,18 +30,22 @@
             $this->like_musics = $like_songs;
             $this->playlists = $playlists;
             $this->groups = $groups;
+            $this->artists = $artists;
         }
 
         public function json(): array{
             $like_s = array();
             $playlist_s = array();
             $group_s = array();
+            $artist_s = array();
             foreach ($this->like_musics as $key => $value)
                 array_push($like_s, $value->json());
             foreach ($this->playlists as $key => $value)
                 array_push($playlist_s, $value->json());
             foreach ($this->groups as $key => $value)
                 array_push($group_s, $value->json());
+            foreach ($this->artists as $key => $value)
+                array_push($artist_s, $value->json());
 
             $se = [
                 "user_id" => $this->user_id,
@@ -49,7 +54,8 @@
                 "identifier" => $this->identifier->json(),
                 "like_musics" => $this->like_musics,
                 "playlists" => $this->playlists,
-                "groups" => $this->groups
+                "groups" => $this->groups,
+                "artists" => $this->artists
             ];
 
             return $se;
