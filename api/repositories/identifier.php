@@ -1,6 +1,6 @@
 <?php
-    include_once("./../db/pdo.php");
-    include_once("./../models/identifier.php");
+    include_once("./db/pdo.php");
+    include_once("./models/identifier.php");
 //OKK
 
     class IdentifierRepo{

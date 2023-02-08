@@ -34,7 +34,7 @@
                 "group_id" => $this->group_id,
                 "user_id" => $this->user_id,
                 "name" => $this->name,
-                "date_creation" => $this->date_creation,
+                "date_creation" => $this->date_creation->format("Y-m-d"),
                 "decription" => $this->description,
                 "musics" => $music_s
             ];

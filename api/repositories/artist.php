@@ -1,6 +1,6 @@
 <?php
-    include_once("./../db/pdo.php");
-    include_once("./../models/artist.php");
+    include_once("./db/pdo.php");
+    include_once("./models/artist.php");
 //OKK
     class ArtistRepo {
         private PDO $con = PDO_N::getInstance();
