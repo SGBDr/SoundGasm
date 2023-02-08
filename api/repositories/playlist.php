@@ -3,6 +3,8 @@
    include_once("./db/pdo.php");
    include_once("./models/playlist.php");
 
+   include_once("./models/music.php");
+
    class PlaylistRepo{
     private PDO $con = PDO_N::getInstance();
 

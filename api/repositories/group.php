@@ -2,6 +2,8 @@
     include_once("./db/pdo.php");
     include_once("./models/group.php");
 
+    include_once("./models/music.php");
+
     class GroupRepo{
         private PDO $con = PDO_N::getInstance();
 

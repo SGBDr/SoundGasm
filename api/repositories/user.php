@@ -1,10 +1,21 @@
 <?php
-  include_once("./../db/pdo.php");
-  include_once("./../models/identifier.php");
+  include_once("./db/pdo.php");
+  include_once("./models/user.php");
+
+  include_once("./models/identifier.php");
+  include_once("./models/artist.php");
+  include_once("./models/group.php");
+  include_once("./models/playlist.php");
+  include_once("./models/music.php");
 
 class UserRepo {
-    
     private PDO $con = PDO_N::getInstance();
+    private ArtistRepo $artistRepo = ArtistRepo();
+    private GroupRepo $groupRepo = GroupRepo();
+    private PlaylistRepo $playlistsRepo = PlaylistRepo();
+    private MusicRepo $musicRepo = MusicRepo();
+    private IdentifierRepo $identifierRepo = IdentifierRepo();
+
     public function __construct() {}
     
     /**
@@ -14,73 +25,22 @@ class UserRepo {
      */
     public function getUserById(int $user_id): User {
         $stmt = $this->con->prepare("SELECT * FROM users WHERE user_id = :user_id");
-        $stmt->execute(array(':user_id' => $user_id));
+        $stmt->execute(array(":user_id" => $user_id));
         $result = $stmt->fetch();
-        if (!$result) {
+        if ($result == null)
             return null;
-        }
+            int $user_id, string $name, datetime $birthday, Identifier $identifier, array $like_songs, array $playlists, array $groups, array $artists
         return new User(
             $result['user_id'],
             $result['name'],
-            new DateTime($result['birthday']),
-            new Identifier($result['identifier._id'], $result["email"], $result["password"], $result["active"], $result["role"]),
-            $this->getLikeMusicsByUserId($user_id),
-            $this->getPlaylistsByUserId($user_id),
-            $this->getGroupsByUserId($user_id)
+            DateTime($result['birthday']),
+            $this->identifierRepo->findById($result["user_id"]),
+            $this->musicRepo->findLikeSongOfUser($result["user_id"]),
+            $this->playlistRepo->findOwnByUser($result["user_id"]),
+            $this->groupRepo->findByUserIn($result["user_id"]),
+            $this->artistRepo->findByUserPreference($result["user_id"])
         );
     }
-    
-    /**
-     * Summary of getLikeMusicsByUserId
-     * @param int $user_id
-     * @return array
-     */
-    public function getLikeMusicsByUserId(int $user_id): array {
-        $stmt = $this->con->prepare("SELECT music_id FROM like_musics WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $user_id]);
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
-    }
-    
-    /**
-     * Summary of getPlaylistsByUserId
-     * @param int $user_id
-     * @return array
-     */
-    public function getPlaylistsByUserId(int $user_id): array {
-        $stmt = $this->con->prepare("SELECT playlist_id FROM playlists WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $user_id]);
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
-    }
-    
-    /**
-     * Summary of getGroupsByUserId
-     * @param int $user_id
-     * @return array
-     */
-    public function getGroupsByUserId(int $user_id): array {
-        $stmt = $this->con->prepare("SELECT group_id FROM groups WHERE user_id = :user_id");
-        $stmt->execute([':user_id' => $user_id]);
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
-    }
-    
-     /**
-     * Summary of save
-     * @param User $user
-     * @return bool
-     */
-    public function save(User $user): bool {
-        $stmt = $this->con->prepare("
-            INSERT INTO users (name, birthday, identifier_id) 
-            VALUES (:name, :birthday, :identifier_id)
-        ");
-        return $stmt->execute([
-            'name' => $user->getName(),
-            'birthday' => $user->getBirthday(),
-            'identifier_id' => $user->getIdentifier()->getIdentifier_id()
-        ]);
-    }
-
-    
 }
    
 

@@ -50,7 +50,7 @@
             $se = [
                 "user_id" => $this->user_id,
                 "name" => $this->name,
-                "birthday" => $this->birthday,
+                "birthday" => $this->birthday->format("Y-m-d"),
                 "identifier" => $this->identifier->json(),
                 "like_musics" => $this->like_musics,
                 "playlists" => $this->playlists,
