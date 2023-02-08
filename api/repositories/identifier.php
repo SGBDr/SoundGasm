@@ -70,7 +70,7 @@
          * @param Identifier $identifier
          * @return Identifier | null
          */
-        public function add(Identifier $identifier): Identifier | null{
+        public function save(Identifier $identifier): Identifier | null{
             $stmt = $this->con->prepare("INSERT INTO musics(email,password,active,role) VALUES(:email, :password, :active, :role)");
             $stmt->bindValue(':email', $identifier->getEmail());
             $stmt->bindValue(':password', $identifier->getPassword());
@@ -90,7 +90,7 @@
          * @return bool
          */
         public function updateActive(identifier $identifier,int $identifier_id, bool $value): bool{
-            $stmt = $this->con->prepare("UPDATE identifiers SET `active` = :active WHERE identifier_id = :identifier_id");
+            $stmt = $this->con->prepare("UPDATE identifiers SET active = :active WHERE identifier_id = :identifier_id");
             $stmt->bindValue(':active', $value);
             $stmt->bindValue(':identifier_id', $identifier->getIdentifier_id());
             return $stmt->execute();

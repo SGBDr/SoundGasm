@@ -83,7 +83,7 @@
          */
         public function deleteMusic(int $music_id): bool{
             // remove some music in table
-            $stmt = $this->con->prepare("DELETE FROM musics WHERE `music_id` = :music_id");
+            $stmt = $this->con->prepare("DELETE FROM musics WHERE music_id = :music_id");
             $stmt->bindValue(':music_id', $music_id);
             return $stmt->execute();
         }
@@ -93,8 +93,8 @@
          * @param Music $music
          * @return Music | null
          */
-        public function addMusic(Music $music): ?Music{
-            $stmt = $this->con->prepare("INSERT INTO musics(`name`,`rep_image`,`track`,`artist`,`style`,`country`,`release_date`) VALUES(:name, :rep_image, :track, :artist, :style, :country, :release_date)");
+        public function save(Music $music): ?Music{
+            $stmt = $this->con->prepare("INSERT INTO musics(name,rep_image,track,artist,style,country,release_date) VALUES(:name, :rep_image, :track, :artist, :style, :country, :release_date)");
             $stmt->bindValue(':name', $music->getName());
             $stmt->bindValue(':rep_image', $music->getRep_image());
             $stmt->bindValue(':track', $music->getTrack());
@@ -116,7 +116,7 @@
          */
         public function updateMusic($music): bool{
             // update music in param from table
-            $stmt = $this->con->prepare("UPDATE musics SET `name` = :name AND `rep_image` = :rep_image AND `track` = :track AND `artist` = :artist AND `style` = :style AND `country` = :country AND `release_date` = :release_date WHERE `music_id` = :music_id");
+            $stmt = $this->con->prepare("UPDATE musics SET name = :name AND rep_image = :rep_image AND track = :track AND artist = :artist AND style = :style AND country = :country AND release_date = :release_date WHERE music_id = :music_id");
             $stmt->bindValue(':name', $music->getName());
             $stmt->bindValue(':rep_image', $music->getRep_image());
             $stmt->bindValue(':track', $music->getTrack());

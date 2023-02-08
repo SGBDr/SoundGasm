@@ -15,17 +15,21 @@
      */
     public function findById(int $playlist_id): PlayList {
         $stmt = $this->con->prepare("SELECT * FROM playlists WHERE playlist_id = :playlist_id");
-        $stmt->bindValue(':playlist_id', $playlist_id);
-        $stmt->execute();
+        $stmt->execute(array(':playlist_id' => $playlist_id));
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($row === false)
+        if ($row == false)
             return null;
+        $name = $row["name"];
+        $user_id = $row["user_id"];
 
         $musics = array();
-        $row = $stmt = $this->con->prepare("SELECT * FROM playlists p, m musics, mp playlist WHERE `playlist_id` = :playlist_id");
+        $stmt = $this->con->prepare("SELECT m.music_id,m.name,m.rep_image,m.track,m.artist,m.style,m.country,m.release_date FROM m musics, mp playlist WHERE m.music_id = mp.music_id AND mp.playlist_id = :playlist_id");
+        $result = $stmt->execute(array(":playlist_id" => $playlist_id))
+        while($row = $result->fetch())
+            array_push($musics, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime($row["release_date"])))
 
-        return new PlayList($row['playlist_id'], $row['name'], $musics);
+        return new PlayList($playlist_id, $name, $user_id, $musics);
     }
 
     /**
@@ -34,35 +38,27 @@
      * @return PlayList|null
      */
     public function findByName(string $name): ?PlayList{
-        $stmt = $this->pdo->prepare("SELECT * FROM playlists WHERE name = :name");
-        $stmt->execute([
-            'name' => $name
-        ]);
-        $result = $stmt->fetch();
-        if($result === false){
+        $stmt = $this->con->prepare("SELECT * FROM playlists WHERE name = :name");
+        $stmt->execute(array(':name' => $name));
+        $row = $stmt->fetch();
+
+        if($row == false)
             return null;
-        }
-        $musics = MusicRepo::getInstance()->findByPlaylistId($result['playlist_id']);
-        return new PlayList($result['playlist_id'], $result['name'], $musics);
+        
+        return $this->findById($row["playlist_id"]);
     }
  
      /**
      * Récupère toutes les playlists.
      * @return array<PlayList> Toutes les playlists.
      */
-    public function findAll(): array {
-        $stmt = $this->connection->prepare("SELECT * FROM playlists");
-        $stmt->execute();
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    public function findOwnByUser(int $user_id): array {
+        $stmt = $this->con->prepare("SELECT playlist_id FROM playlists WHERE user_id = :user_id");
+        $stmt->execute(array(":user_id" => $user_id));
+        
         $playlists = [];
-        foreach ($rows as $row) {
-            $musics = [];
-            // Récupérer les musiques associées à la playlist à partir de la source de données
-            // ...
-
-            $playlists[] = new PlayList($row['playlist_id'], $row['name'], $musics);
-        }
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            array_push($this->findById($row["playlist_id"]));
 
         return $playlists;
     }
@@ -73,22 +69,10 @@
      * @return bool
      */
     public function delete(int $playlist_id): bool{
-        $stmt = $this->pdo->prepare("DELETE FROM playlists WHERE playlist_id = :playlist_id");
-        return $stmt->execute([
-            'playlist_id' => $playlist_id
-        ]);
-    }
-
-    /**
-     * Saves a PlayList object in the database
-     * @param PlayList $playlist
-     * @return bool
-     */
-    public function save(PlayList $playlist): bool{
-        if($playlist->getPlaylist_id() === null){
-            return $this->create($playlist);
-        }
-        return $this->update($playlist);
+        $s1 = $this->con->prepare("DELETE FROM music_playlist WHERE playlist_id = :playlist_id");
+        $s2 = $this->con->prepare("DELETE FROM playlists WHERE playlist_id = :playlist_id");
+        $array = array(':playlist_id' => $playlist_id);
+        return $s1->execute($array) && $s2->execute($array);
     }
 
     /**
@@ -96,19 +80,14 @@
      * @param PlayList $playlist
      * @return bool
      */
-    private function create(PlayList $playlist): bool{
-        $stmt = $this->pdo->prepare("INSERT INTO playlists (name) VALUES (:name)");
-        $success = $stmt->execute([
-            'name' => $playlist->getName()
-        ]);
-        if($success === false){
+    private function save(PlayList $playlist): bool{
+        $stmt = $this->con->prepare("INSERT INTO playlists (name, user_id) VALUES (:name, user_id)");
+        $success = $stmt->execute(array(':name' => $playlist->getName(), ":user_id" => $playlist->getUser_id()));
+        if($success == false)
             return false;
-        }
-        $playlist->setPlaylist_id($this->pdo->lastInsertId());
-        foreach($playlist->getMusics() as $music){
-            MusicRepo::getInstance()->save($music);
-        }
-        return true;
+        
+        $playlist->setPlaylist_id($this->con->lastInsertId());
+        return $playlist;
     }
 
     /**
@@ -117,12 +96,8 @@
      * @return bool
      */
     private function update(PlayList $playlist): bool{
-        $stmt = $this->pdo->prepare("UPDATE playlists SET name = :name WHERE playlist_id = :playlist_id");
-        $success = $stmt->execute([
-            'name' => $playlist->getName(),
-            'playlist_id' => $playlist->getPlaylist_id()
-        ]);
-        return  $success;
+        $stmt = $this->con->prepare("UPDATE playlists SET name = :name WHERE playlist_id = :playlist_id");
+        return $stmt->execute(array(':name' => $playlist->getName(),':playlist_id' => $playlist->getPlaylist_id()));
     }
    }
 
