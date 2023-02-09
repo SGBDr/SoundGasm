@@ -3,9 +3,11 @@
     include_once("./models/artist.php");
 //OKK
     class ArtistRepo {
-        private PDO $con = PDO_N::getInstance();
+        private PDO $con;
       
-        public function __construct() {}
+        public function __construct() {
+          $this->con = PDO_N::getInstance();
+        }
       
         /**
          * Récupère un artiste par son ID

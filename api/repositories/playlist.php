@@ -6,9 +6,11 @@
    include_once("./models/music.php");
 
    class PlaylistRepo{
-    private PDO $con = PDO_N::getInstance();
+    private PDO $con;
 
-    public function __construct(){}
+    public function __construct(){
+        $this->con = PDO_N::getInstance();
+    }
 
     /**
      * Récupère une playlist à partir de son identifiant.
@@ -16,8 +18,7 @@
      * @return Playlist|null La playlist correspondant à l'identifiant, ou null si aucune playlist n'a été trouvée.
      */
     public function findById(int $playlist_id): ?Playlist {
-        $stmt = $this->con->prepare("SELECT * FROM playlists WHERE playlist_id = :playlist_id");
-        $stmt->execute(array(':playlist_id' => $playlist_id));
+        $stmt = $this->con->query("SELECT * FROM playlists WHERE playlist_id = ". $playlist_id);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row == false)
@@ -26,7 +27,7 @@
         $user_id = $row["user_id"];
 
         $musics = array();
-        $result = $this->con->prepare("SELECT m.music_id,m.name,m.rep_image,m.track,m.artist,m.style,m.country,m.release_date FROM m musics, mp music_playlist WHERE m.music_id = mp.music_id AND mp.playlist_id = ".$playlist_id);
+        $result = $this->con->query("SELECT m.music_id,m.name,m.rep_image,m.track,m.artist,m.style,m.country,m.release_date FROM m musics, mp music_playlist WHERE m.music_id = mp.music_id AND mp.playlist_id = ".$playlist_id);
         while($row = $result->fetch())
             array_push($musics, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime($row["release_date"])));
 
@@ -64,8 +65,7 @@
      * @return array<Playlist> Toutes les playlists.
      */
     public function findOwnByUser(int $user_id): array {
-        $stmt = $this->con->prepare("SELECT playlist_id FROM playlists WHERE user_id = :user_id");
-        $stmt->execute(array(":user_id" => $user_id));
+        $stmt = $this->con->query("SELECT playlist_id FROM playlists WHERE user_id = ". $user_id);
         
         $playlists = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC))

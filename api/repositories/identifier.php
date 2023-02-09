@@ -4,9 +4,11 @@
 //OKK
 
     class IdentifierRepo{
-        private PDO $con = PDO_N::getInstance();
+        private PDO $con;
 
-        function __construct(){}
+        function __construct(){
+            $this->con = PDO_N::getInstance();
+        }
 
         /**
          * Summary of findAll

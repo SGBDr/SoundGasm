@@ -9,14 +9,21 @@
   include_once("./repositories/music.php");
 
 class UserRepo {
-    private PDO $con = PDO_N::getInstance();
-    private ArtistRepo $artistRepo = new ArtistRepo();
-    private GroupRepo $groupRepo = new GroupRepo();
-    private PlaylistRepo $playlistRepo = new PlaylistRepo();
-    private MusicRepo $musicRepo = new MusicRepo();
-    private IdentifierRepo $identifierRepo = new IdentifierRepo();
+    private PDO $con;
+    private ArtistRepo $artistRepo;
+    private GroupRepo $groupRepo;
+    private PlaylistRepo $playlistRepo;
+    private MusicRepo $musicRepo;
+    private IdentifierRepo $identifierRepo;
 
-    public function __construct() {}
+    public function __construct() {
+        $this->con = PDO_N::getInstance();
+        $this->artistRepo = new ArtistRepo();
+        $this->groupRepo = new GroupRepo();
+        $this->playlistRepo = new PlaylistRepo();
+        $this->musicRepo = new MusicRepo();
+        $this->identifierRepo = new IdentifierRepo();
+    }
     
     /**
      * Summary of getUserById
@@ -24,8 +31,7 @@ class UserRepo {
      * @return User
      */
     public function getUserById(int $user_id): User {
-        $stmt = $this->con->prepare("SELECT * FROM users WHERE user_id = :user_id");
-        $stmt->execute(array(":user_id" => $user_id));
+        $stmt = $this->con->query("SELECT * FROM users WHERE user_id = ". $user_id);
         $result = $stmt->fetch();
         if ($result == null)
             return null;

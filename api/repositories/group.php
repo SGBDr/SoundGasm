@@ -2,35 +2,33 @@
     include_once("./db/pdo.php");
     include_once("./models/group.php");
 
-    include_once("./models/music.php");
-
     class GroupRepo{
-        private PDO $con = PDO_N::getInstance();
+        private PDO $con;
+
+        public function __construct(){
+            $this->con = PDO_N::getInstance();
+        }
 
         public function findById(int $group_id): ?Group{
-            $stmt = $this->con->prepare("SELECT * FROM groups WHERE group_id = :group_id");
-            $stmt->execute(array(":group_id" => $group_id));
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+            $result = $this->con->query("SELECT * FROM groups WHERE group_id = " . $group_id);
+            $row = $result->fetch();
             if ($row == false)
                 return null;
             $name = $row["name"];
             $user_id = $row["user_id"];
-            $description = $row["decription"];
+            $description = $row["description"];
             $date_creation = $row["date_creation"];
     
             $musics = array();
-            $stmt = $this->con->prepare("SELECT m.music_id,m.name,m.rep_image,m.track,m.artist,m.style,m.country,m.release_date FROM m musics, mg music_group WHERE m.music_id = mg.music_id AND mg.group_id = :group_id");
-            $result = $stmt->execute(array(":group_id" => $group_id));
+            $result = $this->con->query("SELECT m.music_id,m.name,m.rep_image,m.track,m.artist,m.style,m.country,m.release_date FROM musics m, music_group mg WHERE m.music_id = mg.music_id AND mg.group_id = ". $group_id);
             while($row = $result->fetch())
-                array_push($musics, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime($row["release_date"])))
+                array_push($musics, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime($row["release_date"])));
     
             return new Group($group_id, $user_id, $name, new Datetime($date_creation), $description, $musics);
         }
 
         public function findByName(string $name): ?Group{
-            $stmt = $this->con->prepare("SELECT group_id FROM groups WHERE name = :name");
-            $stmt->execute(array(":name" => $name));
+            $stmt = $this->con->prepare("SELECT group_id FROM groups WHERE name = ".$name);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row == false)
                 return null;
@@ -39,8 +37,7 @@
         }
 
         public function findByUserIn(int $user_id): array{
-            $stmt = $this->con->prepare("SELECT group_id FROM user_group WHERE user_id = :user_id");
-            $result = $stmt->execute(array(":user_id" => $user_id));
+            $result = $this->con->prepare("SELECT group_id FROM user_group WHERE user_id = ". $user_id);
             $groups = array();
             while($row = $result->fetch())
                 array_push($groups, $this->findById($row["group_id"]));
@@ -49,8 +46,7 @@
         }
 
         public function findOwnByUser(int $user_id): array{
-            $stmt = $this->con->prepare("SELECT group_id FROM groups WHERE user_id = :user_id");
-            $result = $stmt->execute(array(":user_id" => $user_id));
+            $result = $this->con->prepare("SELECT group_id FROM groups WHERE user_id = ". $user_id);
             $groups = array();
             while($row = $result->fetch())
                 array_push($groups, $this->findById($row["group_id"]));

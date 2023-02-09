@@ -10,11 +10,12 @@
         const username = 'postgres';
         const password = 'postgrespw';
         // string line for connexion
-        const db = "pgsql:host=".self::host.";port=49156;dbname=".self::dbname.";user=".self::username.";password=".self::password;
+        const db = "pgsql:host=".self::host.";port=32768;dbname=".self::dbname.";user=".self::username.";password=".self::password;
 
         private static ?PDO $conn = null;
 
         private function __construct(){}
+
 
         /**
          * Summary of getInstance
