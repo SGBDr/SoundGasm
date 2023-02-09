@@ -35,13 +35,13 @@
 
         public function findByUserPreference(int $user_id) {
           $artists = array();
-          $stmt = $this->con->query('SELECT artist_id FROM artist_user WHERE artist_id = '.$artist_id);
-          while ($a_id = $stmt->fetch(PDO::FETCH_ASSOC)){
+          $stmt = $this->con->query('SELECT artist_id FROM artist_user WHERE user_id = '.$user_id);
+          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             $artist = $this->findById($row["artist_id"]);
             if($artist != null)
               array_push($artists, $artist);
           }
-          return $artists
+          return $artists;
         }
 
         /**
@@ -87,7 +87,7 @@
          */
         public function delete(int $artist_id) {
           $stmt = $this->con->prepare('DELETE FROM artists WHERE artist_id = :artist_id');
-          return $stmt->execute(arrya(":artist_id" => $artist_id));
+          return $stmt->execute(array(":artist_id" => $artist_id));
         }
     }
 

@@ -1,20 +1,20 @@
 <?php
   include_once("./db/pdo.php");
-  include_once("./models/user.php");
+  include_once("./model/user.php");
 
-  include_once("./models/identifier.php");
-  include_once("./models/artist.php");
-  include_once("./models/group.php");
-  include_once("./models/playlist.php");
-  include_once("./models/music.php");
+  include_once("./repositories/identifier.php");
+  include_once("./repositories/artist.php");
+  include_once("./repositories/group.php");
+  include_once("./repositories/playlist.php");
+  include_once("./repositories/music.php");
 
 class UserRepo {
     private PDO $con = PDO_N::getInstance();
-    private ArtistRepo $artistRepo = ArtistRepo();
-    private GroupRepo $groupRepo = GroupRepo();
-    private PlaylistRepo $playlistsRepo = PlaylistRepo();
-    private MusicRepo $musicRepo = MusicRepo();
-    private IdentifierRepo $identifierRepo = IdentifierRepo();
+    private ArtistRepo $artistRepo = new ArtistRepo();
+    private GroupRepo $groupRepo = new GroupRepo();
+    private PlaylistRepo $playlistRepo = new PlaylistRepo();
+    private MusicRepo $musicRepo = new MusicRepo();
+    private IdentifierRepo $identifierRepo = new IdentifierRepo();
 
     public function __construct() {}
     
@@ -29,11 +29,11 @@ class UserRepo {
         $result = $stmt->fetch();
         if ($result == null)
             return null;
-            int $user_id, string $name, datetime $birthday, Identifier $identifier, array $like_songs, array $playlists, array $groups, array $artists
+    
         return new User(
             $result['user_id'],
             $result['name'],
-            DateTime($result['birthday']),
+            new DateTime($result['birthday']),
             $this->identifierRepo->findById($result["user_id"]),
             $this->musicRepo->findLikeSongOfUser($result["user_id"]),
             $this->playlistRepo->findOwnByUser($result["user_id"]),

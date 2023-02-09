@@ -44,7 +44,7 @@
         public function getGroup_id(): int{return $this->group_id;}
         public function getUser_id(): int{return $this->user_id;}
         public function getName(): string{return $this->name;}
-        public function getDate_creation(): string{return $this->date_creation;}
+        public function getDate_creation(): DateTime{return $this->date_creation;}
         public function getDescription(): string{return $this->description;}
         public function getMusics(): array{return $this->musics;}
 
