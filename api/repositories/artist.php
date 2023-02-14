@@ -3,7 +3,7 @@
     include_once("./models/artist.php");
 //OKK
     class ArtistRepo {
-        private PDO $con;
+        private PDO $con; 
       
         public function __construct() {
           $this->con = PDO_N::getInstance();

@@ -30,7 +30,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE musics(
-   music_id BIGSERIAL,
+   music_id BIGINT,
    name VARCHAR(100) NOT NULL,
    rep_image VARCHAR(300) NOT NULL,
    track VARCHAR(300) NOT NULL,
@@ -39,6 +39,7 @@ CREATE TABLE musics(
    country VARCHAR(100),
    release_date DATE,
    PRIMARY KEY(music_id),
+   FOREIGN KEY(artist) REFERENCES artists(name)
    UNIQUE(track)
 );
 

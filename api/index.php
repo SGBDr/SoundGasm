@@ -37,11 +37,12 @@
         include_once("./db/pdo.php");
         include_once("./repositories/music.php");
         include_once("./repositories/group.php");
+        include_once("./repositories/artist.php");
 
         $musicRepo = new MusicRepo();
-        $groupRepo = new GroupRepo();
+        $artistServ = new ArtistServ();
 
-        echo json_encode(  $groupRepo->findById(1)->json()  , JSON_PRETTY_PRINT);
+        echo json_encode(  $artistServ->getAll() , JSON_PRETTY_PRINT);
         //foreach ($_SERVER as $parm => $value)  echo "$parm = '$value'\n";
         exit;
     }

@@ -49,15 +49,13 @@
      * @param string $name
      * @return Playlist|null
      */
-    public function findByName(string $name): ?Playlist{
-        $stmt = $this->con->prepare("SELECT * FROM playlists WHERE name = :name");
-        $stmt->execute(array(':name' => $name));
-        $row = $stmt->fetch();
-
-        if($row == false)
-            return null;
+    public function findByName(string $name): array{
+        $playlists = array();
+        $stmt = $this->con->query("SELECT * FROM playlists WHERE lower(name) Like '%".strtolower($name)."%'");
+        while($row = $stmt->fetch())
+            array_push($playlists, $this->findById($row["playlist_id"]));
         
-        return $this->findById($row["playlist_id"]);
+        return $playlists;
     }
  
      /**
@@ -66,8 +64,7 @@
      */
     public function findOwnByUser(int $user_id): array {
         $stmt = $this->con->query("SELECT playlist_id FROM playlists WHERE user_id = ". $user_id);
-        
-        $playlists = [];
+        $playlists = array();
         while($row = $stmt->fetch(PDO::FETCH_ASSOC))
             array_push($playlists,$this->findById($row["playlist_id"]));
 

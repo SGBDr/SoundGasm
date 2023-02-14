@@ -1,6 +1,8 @@
 <?php
     include_once("./db/pdo.php");
     include_once("./models/group.php");
+    include_once("./models/music.php");
+
 
     class GroupRepo{
         private PDO $con;
@@ -27,17 +29,15 @@
             return new Group($group_id, $user_id, $name, new Datetime($date_creation), $description, $musics);
         }
 
-        public function findByName(string $name): ?Group{
-            $stmt = $this->con->prepare("SELECT group_id FROM groups WHERE name = ".$name);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($row == false)
-                return null;
-            
-            return $this->findById($row["group_id"]);
+        public function findByName(string $name): array{
+            $stmt = $this->con->query("SELECT group_id FROM groups WHERE lower(name) Like = '%".strtolower($name)."%'");
+            $groups = array();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC))
+                array_push($groups, $this->findById($row["group_id"]));
         }
 
         public function findByUserIn(int $user_id): array{
-            $result = $this->con->prepare("SELECT group_id FROM user_group WHERE user_id = ". $user_id);
+            $result = $this->con->query("SELECT group_id FROM user_group WHERE user_id = ". $user_id);
             $groups = array();
             while($row = $result->fetch())
                 array_push($groups, $this->findById($row["group_id"]));
@@ -46,7 +46,7 @@
         }
 
         public function findOwnByUser(int $user_id): array{
-            $result = $this->con->prepare("SELECT group_id FROM groups WHERE user_id = ". $user_id);
+            $result = $this->con->query("SELECT group_id FROM groups WHERE user_id = ". $user_id);
             $groups = array();
             while($row = $result->fetch())
                 array_push($groups, $this->findById($row["group_id"]));
