@@ -10,7 +10,7 @@ CREATE DATABASE soundgasm;
 -- the rest.
 
 CREATE TABLE identifiers(
-   identifier_id BIGSERIAL,
+   identifier_id INT NOT NULL AUTO_INCREMENT,
    email VARCHAR(115) NOT NULL,
    password VARCHAR(150) NOT NULL,
    active BOOLEAN NOT NULL DEFAULT(true),
@@ -20,17 +20,24 @@ CREATE TABLE identifiers(
 );
 
 CREATE TABLE users(
-   user_id BIGSERIAL,
+   user_id INT NOT NULL AUTO_INCREMENT,
    name VARCHAR(130) NOT NULL,
    birthday DATE NOT NULL,
-   identifier_id BIGINT NOT NULL,
+   identifier_id INT NOT NULL,
    PRIMARY KEY(user_id),
    UNIQUE(identifier_id),
    FOREIGN KEY(identifier_id) REFERENCES identifiers(identifier_id)
 );
 
+CREATE TABLE artists(
+   artist_id INT NOT NULL AUTO_INCREMENT,
+   name VARCHAR(100) NOT NULL,
+   PRIMARY KEY(artist_id),
+   UNIQUE(name)
+);
+
 CREATE TABLE musics(
-   music_id BIGINT,
+   music_id INT,
    name VARCHAR(100) NOT NULL,
    rep_image VARCHAR(300) NOT NULL,
    track VARCHAR(300) NOT NULL,
@@ -40,19 +47,14 @@ CREATE TABLE musics(
    release_date DATE,
    PRIMARY KEY(music_id),
    FOREIGN KEY(artist) REFERENCES artists(name),
-   UNIQUE(track)
+   UNIQUE(track),
+   UNIQUE(music_id)
 );
 
-CREATE TABLE artists(
-   artist_id BIGSERIAL,
-   name VARCHAR(100) NOT NULL,
-   PRIMARY KEY(artist_id),
-   UNIQUE(name)
-);
 
 CREATE TABLE groups(
-   group_id BIGSERIAL,
-   user_id BIGINT NOT NULL,
+   group_id INT NOT NULL AUTO_INCREMENT,
+   user_id INT NOT NULL,
    name VARCHAR(50) NOT NULL,
    description TEXT,
    date_creation DATE NOT NULL,
@@ -61,32 +63,32 @@ CREATE TABLE groups(
 );
 
 CREATE TABLE playlists(
-   playlist_id BIGSERIAL,
+   playlist_id INT NOT NULL AUTO_INCREMENT,
    name VARCHAR(130) NOT NULL,
-   user_id BIGINT NOT NULL,
+   user_id INT NOT NULL,
    PRIMARY KEY(playlist_id),
    FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE music_playlist(
-   music_id BIGINT,
-   playlist_id BIGINT,
+   music_id INT,
+   playlist_id INT,
    PRIMARY KEY(music_id, playlist_id),
    FOREIGN KEY(music_id) REFERENCES musics(music_id),
    FOREIGN KEY(playlist_id) REFERENCES playlists(playlist_id)
 );
 
 CREATE TABLE artist_user(
-   user_id BIGINT,
-   artist_id BIGINT,
+   user_id INT,
+   artist_id INT,
    PRIMARY KEY(user_id, artist_id),
    FOREIGN KEY(user_id) REFERENCES users(user_id),
    FOREIGN KEY(artist_id) REFERENCES artists(artist_id)
 );
 
 CREATE TABLE user_group(
-   user_id BIGINT,
-   group_id BIGINT,
+   user_id INT,
+   group_id INT,
    PRIMARY KEY(user_id, group_id),
    FOREIGN KEY(user_id) REFERENCES users(user_id),
    FOREIGN KEY(group_id) REFERENCES groups(group_id)
@@ -94,16 +96,16 @@ CREATE TABLE user_group(
 
 
 CREATE TABLE like_music(
-   user_id BIGINT,
-   music_id BIGINT,
+   user_id INT,
+   music_id INT,
    PRIMARY KEY(user_id, music_id),
    FOREIGN KEY(user_id) REFERENCES users(user_id),
    FOREIGN KEY(music_id) REFERENCES musics(music_id)
 );
 
 CREATE TABLE music_group(
-   music_id BIGINT,
-   group_id BIGINT,
+   music_id INT,
+   group_id INT,
    PRIMARY KEY(music_id, group_id),
    FOREIGN KEY(music_id) REFERENCES musics(music_id),
    FOREIGN KEY(group_id) REFERENCES groups(group_id)

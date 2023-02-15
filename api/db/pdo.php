@@ -5,12 +5,12 @@
      */
 
     class PDO_N{
-        const host = 'soundgasm-instance.cln1iwawemvs.us-east-1.rds.amazonaws.com';
-        const dbname = 'soundgasm-instance';
-        const username = 'postgres';
-        const password = 'postgrespw';
+        const host = 'localhost';
+        const dbname = 'soundgasm';
+        const username = 'root';
+        const password = '';
         // string line for connexion
-        const db = "pgsql:host=".self::host.";port=5432;dbname=".self::dbname.";user=".self::username.";password=".self::password;
+        const db = "mysql:host=".self::host.";dbname=".self::dbname.";port=3306;charset=utf8";
 
         private static ?PDO $conn = null;
 
@@ -24,7 +24,7 @@
         public static function getInstance(): ?PDO{
             if(self::$conn == null){
                 try{
-                    self::$conn = new PDO(self::db);
+                    self::$conn = new PDO(self::db, self::username, self::password);
                  }catch (PDOException $e){
                     echo $e->getMessage();
                  }

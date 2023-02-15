@@ -18,7 +18,7 @@
         function __construct(int $identifier_id, string $email, string $password, bool $active, string $role){
             $this->identifier_id = $identifier_id;
             $this->email = $email;
-            $this->password = sha1($password);
+            $this->password = $password;
             $this->active = $active;
             $this->role = $role;
         }
@@ -42,7 +42,7 @@
 
         public function setIdentifier_id(int $identifier_id): void{$this->identifier_id = $identifier_id;}
         public function setEmail(string $email): void{$this->email = $email;}
-        public function setPassword(string $password): void{$this->password = sha1($password);}
+        public function setPassword(string $password): void{$this->password = $password;}
         public function setActive(bool $active): void{$this->active = $active;}
         public function setRole(string $role): void{$this->role = $role;}
 }

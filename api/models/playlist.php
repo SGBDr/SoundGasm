@@ -11,6 +11,7 @@
          * Summary of __construct
          * @param int $playlist_id
          * @param string $name
+         * @param int $user_id
          * @param array<Music> $musics
          */
         function __construct(int $playlist_id, string $name, int $user_id, array $musics){

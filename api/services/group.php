@@ -1,11 +1,11 @@
 <?php
     include_once("./repositories/group.php");
 
-    class ArtistServ{
+    class GroupServ{
 
         private GroupRepo $groupRepo;
 
-        function __contruct(){
+        function __construct(){
             $this->groupRepo = new GroupRepo();
         }
 

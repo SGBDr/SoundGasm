@@ -30,10 +30,11 @@
         }
 
         public function findByName(string $name): array{
-            $stmt = $this->con->query("SELECT group_id FROM groups WHERE lower(name) Like = '%".strtolower($name)."%'");
+            $stmt = $this->con->query("SELECT group_id FROM groups WHERE lower(name) Like '%".strtolower($name)."%'");
             $groups = array();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC))
                 array_push($groups, $this->findById($row["group_id"]));
+            return $groups;
         }
 
         public function findByUserIn(int $user_id): array{
@@ -68,7 +69,7 @@
             if($stmt->execute(array(":group_id" => $group_id))){
                 $stmt = $this->con->prepare("DELETE FROM user_group WHERE group_id = :group_id");
                 if($stmt->execute(array(":group_id" => $group_id))){
-                    $stmt = $this->con->prepare("DELETE FROM group WHERE group_id = :group_id");
+                    $stmt = $this->con->prepare("DELETE FROM groups WHERE group_id = :group_id");
                     return $stmt->execute(array(":group_id" => $group_id));
                 }
                 return false;
@@ -87,12 +88,12 @@
         }
 
         public function removeMusicFromGroup(int $music_id, int $group_id){
-            $stmt = $this->con->prepare("DELETE music_group WHERE music_id = :music_id AND group_id = :group_id");
+            $stmt = $this->con->prepare("DELETE FROM music_group WHERE music_id = :music_id AND group_id = :group_id");
             return $stmt->execute(array(":music_id" => $music_id, ":group_id" => $group_id));
         }
 
         public function removeUserFromGroup(int $user_id, int $group_id){
-            $stmt = $this->con->prepare("DELETE user_group WHERE user_id = :user_id AND group_id = :group_id AND user_id != (SELECT user_id FROM groups group_id = :group_id)");
+            $stmt = $this->con->prepare("DELETE FROM user_group WHERE user_id = :user_id AND group_id = :group_id AND user_id != (SELECT user_id FROM groups group_id = :group_id)");
             return $stmt->execute(array(":user_id" => $user_id, ":group_id" => $group_id));
         }
 

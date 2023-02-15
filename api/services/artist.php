@@ -5,7 +5,7 @@
 
         private ArtistRepo $artistRepo;
 
-        function __contruct(){
+        public function __construct(){
             $this->artistRepo = new ArtistRepo();
         }
 
@@ -22,10 +22,6 @@
 
         public function delete(int $artist_id){
             return $this->artistRepo->delete($artist_id);
-        }
-
-        public function delete(Artist $artist){
-            return $this->artistRepo->delete($artist);
         }
 
     }

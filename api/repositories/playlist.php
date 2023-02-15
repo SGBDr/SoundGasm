@@ -27,7 +27,7 @@
         $user_id = $row["user_id"];
 
         $musics = array();
-        $result = $this->con->query("SELECT m.music_id,m.name,m.rep_image,m.track,m.artist,m.style,m.country,m.release_date FROM m musics, mp music_playlist WHERE m.music_id = mp.music_id AND mp.playlist_id = ".$playlist_id);
+        $result = $this->con->query("SELECT m.music_id,m.name,m.rep_image,m.track,m.artist,m.style,m.country,m.release_date FROM musics m, music_playlist mp WHERE m.music_id = mp.music_id AND mp.playlist_id = ".$playlist_id);
         while($row = $result->fetch())
             array_push($musics, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime($row["release_date"])));
 
@@ -40,7 +40,7 @@
     }
 
     public function removeSongFromPlaylist(int $music_id, int $playlist_id){
-        $stmt = $this->con->prepare("DELETE music_playlist WHERE music_id = :music_id AND playlist_id = :playlist_id");
+        $stmt = $this->con->prepare("DELETE FROM music_playlist WHERE music_id = :music_id AND playlist_id = :playlist_id");
         return $stmt->execute(array(':playlist_id' => $playlist_id, ":music_id" => $music_id));
     }
 
@@ -88,13 +88,12 @@
      * @param PlayList $playlist
      * @return bool
      */
-    private function save(Playlist $playlist): bool{
+    public function save(string $name, int $user_id): ?Playlist{
         $stmt = $this->con->prepare("INSERT INTO playlists (name, user_id) VALUES (:name, :user_id)");
-        $success = $stmt->execute(array(':name' => $playlist->getName(), ":user_id" => $playlist->getUser_id()));
+        $success = $stmt->execute(array(':name' => $name, ":user_id" => $user_id));
         if($success == false)
-            return false;
-        
-        $playlist->setPlaylist_id($this->con->lastInsertId());
+            return null;
+        $playlist = new Playlist($this->con->lastInsertId(), $name, $user_id, array());
         return $playlist;
     }
 
@@ -103,9 +102,9 @@
      * @param PlayList $playlist
      * @return bool
      */
-    private function update(Playlist $playlist): bool{
+    public function update(string $name, int $playlist_id): bool{
         $stmt = $this->con->prepare("UPDATE playlists SET name = :name WHERE playlist_id = :playlist_id");
-        return $stmt->execute(array(':name' => $playlist->getName(),':playlist_id' => $playlist->getPlaylist_id()));
+        return $stmt->execute(array(':name' => $name,':playlist_id' => $playlist_id));
     }
    }
 

@@ -33,16 +33,11 @@
     } else {
         // Envoie une réponse d'erreur 404 si le fichier de contrôleur n'existe pas
         //http_response_code(404);
-        include_once("./models/artist.php");
-        include_once("./db/pdo.php");
-        include_once("./repositories/music.php");
-        include_once("./repositories/group.php");
-        include_once("./repositories/artist.php");
+        include_once("./services/music.php");
 
-        $musicRepo = new MusicRepo();
-        $artistServ = new ArtistServ();
+        $musicServ = new MusicServ();
 
-        echo json_encode(  $artistServ->getAll() , JSON_PRETTY_PRINT);
+        echo json_encode(  $musicServ->getAll() , JSON_PRETTY_PRINT);
         //foreach ($_SERVER as $parm => $value)  echo "$parm = '$value'\n";
         exit;
     }

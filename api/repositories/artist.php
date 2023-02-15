@@ -65,9 +65,9 @@
          * @param Artist $artist Objet Artist à ajouter
          * @return bool Retourne true si l'ajout a réussi, false sinon
          */
-        public function save(Artist $artist) {
+        public function save(string $name) {
           $stmt = $this->con->prepare('INSERT INTO artists(name) VALUES(:name)');
-          return $stmt->execute(array(':name' => $artist->getName()));
+          return $stmt->execute(array(':name' => $name));
         }
       
         /**
