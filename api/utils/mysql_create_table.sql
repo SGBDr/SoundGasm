@@ -30,7 +30,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE artists(
-   artist_id INT NOT NULL AUTO_INCREMENT,
+   artist_id INT NOT NULL,
    name VARCHAR(100) NOT NULL,
    PRIMARY KEY(artist_id),
    UNIQUE(name)

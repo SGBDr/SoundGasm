@@ -26,11 +26,11 @@
             $result = $this->con->query("SELECT music_id FROM like_music WHERE user_id = " . $user_id);
             $musics = array();
             while($row = $result->fetch()){
-                $result = $this->con->query("SELECT * FROM music WHERE music_id = " . $row["music_id"]);
+                $result = $this->con->query("SELECT * FROM musics WHERE music_id = " . $row["music_id"]);
                 if($row = $result->fetch())
                     array_push($musics, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime(($row["release_date"]))));
             }
-            return $music;
+            return $musics;
         }
 
         public function likeSong(int $music_id, int $user_id){
@@ -67,9 +67,9 @@
          * @param string $artistORname
          * @return array<Music>
          */
-        public function findMusicByNameOrArtist(string $artistORname): array{
+        public function findMusicByNameOrArtist(string $chr): array{
             // get music with param config
-            $result = $this->con->query("SELECT * FROM musics WHERE LOWER(name) LIKE '%".strtolower($artistORname)."%' OR LOWER(artist) LIKE '%".strtolower($artistORname)."%'");
+            $result = $this->con->query("SELECT * FROM musics WHERE LOWER(name) LIKE '%".strtolower($chr)."%' OR LOWER(artist) LIKE '%".strtolower($chr)."%'");
             $list = array();
             while($row = $result->fetch())
                 array_push($list, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime($row["release_date"])));
@@ -85,7 +85,7 @@
             // remove some music in table
             $stmt = $this->con->prepare("DELETE FROM musics WHERE music_id = :music_id");
             $stmt->bindValue(':music_id', $music_id);
-            return $stmt->execute();
+            return $stmt->execute(array(":music_id" => $music_id));
         }
 
         /**
@@ -94,7 +94,8 @@
          * @return Music | null
          */
         public function save(Music $music): ?Music{
-            $stmt = $this->con->prepare("INSERT INTO musics(name,rep_image,track,artist,style,country,release_date) VALUES(:name, :rep_image, :track, :artist, :style, :country, :release_date)");
+            $stmt = $this->con->prepare("INSERT INTO musics(music_id,name,rep_image,track,artist,style,country,release_date) VALUES(:music_id, :name, :rep_image, :track, :artist, :style, :country, :release_date)");
+            $stmt->bindValue(':music_id', $music->getMusic_id());
             $stmt->bindValue(':name', $music->getName());
             $stmt->bindValue(':rep_image', $music->getRep_image());
             $stmt->bindValue(':track', $music->getTrack());

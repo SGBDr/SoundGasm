@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
 
     // Request Method
     $method = $_SERVER['REQUEST_METHOD'];
@@ -34,10 +36,11 @@
         // Envoie une réponse d'erreur 404 si le fichier de contrôleur n'existe pas
         //http_response_code(404);
         include_once("./services/music.php");
-
+        foreach ($_SERVER as $key => $value) {
+            echo $key . " " . $value ."\n";
+        }
         $musicServ = new MusicServ();
-
-        echo json_encode(  $musicServ->getAll() , JSON_PRETTY_PRINT);
+        //echo json_encode(  $musicServ->findByNameOrArtist("not the only one") , JSON_PRETTY_PRINT);
         //foreach ($_SERVER as $parm => $value)  echo "$parm = '$value'\n";
         exit;
     }
