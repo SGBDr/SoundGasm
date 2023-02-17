@@ -40,7 +40,7 @@ header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Conte
         include_once("./api/services/music.php");
         $musicServ = new MusicServ();
         echo $body;
-        echo json_encode(  $musicServ->findByNameOrArtist("not the only one") , JSON_PRETTY_PRINT);
+        //echo json_encode(  $musicServ->findByNameOrArtist("not the only one") , JSON_PRETTY_PRINT);
         //foreach ($_SERVER as $parm => $value)  echo "$parm = '$value'\n";
         exit;
     }
