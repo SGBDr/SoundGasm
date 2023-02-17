@@ -1,5 +1,5 @@
 <?php
-    include_once("./repositories/group.php");
+include_once("./api/utils/import.php");
 
     class GroupServ{
 

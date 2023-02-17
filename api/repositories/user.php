@@ -1,12 +1,5 @@
 <?php
-  include_once("./db/pdo.php");
-  include_once("./model/user.php");
-
-  include_once("./repositories/identifier.php");
-  include_once("./repositories/artist.php");
-  include_once("./repositories/group.php");
-  include_once("./repositories/playlist.php");
-  include_once("./repositories/music.php");
+include_once("./api/utils/import.php");
 
 class UserRepo {
     private PDO $con;

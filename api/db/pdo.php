@@ -5,10 +5,10 @@
      */
 
     class PDO_N{
-        const host = 'localhost';
-        const dbname = 'soundgasm';
-        const username = 'root';
-        const password = '';
+        const host = 'mysql-soundgasm.alwaysdata.net';
+        const dbname = 'soundgasm_s';
+        const username = 'soundgasm';
+        const password = 'Maman@cherie2206';
         // string line for connexion
         const db = "mysql:host=".self::host.";dbname=".self::dbname.";port=3306;charset=utf8";
 
@@ -16,6 +16,7 @@
 
         private function __construct(){}
 
+        
 
         /**
          * Summary of getInstance

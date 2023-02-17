@@ -1,6 +1,5 @@
 <?php
-    include_once("./repositories/music.php");
-    include_once("./repositories/artist.php");
+include_once("./api/utils/import.php");
 
     class MusicServ{
         private MusicRepo $musicRepo;

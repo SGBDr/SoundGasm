@@ -1,5 +1,5 @@
 <?php
-    include_once("./repositories/playlist.php");
+include_once("./api/utils/import.php");
 
     class PlaylistServ{
         private PlaylistRepo $playlistRepo;

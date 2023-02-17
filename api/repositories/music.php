@@ -1,6 +1,5 @@
 <?php
-    include_once("./db/pdo.php");
-    include_once("./models/music.php");
+include_once("./api/utils/import.php");
 //OKK
     class MusicRepo {
         private PDO $con;
