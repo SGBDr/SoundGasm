@@ -55,7 +55,7 @@ include_once("./api/utils/import.php");
 
         public function save(Group $group): bool{
             $stmt = $this->con->prepare("INSERT groups(user_id, description, date_creation, name) VALUES(:user_id, :description, :date_creation, :name)");
-            $stmt->execute(array(":user_id" => $group->getUser_id(), ":description" => $group->getDecription(), ":date_creation" => $group-getDate_creation(), ":name" => $group->getName()));
+            $stmt->execute(array(":user_id" => $group->getUser_id(), ":description" => $group->getDescription(), ":date_creation" => $group->getDate_creation(), ":name" => $group->getName()));
 
             $stmt = $this->con->prepare("INSERT user_group(user_id, group_id) VALUES(:user_id, :group_id)");
             $result = $stmt->execute(array(":user_id" => $group->getUser_id(), ":group_id" => $this->con->lastInsertId()));

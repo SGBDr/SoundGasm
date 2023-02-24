@@ -16,10 +16,6 @@ include_once("./api/utils/import.php");
             return $artists;
         }
 
-        public function add(string $name){
-            return $this->artistRepo->save($name);
-        }
-
         public function delete(int $artist_id){
             return $this->artistRepo->delete($artist_id);
         }
