@@ -9,11 +9,15 @@
         echo json_encode(array("response" => $artistServ->getAll(), "HttpCode" => 200, "datetime" => new datetime()));
     }else if ($method == "UPDATE"){
         if(explode("=", $params[2])[0] == "for" && explode("=", $params[2])[1] == "ADD_PREF"){
-            // www.domain.com?controllers=artist&method=POST&for=ADD_PREF
-            echo json_encode(array("response" => $artistServ->addPreference(), "HttpCode" => 200, "datetime" => new datetime()));
+            // www.domain.com?controllers=artist&method=POST&for=ADD_PREF&artist_id=:artist_id&user_id=:user_id
+            $artist_id = explode("=", $params[3])[1];
+            $user_id = explode("=", $params[4])[1];
+            echo json_encode(array("response" => $artistServ->addPreference($user_id, $artist_id), "HttpCode" => 200, "datetime" => new datetime()));
         }else{
-            // www.domain.com?controllers=artist&method=DELETE&for=REMOVE_PREF
-            echo json_encode(array("response" => $artistServ->removePreference(), "HttpCode" => 200, "datetime" => new datetime()));
+            // www.domain.com?controllers=artist&method=DELETE&for=REMOVE_PREF&artist_id=:artist_id&user_id=:user_id
+            $artist_id = explode("=", $params[3])[1];
+            $user_id = explode("=", $params[4])[1];
+            echo json_encode(array("response" => $artistServ->removePreference($user_id, $artist_id), "HttpCode" => 200, "datetime" => new datetime()));
         }
     }
 
