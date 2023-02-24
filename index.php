@@ -5,43 +5,34 @@ header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Conte
 
     // Request Method
     $method = $_SERVER['REQUEST_METHOD'];
-
     // request URI
     $uri = $_SERVER['REQUEST_URI'];
-
     // Remove first /
     $uri = substr($uri, 1);
-
-    // Divide URI by /
-    $segments = explode('/', $uri);
-
+    // segments
+    $segments = explode("?", $uri)[1];
+    // params
+    $params = explode("&", $segments);
     // Name of the controller
-    $controller_name = array_shift($segments);
-
-    // Name of function called
-    $function_name = array_shift($segments);
-
-    // all param
-    $params = $segments;
-
+    $controller_name = explode("=", $params[0])[1];
     // Body of request
     $body = json_decode(file_get_contents('php://input'));
+    // controller name
+    $controller_file = './api/controllers/' . $controller_name . '.php';
+    $method = explode("=", $params[1])[1];
 
-    $controller_file = 'controllers/' . $controller_name . '.php';
-
-    // Vérifie si le fichier de contrôleur existe
-    if (file_exists($controller_file)) {
-        // Inclut le fichier de contrôleur
-        //include $controller_file;
-    } else {
-        // Envoie une réponse d'erreur 404 si le fichier de contrôleur n'existe pas
-        //http_response_code(404);
+    if(explode("=", $params[0])[0] != "controllers" && explode("=", $params[1])[0] != "method"){
+        http_response_code(403);
         header('Content-Type: application/json');
-        include_once("./api/services/music.php");
-        $musicServ = new MusicServ();
-        echo $body;
-        echo json_encode(  $musicServ->findByNameOrArtist("ipseite") , JSON_PRETTY_PRINT);
-        //foreach ($_SERVER as $parm => $value)  echo "$parm = '$value'\n";
+        echo json_encode(array("response" => "Bad request", "HttpCode" => 403, "message" => "something wrong in your url, near to controllers name or method name", "datetime" => new datetime()));
+    }else{
+        if (file_exists($controller_file)) {
+            include_once($controller_file);
+        } else {
+            http_response_code(404);
+            header('Content-Type: application/json');
+            echo json_encode(array("response" => "File not found", "HttpCode" => 404, "message" => "controllers not found", "datetime" => new datetime()));
+        }
     }
 
 
