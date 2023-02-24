@@ -82,7 +82,6 @@ include_once("./api/utils/import.php");
     /**
      * Creates a new PlayList in the database
      * @param PlayList $playlist
-     * @return bool
      */
     public function save(string $name, int $user_id): ?Playlist{
         $stmt = $this->con->prepare("INSERT INTO playlists (name, user_id) VALUES (:name, :user_id)");
