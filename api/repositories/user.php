@@ -40,6 +40,14 @@ class UserRepo {
             $this->artistRepo->findByUserPreference($result["user_id"])
         );
     }
+
+    public function getUser_idByIdentifier_id(int $identifier_id){
+        $stmt = $this->con->query("SELECT * FROM users WHERE identifier_id = ". $identifier_id);
+        $result = $stmt->fetch();
+        if($result != null)
+            return $result['user_id'];
+        return 0;
+    }
 }
    
 

@@ -13,34 +13,40 @@ include_once("./api/utils/import.php");
     $segments = explode("?", $uri)[1];
     // params
     $params = explode("&", $segments);
+    $params_p = [];
+    // format params
+    foreach ($params as $key => $value)
+        $params_p[explode("=", $value)[0]] = explode("=", $value)[1];
     // Name of the controller
-    $controller_name = explode("=", $params[0])[1];
+    $controller_name = isset($params_p["controllers"]) ? $params_p["controllers"] : "";
     // Body of request
     $body = json_decode(file_get_contents('php://input'));
     // controller name
     $controller_file = './api/controllers/' . $controller_name . '.php';
-    $method = explode("=", $params[1])[1];
-    $token = $_SERVER['HTTP_TOKEN'];
-    $ip = "jhk"; // mettre l'IP 
+    $ip = getIp(); // mettre l'IP 
 
-    if(explode("=", $params[0])[0] != "controllers" && explode("=", $params[1])[0] != "method"){
+    if(!isset($params_p["controllers"]) || !isset($params_p["method"])){
         http_response_code(403);
         header('Content-Type: application/json');
         echo json_encode(array("response" => "Bad request", "HttpCode" => 403, "message" => "something wrong in your url, near to controllers name or method name", "datetime" => new datetime()));
     }else{
+        $method = $params_p["method"];
         if (file_exists($controller_file)) {
             if($controller_name != "auth"){
-                $tokenServ = new TokenServ();
-                $rep = $tokenServ->isAuth($token, $ip);
-                if($re[0]){
-                    $ID = $re[1];
-                    include_once($controller_file);
-                }else{
-                    echo json_encode(array("response" => "FORBIDEN", "HttpCode" => 200, "message" => "something wrong with your token", "datetime" => new datetime()));
-                }
+                header('Content-Type: application/json');
+                if(isset($_SERVER['HTTP_TOKEN'])){
+                    $token = $_SERVER['HTTP_TOKEN'];
+                    $tokenServ = new TokenServ();
+                    $rep = $tokenServ->isAuth($token);
+                    if($rep[0]){
+                        $ID = $rep[1];
+                        include_once($controller_file);
+                    }else
+                        echo json_encode(array("response" => "Forbidden", "HttpCode" => 200, "message" => "something wrong with your token", "datetime" => new datetime()));
+                }else
+                    echo json_encode(array("response" => "Forbidden", "HttpCode" => 404, "message" => "token not provided", "datetime" => new datetime()));
             }else if($controller_name == "auth")
                 include_once($controller_file);
-            
         } else {
             http_response_code(404);
             header('Content-Type: application/json');

@@ -9,13 +9,6 @@ CREATE DATABASE soundgasm;
 -- if it's your case, create the database first ab open an sql script editor on dbeaver an execute
 -- the rest.
 
-CREATE TABLE tokens{
-   token VARCHAR(255) NOT NULL,
-   ip VARCHAR(255) NOT NULL,
-   user_id INT NOT NULL,
-   create_time time,
-}
-
 CREATE TABLE identifiers(
    identifier_id INT NOT NULL AUTO_INCREMENT,
    email VARCHAR(115) NOT NULL,
@@ -34,6 +27,15 @@ CREATE TABLE users(
    PRIMARY KEY(user_id),
    UNIQUE(identifier_id),
    FOREIGN KEY(identifier_id) REFERENCES identifiers(identifier_id)
+);
+
+CREATE TABLE tokens(
+   token VARCHAR(255) NOT NULL,
+   ip VARCHAR(255) NOT NULL,
+   user_id INT NOT NULL,
+   create_time time,
+   PRIMARY KEY(token),
+   FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE artists(

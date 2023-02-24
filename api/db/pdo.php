@@ -5,10 +5,10 @@
      */
 
     class PDO_N{
-        const host = 'mysql-soundgasm.alwaysdata.net';
-        const dbname = 'soundgasm_s';
-        const username = 'soundgasm';
-        const password = 'Maman@cherie2206';
+        const host = "localhost";//'mysql-soundgasm.alwaysdata.net';
+        const dbname = "soundgasm";//'soundgasm_s';
+        const username = "root";//'soundgasm';
+        const password = "";//'Maman@cherie2206';
         // string line for connexion
         const db = "mysql:host=".self::host.";dbname=".self::dbname.";port=3306;charset=utf8";
 
