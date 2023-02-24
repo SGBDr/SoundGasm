@@ -21,6 +21,16 @@ include_once("./api/utils/import.php");
           return null;
         }
 
+        public function addPreference(int $user_id, int $artist_id){
+          $stmt = $this->con->prepare('INSERT INTO artist_user(user_id, artist_id) VALUES(:user_id,:artist_id)');
+          return $stmt->execute(array(':user_id' => $user_id, ':artist_id' => $artist_id));
+        }
+
+        public function removePreference(int $user_id, int $artist_id){
+          $stmt = $this->con->prepare('DELETE FROM artist_user WHERE user_id=:user_id AND artist_id=:artist_id)');
+          return $stmt->execute(array(':user_id' => $user_id, ':artist_id' => $artist_id));
+        }
+
         /**
          * Récupère un artiste par son ID
          *

@@ -16,6 +16,14 @@ include_once("./api/utils/import.php");
             return $artists;
         }
 
+        public function addPreference(int $user_id, int $artist_id){
+            return $this->artistRepo->addPreference($user_id, $artist_id);
+        }
+
+        public function removePreference(int $user_id, int $artist_id){
+            return $this->artistRepo->removePreference($user_id, $artist_id);
+        }
+
         public function delete(int $artist_id){
             return $this->artistRepo->delete($artist_id);
         }

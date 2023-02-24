@@ -7,6 +7,7 @@
     include_once("./api/models/playlist.php");
     include_once("./api/models/music.php");
     include_once("./api/models/user.php");
+    include_once("./api/models/token.php");
 
     include_once("./api/repositories/identifier.php");
     include_once("./api/repositories/artist.php");
