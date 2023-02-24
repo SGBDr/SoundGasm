@@ -17,11 +17,12 @@ header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Conte
     $controller_name = explode("=", $params[0])[1];
     // Body of request
     $body = json_decode(file_get_contents('php://input'));
+    echo $body;
     // controller name
     $controller_file = './api/controllers/' . $controller_name . '.php';
     $method = explode("=", $params[1])[1];
 
-    if(explode("=", $params[0])[0] != "controllers" && explode("=", $params[1])[0] != "method"){
+    /*if(explode("=", $params[0])[0] != "controllers" && explode("=", $params[1])[0] != "method"){
         http_response_code(403);
         header('Content-Type: application/json');
         echo json_encode(array("response" => "Bad request", "HttpCode" => 403, "message" => "something wrong in your url, near to controllers name or method name", "datetime" => new datetime()));
@@ -33,7 +34,7 @@ header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Conte
             header('Content-Type: application/json');
             echo json_encode(array("response" => "File not found", "HttpCode" => 404, "message" => "controllers not found", "datetime" => new datetime()));
         }
-    }
+    }*/
 
 
 ?>

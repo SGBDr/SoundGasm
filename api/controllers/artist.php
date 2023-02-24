@@ -1,7 +1,5 @@
 <?php
 
-
-
     include_once("./api/utils/import.php");
     header('Content-Type: application/json');
     $artistServ = new ArtistServ();
@@ -9,11 +7,14 @@
         // www.domain.com?controllers=artist&method=GET
         // liste des artist
         echo json_encode(array("response" => $artistServ->getAll(), "HttpCode" => 200, "datetime" => new datetime()));
-    }else if ($method == "POST"){
-        
-        
+    }else if ($method == "UPDATE"){
+        if(explode("=", $params[2])[0] == "for" && explode("=", $params[2])[1] == "ADD_PREF"){
+            // www.domain.com?controllers=artist&method=POST&for=ADD_PREF
+            echo json_encode(array("response" => $artistServ->addPreference(), "HttpCode" => 200, "datetime" => new datetime()));
+        }else{
+            // www.domain.com?controllers=artist&method=DELETE&for=REMOVE_PREF
+            echo json_encode(array("response" => $artistServ->removePreference(), "HttpCode" => 200, "datetime" => new datetime()));
+        }
     }
-
-//echo json_encode(  $playlistServ->add("Rode", 1) , JSON_PRETTY_PRINT);
 
 ?>
