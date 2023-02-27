@@ -37,13 +37,14 @@
                 <small class="text-muted">just provide a token in the header</small>
             </a>
             <?php include_once("modals/artist-modal.php"); ?>
-            <a href="#" class="list-group-item list-group-item-action">
+            <a data-toggle="modal" data-target=".music-modal" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">music</h5>
                 </div>
                 <p class="mb-1">search some music ...</p>
                 <small class="text-muted">just provide a token in the header</small>
             </a>
+            <?php include_once("modals/music-modal.php"); ?>
         </div>
     </div>
 

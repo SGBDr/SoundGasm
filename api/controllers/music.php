@@ -5,38 +5,22 @@ include_once("./api/utils/import.php");
 header('Content-Type: application/json');
 $musicServ = new MusicServ();
 if($method == "GET"){
-    if($id){
-    // www.domain.com?controllers=music&method=GET&id=:id
-    // musique par id
-    echo json_encode(array("response" => $musicServ->getById($id), "HttpCode" => 200, "datetime" => new datetime()));
-    }
-    else if($term){
-    // www.domain.com?controllers=music&method=GET&term=:term
-    // musique par nom
-    echo json_encode(array("response" => $musicServ->findByNameOrArtist($name), "HttpCode" => 200, "datetime" => new datetime()));
-    }
-    else if($wanted && $wanted=="liked"){
-        // www.domain.com?controllers=music&method=GET&wanted=liked
-        // musique par nom
-        echo json_encode(array("response" => $musicServ->getLikeSong(/* à verifier je pense à gerer avec la session*/$user_id), "HttpCode" => 200, "datetime" => new datetime()));
-        }
-    else{
-    // www.domain.com?controllers=music&method=GET
-    // liste des musiques likées
-    echo json_encode(array("response" => $musicServ->getAll(), "HttpCode" => 200, "datetime" => new datetime()));
-    }
+    // www.domain.com?controllers=music&method=GET&by=ID&id=:id
+    if($params_p["by"] == "ID")
+        echo json_encode(array("response" => array("music" => $musicServ->getById($params_p["id"])), "HttpCode" => 200, "datetime" => new datetime()));
+    // www.domain.com?controllers=music&method=GET&by=TERM&term=:term
+    else if($params_p["by"] == "TERM")
+        echo json_encode(array("response" => array("musics" => $musicServ->findByNameOrArtist($params_p["term"])), "HttpCode" => 200, "datetime" => new datetime()));
+    // www.domain.com?controllers=music&method=GET&by=LIKE
+    else if($params_p["by"] == "LIKE")
+        echo json_encode(array("response" => array("musics" => $musicServ->getLikeSong($ID)), "HttpCode" => 200, "datetime" => new datetime()));
 }else if ($method == "UPDATE"){
-    if($action && $action=="like"){
-    // www.domain.com?controllers=music&method=UPDATE&id=:id&action=like
-    // liker une musique
-    echo json_encode(array("response" => $musicServ->LikeSong($id,$user_id), "HttpCode" => 200, "datetime" => new datetime()));
-    }
-    else if($action && $action=="unlike"){
-    // www.domain.com?controllers=music&method=UPDATE&id=:id&action=unlike
-    // unlike une musique
-    echo json_encode(array("response" => $musicServ->unLikeSong($id,$user_id), "HttpCode" => 200, "datetime" => new datetime()));
-    }
-
+    // www.domain.com?controllers=music&method=UPDATE&action=LIKE&music_id=:id
+    if($params_p["action"] == "LIKE")
+        echo json_encode(array("response" => array("like" => $musicServ->LikeSong($params_p["music_id"],$ID)), "HttpCode" => 200, "datetime" => new datetime()));
+    // www.domain.com?controllers=music&method=UPDATE&action=UNLIKE&music_id=:id
+    else if($params_p["action"] == "UNLIKE")
+        echo json_encode(array("response" => array("unlike" => $musicServ->unLikeSong($params_p["music_id"],$ID)), "HttpCode" => 200, "datetime" => new datetime()));
 }
 
 //echo json_encode(  $playlistServ->add("Rode", 1) , JSON_PRETTY_PRINT);
