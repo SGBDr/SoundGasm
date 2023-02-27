@@ -1,4 +1,5 @@
 import React from 'react';
+import { Recommande } from '../components/recommanded';
 
 import { SideBar } from '../components/sideBare';
 import { GlobalStyles } from '../utils/GlobalStyles';
@@ -8,6 +9,7 @@ const IndexPage = () => {
     <>
       <GlobalStyles />
       <SideBar />
+      <Recommande />
     </>
   )
 }
