@@ -48,9 +48,9 @@ export function Recommande(){
 
     return(
         <Wrapper>
-            <Title>{Data?.length}</Title>
+            <Title>Recommanded</Title>
             <ContentWrapper>
-                { Data.map(elm => <Card item={elm} />) }
+                { Data.map((elm, i) => <Card key={i} item={elm} />) }
             </ContentWrapper>
             
         </Wrapper>
@@ -64,7 +64,6 @@ const Wrapper = styled.div`
 
     
     display: grid;
-    gap: 10px;
 
     width: 90%;
     height: 300px;
@@ -83,15 +82,21 @@ const ContentWrapper = styled.div`
     gap: 50px;
 
     width: 95%;
-    height: 300px;
-    margin: 30px;
+    height: 200px;
+    margin: 0 30px;
     overflow: auto;
-    ::-webkit-scrollbar { width: 0;};
+    ::-webkit-scrollbar { width: 0; display:none; };
 
 
     background-color: ${COLOR.darkAlt};
 `
 
 const Title = styled.p`
+    margin-bottom: 10px;
 
+    font-weight: 900;
+    font-family: Teko;
+    color: white;
+    font-size: 28px;
+    margin-left: 30px;
 `
