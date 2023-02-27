@@ -20,6 +20,9 @@
     <?php include_once("navbar.php"); ?>
     <div class="container m-2 p-3"> 
         <h5>Controller list</h5>
+        <div class="alert alert-danger">
+            www.domain.com => https://soundgasm.herokuapp.com
+        </div>
         <div class="list-group">
             <a data-toggle="modal" data-target=".auth-modal" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
@@ -45,6 +48,14 @@
                 <small class="text-muted">just provide a token in the header</small>
             </a>
             <?php include_once("modals/music-modal.php"); ?>
+            <a data-toggle="modal" data-target=".playlist-modal" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">playlist</h5>
+                </div>
+                <p class="mb-1">search some playlist ...</p>
+                <small class="text-muted">just provide a token in the header</small>
+            </a>
+            <?php include_once("modals/playlist-modal.php"); ?>
         </div>
     </div>
 

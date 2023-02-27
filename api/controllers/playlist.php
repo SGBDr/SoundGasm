@@ -6,45 +6,31 @@ header('Content-Type: application/json');
 $playlistServ = new PlaylistServ();
 
 if($method == "GET"){
-    if($id){
-    // www.domain.com?controllers=playlist&method=GET&id=:id
-    // playlist par id
-    echo json_encode(array("response" => $playlistServ->getById($id), "HttpCode" => 200, "datetime" => new datetime()));
-    }
-    else if($term){
-    // www.domain.com?controllers=playlist&method=GET&term=:term
-    // playlist par nom
-    echo json_encode(array("response" => $playlistServ->getByName($name), "HttpCode" => 200, "datetime" => new datetime()));
-    }
-    else if($wanted && $wanted=="playlist"){
-        // www.domain.com?controllers=playlist&method=GET&wanted=playlist
-        // playlist de l'utilisateur
-        echo json_encode(array("response" => $playlistServ->getByOwner($ID), "HttpCode" => 200, "datetime" => new datetime()));
-        }
+    // www.domain.com?controllers=playlist&method=GET&by=ID&playlist_id=:playlist_id
+    if($params_p["by"] == "ID")
+        echo json_encode(array("response" => array("playlist" => $playlistServ->getById($params_p["playlist_id"])), "HttpCode" => 200, "datetime" => new datetime()));
+    // www.domain.com?controllers=playlist&method=GET&by=NAME&name=:name
+    else if($params_p["by"] == "NAME")
+        echo json_encode(array("response" => array("playlists" => $playlistServ->getByName($params_p["name"], $ID)), "HttpCode" => 200, "datetime" => new datetime()));
+    // www.domain.com?controllers=playlist&method=GET&by=USER
+    else if($params_p["by"] == "USER")
+        echo json_encode(array("response" => array("playlists" => $playlistServ->getByOwner($ID)), "HttpCode" => 200, "datetime" => new datetime()));
 
 }else if ($method == "UPDATE"){
-    
-    if($action && $action=="like"){
-    // www.domain.com?controllers=playlist&method=UPDATE&id=:id&idMusic=:idMusic&action=add
-    // liker une playlist
-    echo json_encode(array("response" => $playlistServ->addSong($idMusic,$user_id), "HttpCode" => 200, "datetime" => new datetime()));
-    }
-    else if($action && $action=="remove"){
-    // www.domain.com?controllers=playlist&method=UPDATE&idMusic=:idMusic&action=remove
-    // retirer une musique de la playlist
-    echo json_encode(array("response" => $playlistServ->removeSong($idMusic,$user_id), "HttpCode" => 200, "datetime" => new datetime()));
-    }
-    else if($action && $action=="update"){
-        // www.domain.com?controllers=playlist&method=UPDATE&id=:id&action=update&name=:name
-        // modifier le nom d'une playlist
-        echo json_encode(array("response" => $playlistServ->update($name,$id), "HttpCode" => 200, "datetime" => new datetime()));
-        }
+    // www.domain.com?controllers=playlist&method=UPDATE&action=ADD&music_id=:music_id
+    if($params_p["action"] == "ADD")
+        echo json_encode(array("response" => array("add" => $playlistServ->addSong($params_p["music_id"],$ID)), "HttpCode" => 200, "datetime" => new datetime()));
+    // www.domain.com?controllers=playlist&method=UPDATE&action=REMOVE&music_id=:music_id
+    else if($params_p["action"] == "REMOVE")
+        echo json_encode(array("response" => array("remove" => $playlistServ->removeSong($params_p["music_id"],$ID)), "HttpCode" => 200, "datetime" => new datetime()));
+    // www.domain.com?controllers=playlist&method=UPDATE&action=UPDATE&name=:name
+    else if($params_p["action"] == "UPDATE")
+        echo json_encode(array("response" => array("update" => $playlistServ->update($name,$id)), "HttpCode" => 200, "datetime" => new datetime()));
 
-}else if ($method == "PUT"){
-        // www.domain.com?controllers=playlist&method=PUT&id=:id&action=update&name=:name
-        // ajouter une playlist
-        echo json_encode(array("response" => $playlistServ->add($name,$ID), "HttpCode" => 200, "datetime" => new datetime()));
-        }
+}
+// www.domain.com?controllers=playlist&method=PUT&name=:name
+else if ($method == "PUT")
+    echo json_encode(array("response" => array("add" => $playlistServ->add($name,$ID)), "HttpCode" => 200, "datetime" => new datetime()));
 
 
 ?> 

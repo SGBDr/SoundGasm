@@ -13,9 +13,9 @@ include_once("./api/utils/import.php");
             return $re == null ? "" : $re->json();
         }
 
-        public function getByName(string $name){
+        public function getByName(string $name, $user_id){
             $playlists = array();
-            foreach ($this->playlistRepo->findByName($name) as $key => $value)
+            foreach ($this->playlistRepo->findByName($name, $user_id) as $key => $value)
                 array_push($playlists, $value->json());
             return $playlists;
         }
