@@ -1,0 +1,10 @@
+.nav__{
+    position: fixed;
+    display: flex;
+    width: 100%;
+}
+
+.cc__{
+    align-items: center;
+    width: 100%;
+}
