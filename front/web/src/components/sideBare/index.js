@@ -7,8 +7,13 @@ export const SideBar = () => {
 
     return(
         <Wrapper>
-            <Home alt="kk" src="/images/icons/home.svg" />
-            <Liked alt="kk" src="/images/icons/heart.svg" />
+            <ContentWrapper>
+                <img className='icon' alt="kk" src="/images/icons/home2.svg" />
+                <img className='icon' alt="kk" src="/images/icons/heart.svg" />
+                <img className='icon' alt="kk" src="/images/icons/album.svg" />
+                <img className='icon' alt="kk" src="/images/icons/playlist.svg" />
+                <img className='icon' alt="kk" src="/images/icons/profil.svg" />
+            </ContentWrapper>
 
         </Wrapper>
     );
@@ -16,38 +21,33 @@ export const SideBar = () => {
 }
 
 const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     position: fixed;
     left: 20px;
     top: 96px;
 
     width: 52px;
-    height: 230px;
+    height: 300px;
     border-radius: 32px;
 
     
     background-color: ${COLOR.darkAlt};
 `;
 
-const Home = styled.img`
-    position: absolute;
-    left: 16px;
-    right: 10.42%;
-    top: 8.33%;
-    bottom: 8.33%;
+const ContentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+    
+    height: 250px;
 
-    :hover {
-        fill: #307DB8;
+    .icon: hover {
+        fill: #DA4567;
+        left: 30;
     }
-`
-
-const Liked = styled.img`
-    position: absolute;
-    left: 16px;
-    right: 10.42%;
-    top: 8.33%;
-    bottom: 8.33%;
-
-    :hover {
-        fill: #307DB8;
-    }
-`
+`;
