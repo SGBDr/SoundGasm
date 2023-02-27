@@ -24,8 +24,11 @@ include_once("./api/utils/import.php");
             return $this->artistRepo->removePreference($user_id, $artist_id);
         }
 
-        public function delete(int $artist_id){
-            return $this->artistRepo->delete($artist_id);
+        public function getPreference(int $user_id){
+            $artists = array();
+            foreach ($this->artistRepo->findUserPreference() as $key => $value)
+                array_push($artists, $value->json());
+            return $artists;
         }
 
     }

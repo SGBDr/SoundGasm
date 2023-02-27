@@ -12,7 +12,7 @@
             else 
                 echo json_encode(array("response" => array("logIn" => true, "TOKEN" => $token), "HttpCode" => 200, "datetime" => new datetime()));
         }else if($params_p["log"] == "OUT"){
-            // www.domain.com?controllers=auth&method=GET&user_id=id:token&log=OUT
+            // www.domain.com?controllers=auth&method=GET&user_id=:id&log=OUT
             echo json_encode(array("response" => array("logOut" => $tokenServ->logOut($params_p["user_id"])), "HttpCode" => 200, "datetime" => new datetime()));
         }
     }

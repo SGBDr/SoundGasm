@@ -44,7 +44,7 @@ include_once("./api/utils/import.php");
           return null;
         }
 
-        public function findByUserPreference(int $user_id) {
+        public function findUserPreference(int $user_id) {
           $artists = array();
           $stmt = $this->con->query('SELECT artist_id FROM artist_user WHERE user_id = '.$user_id);
           while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
