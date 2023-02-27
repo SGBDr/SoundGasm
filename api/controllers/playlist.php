@@ -25,35 +25,26 @@ if($method == "GET"){
 }else if ($method == "UPDATE"){
     
     if($action && $action=="like"){
-    // www.domain.com?controllers=playlist&method=UPDATE&id=:id&idMusic=:idMusic&action=remove
-    // liker une musique
-    echo json_encode(array("response" => $playlistServ->LikeSong($id,$user_id), "HttpCode" => 200, "datetime" => new datetime()));
+    // www.domain.com?controllers=playlist&method=UPDATE&id=:id&idMusic=:idMusic&action=add
+    // liker une playlist
+    echo json_encode(array("response" => $playlistServ->addSong($idMusic,$user_id), "HttpCode" => 200, "datetime" => new datetime()));
     }
     else if($action && $action=="remove"){
-    // www.domain.com?controllers=playlist&method=UPDATE&id=:id&action=unlike
+    // www.domain.com?controllers=playlist&method=UPDATE&idMusic=:idMusic&action=remove
     // retirer une musique de la playlist
-    echo json_encode(array("response" => $playlistServ->removeSong($id,$user_id), "HttpCode" => 200, "datetime" => new datetime()));
+    echo json_encode(array("response" => $playlistServ->removeSong($idMusic,$user_id), "HttpCode" => 200, "datetime" => new datetime()));
     }
+    else if($action && $action=="update"){
+        // www.domain.com?controllers=playlist&method=UPDATE&id=:id&action=update&name=:name
+        // modifier le nom d'une playlist
+        echo json_encode(array("response" => $playlistServ->update($name,$id), "HttpCode" => 200, "datetime" => new datetime()));
+        }
 
-}else if ($method == "POST"){/*
-    public function addSong(int $music_id, int $playlist_id){
-        return $this->playlistRepo->addSongIntoPlaylist($music_id, $playlist_id);
-    }
+}else if ($method == "PUT"){
+        // www.domain.com?controllers=playlist&method=PUT&id=:id&action=update&name=:name
+        // ajouter une playlist
+        echo json_encode(array("response" => $playlistServ->add($name,$ID), "HttpCode" => 200, "datetime" => new datetime()));
+        }
 
-    public function removeSong(int $music_id, int $playlist_id){
-        return $this->playlistRepo->removeSongFromPlaylist($music_id, $playlist_id);
-    }
-
-    public function add(string $name, int $user_id){
-        $playlist = $this->playlistRepo->save($name, $user_id);
-        return $playlist == null ? null : $playlist->json();
-    }
-
-    public function update(string $name, int $playlist_id){
-        return $this->playlistRepo->update($name, $playlist_id);
-    }*/
-}
-
-//echo json_encode(  $playlistServ->add("Rode", 1) , JSON_PRETTY_PRINT);
 
 ?> 
