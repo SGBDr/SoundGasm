@@ -58,7 +58,7 @@ export function Recommande(){
 }
 
 const Wrapper = styled.div`
-    position: fixed;
+    position: absolute;
     top: 96px;
     left: 100px;
 

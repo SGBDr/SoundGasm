@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { COLOR } from '../../utils';
+import {Link} from 'gatsby';
 
 export const SideBar = () => {
 
@@ -8,11 +9,12 @@ export const SideBar = () => {
     return(
         <Wrapper>
             <ContentWrapper>
-                <img className='icon' alt="kk" src="/images/icons/home2.svg" />
-                <img className='icon' alt="kk" src="/images/icons/heart.svg" />
-                <img className='icon' alt="kk" src="/images/icons/album.svg" />
-                <img className='icon' alt="kk" src="/images/icons/playlist.svg" />
-                <img className='icon' alt="kk" src="/images/icons/profil.svg" />
+                <Link  to="/"> <img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
+                <Link  to="/liked"> <img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
+                <Link  to="/album"> <img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
+                <Link  to="/playlist"> <img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
+                <Link  to="/login"> <img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
+                
             </ContentWrapper>
 
         </Wrapper>
@@ -51,3 +53,12 @@ const ContentWrapper = styled.div`
         left: 30;
     }
 `;
+
+const IconNavigation = styled(Link)`
+    color: 'white';
+    .home {
+        backgroung: url("/images/icons/home2.svg");
+        width: 20px;
+        height: 20px;
+    }
+`
