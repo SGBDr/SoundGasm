@@ -25,6 +25,8 @@ include_once("./api/utils/import.php");
     $controller_file = './api/controllers/' . $controller_name . '.php';
     $ip = getIp(); // mettre l'IP 
 
+    // key fast.fm token = "54e9d12d77171d18f17ff5f2c6febaeb" share_secret = "ea89886c4e9e29a6c0175e94a6ed2565" register to = "kengoum_gassam"
+
     if(!isset($params_p["controllers"]) || !isset($params_p["method"])){
         http_response_code(403);
         header('Content-Type: application/json');
