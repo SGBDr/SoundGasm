@@ -26,7 +26,7 @@ include_once("./api/utils/import.php");
 
         public function getPreference(int $user_id){
             $artists = array();
-            foreach ($this->artistRepo->findUserPreference() as $key => $value)
+            foreach ($this->artistRepo->findUserPreference($user_id) as $key => $value)
                 array_push($artists, $value->json());
             return $artists;
         }
