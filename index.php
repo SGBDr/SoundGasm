@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: NULL, *")
 header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization, TOKEN");
 include_once("./api/utils/import.php");
     // Request Method
     $method = $_SERVER['REQUEST_METHOD'];
