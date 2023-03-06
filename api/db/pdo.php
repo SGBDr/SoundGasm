@@ -16,8 +16,6 @@
 
         private function __construct(){}
 
-        
-
         /**
          * Summary of getInstance
          * @return PDO

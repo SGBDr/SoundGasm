@@ -103,7 +103,6 @@ include_once("./api/utils/import.php");
             $stmt->bindValue(':country', $music->getCountry());
             $stmt->bindValue(':release_date', $music->getRelease_date()->format("Y-m-d"));
             if($stmt->execute()){
-                $music->setMusic_id($this->con->lastInsertId());
                 return $music;
             }
             return null;

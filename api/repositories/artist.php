@@ -21,6 +21,13 @@ include_once("./api/utils/import.php");
           return null;
         }
 
+        public function findByIdAndName(int $artist_id, string $name){
+          $stmt = $this->con->query('SELECT * FROM artists WHERE artist_id = '.$artist_id.' AND name = "'.$name.'"');
+          if ($artist = $stmt->fetch(PDO::FETCH_ASSOC))
+            return new Artist($artist['artist_id'], $artist['name']);
+          return null;
+        }
+
         public function addPreference(int $user_id, int $artist_id){
           $stmt = $this->con->prepare('INSERT INTO artist_user(user_id, artist_id) VALUES(:user_id,:artist_id)');
           return $stmt->execute(array(':user_id' => $user_id, ':artist_id' => $artist_id));
