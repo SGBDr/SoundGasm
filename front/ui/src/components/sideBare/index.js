@@ -6,10 +6,11 @@ export const SideBar = () => {
 
 
     return(
-        <Wrapper>
-            <img alt="ok" src="/images/home.svg" />
+        <div></div>
+        // <Wrapper>
+        //     <Home alt="ok" src="/images/icons/home.svg" />
 
-        </Wrapper>
+        // </Wrapper>
     );
 
 }
@@ -32,7 +33,7 @@ const Wrapper = styled.div`
 `;
 
 const Home = styled.div`
-    background: url("/images/home.svg")
-    width: 10x;
+    width: 20x;
     height: 10px;
+    top: 100;
 `
