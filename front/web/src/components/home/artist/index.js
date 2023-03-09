@@ -19,7 +19,8 @@ export function ArtistList(){
     )
       .then((res) => res.json())
       .then((data) => {  setArtist(data.response)
-        console.log(data.message)
+        console.log("get artist message : " + data.message)
+        console.log("local storage token : " + localStorage.getItem("authToken"))
       })
       .catch((err) => console.log("error", err));
   }, [ok]);

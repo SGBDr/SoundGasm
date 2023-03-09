@@ -13,8 +13,9 @@ const IndexPage = () => {
 
   useEffect(() => {
     // This code will be executed each time the authToken value changes
-     localStorage.setItem('authToken', authToken);
-     console.log(localStorage.getItem('authToken'));
+     if(authToken != null) localStorage.setItem('authToken', authToken);
+     console.log("local storage token : " + localStorage.getItem('authToken'));
+     console.log("js var token : " + authToken);
   }, [authToken]);
 
   function handleSetAuthToken(newToken) {
@@ -26,7 +27,7 @@ const IndexPage = () => {
       <GlobalStyles />
       {
         (authToken == null)?
-          <LoginBox 
+          <LoginBox
             setAuthToken = {handleSetAuthToken}
           />
           :
@@ -39,7 +40,7 @@ const IndexPage = () => {
       }
     </>
   )
-  
+
 }
 
 export default IndexPage

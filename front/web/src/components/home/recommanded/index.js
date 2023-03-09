@@ -58,7 +58,8 @@ export function Recommande(){
           )
             .then(res => res.json())
             .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
-                console.log(data.message)
+                console.log("get music message : " + data.message)
+                console.log("local storage token : " + localStorage.getItem("authToken"))
             })
             .catch(err => console.log(err) );
     }, [])

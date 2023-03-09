@@ -5,6 +5,9 @@ import {Link} from 'gatsby';
 
 export const SideBar = () => {
 
+    const handleDisconnect = () => {
+        localStorage.removeItem('authToken');
+    }
 
     return(
         <Wrapper>
@@ -13,7 +16,7 @@ export const SideBar = () => {
                 <Link  to="/liked"> <img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
                 <Link  to="/album"> <img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
                 <Link  to="/playlist"> <img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
-                <Link  to="/login"> <img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
+                <Link  to="/" onClick={handleDisconnect}> <img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
                 
             </ContentWrapper>
 
