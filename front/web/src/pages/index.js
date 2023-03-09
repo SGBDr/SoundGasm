@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArtistList } from '../components/home/artist';
 import { Recommande } from '../components/home/recommanded';
 import { Searchbar } from '../components/home/searchbar';
+import { LoginBox } from '../components/loginbox';
 
 import { SideBar } from '../components/sideBare';
 import { GlobalStyles } from '../utils/GlobalStyles';
 
 const IndexPage = () => {
-  return (
+  // localStorage.removeItem('authToken');
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
+
+  useEffect(() => {
+    // This code will be executed each time the authToken value changes
+     localStorage.setItem('authToken', authToken);
+     console.log(localStorage.getItem('authToken'));
+  }, [authToken]);
+
+  function handleSetAuthToken(newToken) {
+    setAuthToken(newToken);
+  }
+
+  return(
     <>
       <GlobalStyles />
-      <Searchbar />
-      <SideBar />
-      <Recommande />
-      <ArtistList />
+      {
+        (authToken == null)?
+          <LoginBox 
+            setAuthToken = {handleSetAuthToken}
+          />
+          :
+          <>
+            <Searchbar />
+            <SideBar />
+            <Recommande />
+            <ArtistList />
+          </>
+      }
     </>
   )
+  
 }
 
 export default IndexPage

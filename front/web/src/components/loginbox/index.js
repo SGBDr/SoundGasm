@@ -2,21 +2,22 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 
-export const LoginBox = () => {
-    const [showPassword, setShowPassword] = useState(false);
+export const LoginBox = (props) => {
+    // const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const msgRef = useRef(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const url = `https://https://soundgasm.herokuapp.com?controllers=auth&method=GET&email=${email}&password=${password}&log=IN`;
+        const url = `https://soundgasm.herokuapp.com?controllers=auth&method=GET&email=${email}&password=${password}&log=IN`;
         fetch(url)
           .then(response => response.json())
           .then(data => {
             console.log(data)
             const token = data.response.TOKEN;
-            localStorage.setItem('authToken', token);
+            props.setAuthToken(token);
+            console.log(token);
           })
           .catch(error => {
             console.error(error)
@@ -28,7 +29,9 @@ export const LoginBox = () => {
     };
 
   return (
-    <LoginWrapper>
+    <LoginContainer>
+      <Title>Login</Title>
+      <LoginWrapper>
       <LoginForm onSubmit={handleSubmit}>
         <Label>Entrez votre identifiant (email)</Label>
         <Input
@@ -39,7 +42,8 @@ export const LoginBox = () => {
         />
         <Label>Entrez le mot de passe</Label>
         <Input
-          type={showPassword ? "text" : "password"}
+          // type={showPassword ? "text" : "password"}
+          type="password"
           placeholder="Password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
@@ -49,9 +53,26 @@ export const LoginBox = () => {
         <Link href="#">Forgotten Password</Link>
       </LoginForm>
     </LoginWrapper>
+    </LoginContainer>
+    
   );
 
 }
+
+const Title = styled.p`
+    font-weight: 900;
+    font-family: Teko;
+    font-size: 28px;
+    color: white;
+`;
+
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+`;
 
 const LoginWrapper = styled.div`
   width: 500px;

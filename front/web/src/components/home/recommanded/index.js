@@ -52,12 +52,14 @@ export function Recommande(){
             {
               method: "GET",
               headers: {
-                Token: "TOKEN_7246016911a215bcde7134232ab43cad975dcbb1"
+                Token: localStorage.getItem('authToken')
               }
             }
           )
             .then(res => res.json())
-            .then(result => setRecommandedData(result.response.musics?.slice(0, 20)))
+            .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
+                console.log(data.message)
+            })
             .catch(err => console.log(err) );
     }, [])
 
@@ -66,7 +68,7 @@ export function Recommande(){
         <Wrapper>
             <Title>Recommanded</Title>
             <ContentWrapper>
-                { recommandedData[0]?.music_id == undefined ? 
+                { recommandedData[0]?.music_id === undefined ? 
                     <></> : 
                     recommandedData?.map((elm, i) => <Card key={i} item={elm} />) }
             </ContentWrapper>

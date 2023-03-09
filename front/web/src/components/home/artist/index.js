@@ -5,7 +5,7 @@ import { RenderItem } from './RenderItem';
 
 export function ArtistList(){
     
-  const [artist, setArtist] = React.useState();
+  const [artist, setArtist] = React.useState([]);
   const [ok, isOk] = React.useState(false);
   React.useEffect(() => {
     fetch(
@@ -13,12 +13,14 @@ export function ArtistList(){
       {
         method: "GET",
         headers: {
-          Token: "TOKEN_7246016911a215bcde7134232ab43cad975dcbb1"
+          Token: localStorage.getItem('authToken')
         }
       }
     )
       .then((res) => res.json())
-      .then((res) => setArtist(res.response))
+      .then((data) => {  setArtist(data.response)
+        console.log(data.message)
+      })
       .catch((err) => console.log("error", err));
   }, [ok]);
 
