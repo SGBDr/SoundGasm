@@ -16,7 +16,8 @@ const Login = () => {
 
 export default Login
 
-// export const Head = () => <title>Login</title>
+export const Head = () => <title>Login</title>
+
 const Title = styled.p`
     font-weight: 900;
     font-family: Teko;

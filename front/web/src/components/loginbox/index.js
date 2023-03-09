@@ -1,26 +1,41 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 
 export const LoginBox = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [userId, setUserId] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const msgRef = useRef(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // handle login logic here
+        const url = `https://https://soundgasm.herokuapp.com?controllers=auth&method=GET&email=${email}&password=${password}&log=IN`;
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data)
+            const token = data.response.TOKEN;
+            localStorage.setItem('authToken', token);
+          })
+          .catch(error => {
+            console.error(error)
+            msgRef.current.style.display = 'block';
+            setTimeout(() => {
+              msgRef.current.style.display = 'none';
+            }, 3000);
+          });
     };
 
   return (
     <LoginWrapper>
       <LoginForm onSubmit={handleSubmit}>
-        <Label>Entrez votre identifiant</Label>
+        <Label>Entrez votre identifiant (email)</Label>
         <Input
           type="text"
-          placeholder="User ID"
-          value={userId}
-          onChange={(event) => setUserId(event.target.value)}
+          placeholder="User Email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <Label>Entrez le mot de passe</Label>
         <Input
@@ -29,6 +44,7 @@ export const LoginBox = () => {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
+        <Span ref={msgRef}>Email ou mot de passe invalide. Reéssayez !</Span>
         <Button type="submit">Submit</Button>
         <Link href="#">Forgotten Password</Link>
       </LoginForm>
@@ -39,7 +55,7 @@ export const LoginBox = () => {
 
 const LoginWrapper = styled.div`
   width: 500px;
-  height: 300px;
+  height: 350px;
   padding: 10px;
   border-radius: 10px;
   background-color: ${COLOR.darkAlt};
@@ -69,8 +85,10 @@ const Label = styled.p`
 
 const Button = styled.button`
   padding: 10px;
+  margin-top: 30px;
   background-color: ${COLOR.secondary};
   color: ${COLOR.darkAlt};
+  font-weight: 700;
   font-size: 16px;
   border: none;
   border-radius: 5px;
@@ -78,6 +96,7 @@ const Button = styled.button`
   &:hover{
     background-color: ${COLOR.primary};
     color: ${COLOR.text};
+    transition: 0.2s ease-out;
   }
 `;
 
@@ -89,5 +108,14 @@ const Link = styled.a`
   &:hover{
     text-decoration: underline;
     color: ${COLOR.text};
+    transition: 0.2s ease-out;
   }
 `;
+
+const Span = styled.span`
+  color: red;
+  font-size: 16px;
+  display: none;
+  transition: 0.2s ease-out;
+`;
+
