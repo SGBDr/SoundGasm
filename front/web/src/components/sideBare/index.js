@@ -54,11 +54,11 @@ const ContentWrapper = styled.div`
     }
 `;
 
-const IconNavigation = styled(Link)`
-    color: 'white';
-    .home {
-        backgroung: url("/images/icons/home2.svg");
-        width: 20px;
-        height: 20px;
-    }
-`
+// const IconNavigation = styled(Link)`
+//     color: 'white';
+//     .home {
+//         backgroung: url("/images/icons/home2.svg");
+//         width: 20px;
+//         height: 20px;
+//     }
+// `

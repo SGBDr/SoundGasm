@@ -7,7 +7,7 @@ export function Searchbar(){
     const [term, setTerm] = React.useState("");
 
     const handleSubmit = (text) =>{
-        // console.log(text);
+        console.log(term);
         setTerm(text);
     }
 
@@ -42,64 +42,64 @@ const Wrapper = styled.input`
 
 `
 
-const WrapperInput = styled.div`
-body{
+// const WrapperInput = styled.div`
+// body{
 
-    background: #d1d5db;
-}
+//     background: #d1d5db;
+// }
 
-.height{
+// .height{
 
-    height: 100vh;
-}
+//     height: 100vh;
+// }
 
 
-`
+// `
 
-const WrapperInputContent= styled.div`
-.form{
+// const WrapperInputContent= styled.div`
+// .form{
 
-    position: relative;
-}
+//     position: relative;
+// }
 
-.form .fa-search{
+// .form .fa-search{
 
-    position: absolute;
-    top:20px;
-    left: 20px;
-    color: #9ca3af;
+//     position: absolute;
+//     top:20px;
+//     left: 20px;
+//     color: #9ca3af;
 
-}
+// }
 
-.form span{
+// .form span{
 
-    position: absolute;
-    right: 17px;
-    top: 13px;
-    padding: 2px;
-    border-left: 1px solid #d1d5db;
+//     position: absolute;
+//     right: 17px;
+//     top: 13px;
+//     padding: 2px;
+//     border-left: 1px solid #d1d5db;
 
-}
+// }
 
-.left-pan{
-    padding-left: 7px;
-}
+// .left-pan{
+//     padding-left: 7px;
+// }
 
-.left-pan i{
+// .left-pan i{
    
-   padding-left: 10px;
-}
+//    padding-left: 10px;
+// }
 
-.form-input{
+// .form-input{
 
-    height: 55px;
-    text-indent: 33px;
-    border-radius: 10px;
-}
+//     height: 55px;
+//     text-indent: 33px;
+//     border-radius: 10px;
+// }
 
-.form-input:focus{
+// .form-input:focus{
 
-    box-shadow: none;
-    border:none;
-}
-`
+//     box-shadow: none;
+//     border:none;
+// }
+// `

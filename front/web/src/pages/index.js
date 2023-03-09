@@ -1,6 +1,7 @@
 import React from 'react';
-import { Recommande } from '../components/recommanded';
-import { Searchbar } from '../components/searchbar';
+import { ArtistList } from '../components/home/artist';
+import { Recommande } from '../components/home/recommanded';
+import { Searchbar } from '../components/home/searchbar';
 
 import { SideBar } from '../components/sideBare';
 import { GlobalStyles } from '../utils/GlobalStyles';
@@ -12,6 +13,7 @@ const IndexPage = () => {
       <Searchbar />
       <SideBar />
       <Recommande />
+      <ArtistList />
     </>
   )
 }
