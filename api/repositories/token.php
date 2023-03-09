@@ -9,7 +9,8 @@
         }
 
         public function addToken(int $user_id, string $email){
-            $token = "TOKEN_" . sha1(rand(1, 100) . $email . rand(1, 100));
+            $d = date("l jS \of F Y h:i:s A");
+            $token = "TOKEN_" . sha1($d . $email . rand(1, 100));
             $stmt = $this->con->prepare('INSERT INTO tokens(token, ip, user_id, create_time) VALUES(:token,:ip,:user_id,:create_time)');
             if($stmt->execute(array(':token' => $token, ':ip' => getIp(), ':user_id' => $user_id, ":create_time" => (new datetime())->format("Y-m-d") ) ) )
                 return $token;
