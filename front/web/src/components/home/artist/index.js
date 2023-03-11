@@ -37,7 +37,7 @@ export function ArtistList(){
 const Wrapper = styled.div`
 
     position: absolute;
-    top: 430px;
+    top: 380px;
     left: 100px;
 
     

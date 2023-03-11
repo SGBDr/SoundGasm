@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// TEST THIS MY NIGGER
-// https://bbbootstrap.com/snippets/bootstrap-5-search-bar-microphone-icon-inside-12725910
+import { COLOR } from '../../../utils';
 
 export function Searchbar(){
     const [term, setTerm] = React.useState("");
@@ -21,20 +20,60 @@ export function Searchbar(){
 
     return(
         <>
-        <Wrapper
-            type='text'
-            placeholder='Research'
-            onChange={(e) => handleSubmit(e.target.value)}/>
-
+            <Wrapper>
+                <SearchBarContainer>
+                    <SearchIcon src='/images/icons/search.svg' alt='...'/>
+                    <SearchInput
+                        type='text'
+                        placeholder='Research'
+                        onChange={(e) => handleSubmit(e.target.value)}/>
+                </SearchBarContainer>
+                <Logo src='images/soundgasm.png' />
+            </Wrapper>
         </>
     )
 }
 
-const Wrapper = styled.input`
-    background: #d1d5db;
-    height: 30px;
-    
-    :focus {
+const SearchBarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  background-color: ${COLOR.darkAlt};
+  padding: 5px 10px;
+  height: 25px;
+  width: 80%;
+`;
+
+const SearchInput = styled.input`
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  flex: 1;
+  &::placeholder {
+    color: #c0c0c0;
+  }
+`;
+
+const SearchIcon = styled.img`
+  color: #fff;
+  margin-right: 10px;
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+const Wrapper = styled.div`
+    position: absolute;
+    height: 60px;
+    width: 90%;
+    top: 0;
+    left: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    &:focus {
 
         box-shadow: none;
         border:none;
@@ -42,64 +81,8 @@ const Wrapper = styled.input`
 
 `
 
-// const WrapperInput = styled.div`
-// body{
-
-//     background: #d1d5db;
-// }
-
-// .height{
-
-//     height: 100vh;
-// }
-
-
-// `
-
-// const WrapperInputContent= styled.div`
-// .form{
-
-//     position: relative;
-// }
-
-// .form .fa-search{
-
-//     position: absolute;
-//     top:20px;
-//     left: 20px;
-//     color: #9ca3af;
-
-// }
-
-// .form span{
-
-//     position: absolute;
-//     right: 17px;
-//     top: 13px;
-//     padding: 2px;
-//     border-left: 1px solid #d1d5db;
-
-// }
-
-// .left-pan{
-//     padding-left: 7px;
-// }
-
-// .left-pan i{
-   
-//    padding-left: 10px;
-// }
-
-// .form-input{
-
-//     height: 55px;
-//     text-indent: 33px;
-//     border-radius: 10px;
-// }
-
-// .form-input:focus{
-
-//     box-shadow: none;
-//     border:none;
-// }
-// `
+const Logo = styled.img`
+    width: 200px;
+    height: auto;
+    margin-top: 10px;
+`;
