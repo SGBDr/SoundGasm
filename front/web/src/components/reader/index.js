@@ -8,13 +8,15 @@ export const Reader = () => {
 
     return(
         <Wrapper>
-            <Banner />
             <TitleWrapper>
                 <p class="title">Living My Best Life</p>
-                <p class="artist">Ben Hector</p>
+                <p class="artist">By : Ben Hector</p>
             </TitleWrapper>
-            <Controller
-                musicURL={musicURL} />
+            <ControlWrapper>
+                <Banner />
+                <Controller
+                    musicURL={musicURL} />
+            </ControlWrapper>
         </Wrapper>
     );
 
@@ -26,33 +28,35 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: space-between;
     position: absolute;
-    top: 100px;
-    left: 100px;
-    width: 300px;
-    height: 400px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    min-width: 300px;
+    height: 200px;
     border-radius: 32px;
-    padding: 20px;
-    
+    padding: 10px 20px;
     background-color: ${COLOR.darkAlt};
 `;
 
 
 const Banner = styled.img`
     width: 200px;
-    height: 200px;
-    border-radius: 32px;
+    height: 120px;
+    border-radius: 5px;
     background-color: ${COLOR.background};
+    margin: 10px;
 `;
 
 const TitleWrapper = styled.div`
-    margin: 10px 0;
+    padding: 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
     height: 60px;
     p{
-        margin: 2px 0; 
+        margin: 2px 0px; 
         padding: 0;
         font-family: Teko;
         &.title{
@@ -68,8 +72,15 @@ const TitleWrapper = styled.div`
     }
 `;
 
-
-
+const ControlWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 140px;
+    padding: 10px;
+`;
 
 
 

@@ -19,7 +19,7 @@ export const Controller = (props) => {
     const handleTimeUpdate = () => {
         const newTime = audioRef.current.currentTime;
         setCurrentTime(newTime);
-        if(currentTime == duration) setIsPlaying(false);
+        if(currentTime === duration) setIsPlaying(false);
     }
 
     // Listen to metadata loading in inbuild audio player
@@ -104,9 +104,10 @@ const ControlWrapper = styled.div`
     flex-direction: column;
     justify-content: end;
     align-items: center;
-    height: 200px;
+    height: 100%;
     width: 100%;
-    
+    margin: 0 20px;
+    // border: 1px solid red;
     
 `;
 
@@ -117,9 +118,6 @@ const ControlRangeWrapper = styled.div`
     align-items: center;
     height: 20px;
     width: 100%;
-    // &,*{
-    //     border: 2px solid red;
-    // }
     *{
         margin: 0;
         padding: 0;
@@ -127,6 +125,9 @@ const ControlRangeWrapper = styled.div`
     .play-range{
         width: 100%;
         margin: 0 0 5px  0;
+        &:hover{
+            cursor: pointer;
+        }
     }
     .start-stop{
         width: 100%;
@@ -160,5 +161,6 @@ const MyButton = styled.button`
         cursor: pointer;
         border: 1px solid ${COLOR.secondary};
         border-radius: 5px;
+        transition: 2ms ease-out;
     }
 `
