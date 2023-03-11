@@ -13,19 +13,19 @@ export function ArtistList(){
       {
         method: "GET",
         headers: {
-          Token: "TOKEN_7246016911a215bcde7134232ab43cad975dcbb1"
+          Token: "TOKEN_751ac079a31e8dd8d8ca66eb9784f085a716e0b6"
         }
       }
     )
       .then((res) => res.json())
-      .then((res) => setArtist(res.response))
+      .then((res) => {setArtist(res.response);console.log(res);})
       .catch((err) => console.log("error", err));
   }, [ok]);
 
     return(
         <Wrapper>
             <ContentWrapper>
-                {artist?.slice(0, 9)?.map(elm => <RenderItem name={elm.name} />)}
+                {artist===undefined?null:artist?.slice(0, 9)?.map(elm => <RenderItem name={elm.name} />)}
             </ContentWrapper>
         </Wrapper>
     )

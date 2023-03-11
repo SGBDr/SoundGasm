@@ -14,7 +14,7 @@ export function RenderItem({ name }) {
       {
         method: "GET",
         headers: {
-          Token: "TOKEN_7246016911a215bcde7134232ab43cad975dcbb1",
+          Token: "TOKEN_751ac079a31e8dd8d8ca66eb9784f085a716e0b6",
         },
       }
     )

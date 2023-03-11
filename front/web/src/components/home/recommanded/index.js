@@ -48,16 +48,16 @@ export function Recommande(){
 
     React.useEffect(()=>{
         fetch(
-            "https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term= ",
+            "https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=dams ",
             {
               method: "GET",
               headers: {
-                Token: "TOKEN_7246016911a215bcde7134232ab43cad975dcbb1"
+                Token:"TOKEN_751ac079a31e8dd8d8ca66eb9784f085a716e0b6"
               }
             }
           )
             .then(res => res.json())
-            .then(result => setRecommandedData(result.response.musics?.slice(0, 20)))
+            .then(result => setRecommandedData(result.response.musics))
             .catch(err => console.log(err) );
     }, [])
 
@@ -66,7 +66,7 @@ export function Recommande(){
         <Wrapper>
             <Title>Recommanded</Title>
             <ContentWrapper>
-                { recommandedData[0]?.music_id == undefined ? 
+                {recommandedData===undefined?null: recommandedData[0]?.music_id == undefined ? 
                     <></> : 
                     recommandedData?.map((elm, i) => <Card key={i} item={elm} />) }
             </ContentWrapper>

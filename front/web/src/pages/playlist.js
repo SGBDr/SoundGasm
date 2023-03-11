@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { SideBar } from '../components/sideBare';
 import { GlobalStyles } from '../utils/GlobalStyles';
+import { PlaylistList } from '../components/home/playlist';
 
 const Playlist = () => {
   return (
@@ -10,6 +11,7 @@ const Playlist = () => {
       <GlobalStyles />
       <SideBar />
       <Title>Playlist</Title>
+      <PlaylistList />
     </>
   )
 }
