@@ -26,6 +26,8 @@ export const Controller = (props) => {
     const handleLoadedMetadata = () => {
         const newDuration = audioRef.current.duration;
         setDuration(newDuration);
+        audioRef.current.play();
+        setIsPlaying(true);
     }
 
     // Play/pause inbuild audio player onClick

@@ -2,13 +2,31 @@ import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../../utils";
 
+const handlePlayMusic = (musicInfo) => {
+  localStorage.setItem('musicInfo', JSON.stringify(musicInfo));
+  window.dispatchEvent(new CustomEvent("storage",{
+  detail: { key: "musicInfo",
+            newValue: JSON.stringify(musicInfo) }
+    }));
+  console.log("Correctly Stored in local Storage");
+  // redirect to MusicPlayer component
+}
+
+function handleKeyDown(event, musicInfo) {
+  if (event.key === 'Enter') {
+    handlePlayMusic(musicInfo);
+  }
+}
+
 export function Card({ item }) {
   const len = item.name.split("(")[0].length;
-  console.log(len)
+  console.log(len);
   return (
     <Wrapper>
       <ContentWrapper>
-        <div className="play" style={{ position: "relative", display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50px'}}>
+        <div className="play" onClick={()=>handlePlayMusic(item)} onKeyDown={(e)=>handleKeyDown(e,item)} 
+              style={{ position: "relative", display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50px'}}
+              role="tab" aria-selected="true" tabindex="0" >
             <img src='/images/icons/play.svg' alt='play'  />
         </div>
         <div style={{ display: "flex", flexDirection: "column", height: '150px', alignItems: "center", justifyContent: "space-between",}}>
