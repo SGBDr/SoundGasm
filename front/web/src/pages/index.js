@@ -10,11 +10,11 @@ import { GlobalStyles } from '../utils/GlobalStyles';
 
 const IndexPage = () => {
   // localStorage.removeItem('authToken');
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
 
   useEffect(() => {
     // This code will be executed each time the authToken value changes
-     if(authToken != null) localStorage.setItem('authToken', authToken);
+     if(authToken !== undefined) localStorage.setItem('authToken', authToken);
      console.log("local storage token : " + localStorage.getItem('authToken'));
      console.log("js var token : " + authToken);
   }, [authToken]);

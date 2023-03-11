@@ -82,17 +82,17 @@ export const Controller = (props) => {
                     min="0" max={audioRef.current ? audioRef.current.duration : 0}
                     value={currentTime}
                     onChange={handleRangeChange}/>
-                <div class="start-stop">
+                <div className="start-stop">
                     <p>{secondsToMinutes(currentTime)}</p>
                     <p>{secondsToMinutes(duration-currentTime)}</p>
                 </div>
             </ControlRangeWrapper>
             <ControlTabWrapper>
-                <MyButton id="b-prev"><img class="icon" alt="..." src="/images/icons/player/previous.png" /></MyButton>
-                <MyButton id="b-back" onClick={handleBackward}><img class="icon" alt="..." src="/images/icons/player/backward.png" /></MyButton>
-                <MyButton id="b-play" onClick={handlePlayPause}><img class="icon" alt="..." src={isPlaying?"/images/icons/player/pause.png":"/images/icons/player/play.png"} /></MyButton>
-                <MyButton id="b-for" onClick={handleForward}><img class="icon" alt="..." src="/images/icons/player/forward.png" /></MyButton>
-                <MyButton id="b-next"><img class="icon" alt="..." src="/images/icons/player/next.png" /></MyButton>
+                <MyButton id="b-prev"><img className="icon" alt="..." src="/images/icons/player/previous.png" /></MyButton>
+                <MyButton id="b-back" onClick={handleBackward}><img className="icon" alt="..." src="/images/icons/player/backward.png" /></MyButton>
+                <MyButton id="b-play" onClick={handlePlayPause}><img className="icon" alt="..." src={isPlaying?"/images/icons/player/pause.png":"/images/icons/player/play.png"} /></MyButton>
+                <MyButton id="b-for" onClick={handleForward}><img className="icon" alt="..." src="/images/icons/player/forward.png" /></MyButton>
+                <MyButton id="b-next"><img className="icon" alt="..." src="/images/icons/player/next.png" /></MyButton>
             </ControlTabWrapper>
         </ControlWrapper>
     );

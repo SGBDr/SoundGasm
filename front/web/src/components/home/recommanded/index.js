@@ -71,7 +71,7 @@ export function Recommande(){
             <ContentWrapper>
                 { recommandedData[0]?.music_id === undefined ? 
                     <></> : 
-                    recommandedData?.map((elm, i) => <Card key={i} item={elm} />) }
+                    recommandedData?.map((elm, i) => <Card key={elm.music_id} item={elm} />) }
             </ContentWrapper>
             
         </Wrapper>

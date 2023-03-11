@@ -9,8 +9,8 @@ export const Reader = () => {
     return(
         <Wrapper>
             <TitleWrapper>
-                <p class="title">Living My Best Life</p>
-                <p class="artist">By : Ben Hector</p>
+                <p className="title">Living My Best Life</p>
+                <p className="artist">By : Ben Hector</p>
             </TitleWrapper>
             <ControlWrapper>
                 <Banner />

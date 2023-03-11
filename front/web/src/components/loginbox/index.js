@@ -15,9 +15,12 @@ export const LoginBox = (props) => {
           .then(response => response.json())
           .then(data => {
             console.log(data)
-            const token = data.response.TOKEN;
-            props.setAuthToken(token);
-            console.log(token);
+            if(data.response.logIn){
+              const token = data.response.TOKEN;
+              props.setAuthToken(token);
+              localStorage.setItem("authToken", token)
+              console.log(token);
+            }
           })
           .catch(error => {
             console.error(error)
