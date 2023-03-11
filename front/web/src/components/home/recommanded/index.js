@@ -3,44 +3,25 @@ import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import {Card} from './Card'
 
-const Data=[
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-];
+// const Data=[
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+//     {nom: 'ok'},
+// ];
 
 export function Recommande(){
 
@@ -97,7 +78,6 @@ const Wrapper = styled.div`
     background-color: ${COLOR.darkAlt};
 `
 const ContentWrapper = styled.div`
-
     
     display: grid;
     grid-template-columns: repeat(20, 200px);
@@ -107,6 +87,7 @@ const ContentWrapper = styled.div`
     height: 200px;
     margin-left: 30px;
     margin-bottom: 20px;
+    padding-top: 10px;
     overflow: auto;
     ::-webkit-scrollbar { width: 0; display:none; };
 
@@ -115,11 +96,11 @@ const ContentWrapper = styled.div`
 `
 
 const Title = styled.p`
-    margin-bottom: 10px;
-
+    margin: 10px 0 0 0;
+    height: 40px;
     font-weight: 900;
     font-family: Teko;
     color: white;
     font-size: 28px;
-    margin-left: 30px;
+    padding-left: 30px;
 `

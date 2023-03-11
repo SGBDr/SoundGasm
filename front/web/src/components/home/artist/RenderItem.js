@@ -31,7 +31,7 @@ export function RenderItem({ name }) {
 
   return (
     <Wrapper>
-        { isLoading ? (<p>loading...</p>) : 
+        { isLoading ? (<p style={{color: "white", fontSize: "20px"}}>loading...</p>) : 
           (
               <ContentWrapper>
               <Detail> <Text style={{ position: 'absolute', left: 55, top: 10}}>{name}</Text> </Detail>
@@ -50,12 +50,13 @@ export function RenderItem({ name }) {
 }
 
 const Wrapper = styled.div`
+  position: relative;
   display: grid;
   margin-top: 20px;
   width: 400px;
   transition: 0.3s ease-in-out;
   :hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
 `;
 
@@ -76,7 +77,7 @@ const Image = styled.img`
     border-radius: 20px;
 `
 const Detail = styled.div`
-    position:relative;
+    position: relative;
     left: 10%;
 
     width: 90%;

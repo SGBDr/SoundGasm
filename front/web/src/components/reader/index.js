@@ -31,17 +31,18 @@ const PlayerBox = styled.div`
     right: 0px;
     left: 0px;
     height: 220px;
-    width: 100%;
 `;
 
 const Wrapper = styled.div`
-    margin: 0 10px;
+    position: absolute;
+    left: 100px;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     min-width: 300px;
+    width: 87.5%;
     height: 200px;
     border-radius: 32px;
     padding: 0px 20px;

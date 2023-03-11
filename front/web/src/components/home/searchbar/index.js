@@ -41,7 +41,7 @@ const SearchBarContainer = styled.div`
   background-color: ${COLOR.darkAlt};
   padding: 5px 10px;
   height: 25px;
-  width: 80%;
+  width: 100%;
 `;
 
 const SearchInput = styled.input`
@@ -68,6 +68,7 @@ const Wrapper = styled.div`
     height: 60px;
     width: 90%;
     top: 0;
+    gap: 30px;
     left: 100px;
     display: flex;
     justify-content: space-between;
