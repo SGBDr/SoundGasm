@@ -9,7 +9,8 @@ import { SideBar } from '../components/sideBare';
 import { GlobalStyles } from '../utils/GlobalStyles';
 
 const IndexPage = () => {
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
+  // localStorage.removeItem('authToken');
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
 
   function handleSetAuthToken(newToken) {
     setAuthToken(newToken);
