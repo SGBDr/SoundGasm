@@ -13,7 +13,7 @@ export function PlaylistList(){
       {
         method: "GET",
         headers: {
-          Token: "TOKEN_751ac079a31e8dd8d8ca66eb9784f085a716e0b6"
+          Token: localStorage.getItem('authToken')
         }
       }
     )
