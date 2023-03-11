@@ -27,8 +27,9 @@ export function ArtistList(){
 
     return(
         <Wrapper>
+            <Title>Artist</Title>
             <ContentWrapper>
-                {artist===undefined?null:artist?.slice(0, 9)?.map(elm => <RenderItem name={elm.name} />)}
+                {artist?.slice(0, 15)?.map((elm, i) => <RenderItem key={i} name={elm.name} />)}
             </ContentWrapper>
         </Wrapper>
     )
@@ -42,23 +43,37 @@ const Wrapper = styled.div`
 
     
     display: grid;
-    align-items:center;
+    align-items:space-between;
     justify-content: center;
 
     width:90%;
+    height: 320px;
     margin-bottom: 30px;
     border-radius: 20px;
 
     background-color: ${COLOR.darkAlt};
 
-`
+`;
 
 const ContentWrapper = styled.div`
-
     display: flex;
     flex-wrap: wrap;
-    padding: 30px;
+    padding: 0 30px;
+    height: 240px;
+
+    overflow: auto;
+    ::-webkit-scrollbar { width: 0;};
 
     justify-content:space-between;
     
-`
+`;
+
+const Title = styled.p`
+    margin: 10px 0 0 0;
+    height: 40px;
+    font-weight: 900;
+    font-family: Teko;
+    color: white;
+    font-size: 28px;
+    padding-left: 30px;
+`;

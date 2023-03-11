@@ -59,10 +59,8 @@ const ContentWrapper = styled.div`
 `;
 
 const Img = styled.img`
-    &:hover{
-        width: 30px;
-        height: auto;
-        transition: 2ms ease-out;
-       
+    transition: 0.2s ease-in-out;
+    :hover{
+        transform: scale(2);
     }
 `
