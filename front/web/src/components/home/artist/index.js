@@ -29,7 +29,7 @@ export function ArtistList(){
         <Wrapper>
             <Title>Artist</Title>
             <ContentWrapper>
-                {artist?.slice(0, 15)?.map((elm, i) => <RenderItem key={i} name={elm.name} />)}
+                {artist===undefined?null:artist?.slice(0, 15)?.map((elm, i) => <RenderItem key={i} name={elm.name} />)}
             </ContentWrapper>
         </Wrapper>
     )

@@ -28,6 +28,23 @@ export const LoginBox = (props) => {
               msgRef.current.style.display = 'none';
             }, 3000);
           });
+          const url2 = `https://soundgasm.herokuapp.com?controllers=music&method=GET&by=TERM&term=damso`;
+          fetch(url2)
+            .then(response => response.json())
+            .then(data => {
+              if(data.response.musics){
+                var songs = data.response.musics.slice(0,9);
+                localStorage.setItem("listLecture", songs)
+                console.log(songs);
+              }
+            })
+            .catch(error => {
+              console.error(error)
+              msgRef.current.style.display = 'block';
+              setTimeout(() => {
+                msgRef.current.style.display = 'none';
+              }, 3000);
+            });
     };
 
   return (
