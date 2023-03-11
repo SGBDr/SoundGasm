@@ -28,7 +28,7 @@ export function ArtistList(){
     return(
         <Wrapper>
             <ContentWrapper>
-                {artist?.slice(0, 9)?.map(elm => <RenderItem name={elm.name} />)}
+                {artist?.slice(0, 9)?.map((elm, i) => <RenderItem key={i} name={elm.name} />)}
             </ContentWrapper>
         </Wrapper>
     )

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ArtistList } from '../components/home/artist';
 import { Recommande } from '../components/home/recommanded';
 import { Searchbar } from '../components/home/searchbar';
@@ -9,15 +9,7 @@ import { SideBar } from '../components/sideBare';
 import { GlobalStyles } from '../utils/GlobalStyles';
 
 const IndexPage = () => {
-  // localStorage.removeItem('authToken');
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
-
-  useEffect(() => {
-    // This code will be executed each time the authToken value changes
-     if(authToken != null) localStorage.setItem('authToken', authToken);
-     console.log("local storage token : " + localStorage.getItem('authToken'));
-     console.log("js var token : " + authToken);
-  }, [authToken]);
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
 
   function handleSetAuthToken(newToken) {
     setAuthToken(newToken);
@@ -27,14 +19,14 @@ const IndexPage = () => {
     <>
       <GlobalStyles />
       {
-        (authToken == null)?
+        (authToken == undefined)?
           <LoginBox
             setAuthToken = {handleSetAuthToken}
           />
           :
           <>
             <Searchbar />
-            <SideBar />
+            <SideBar setAuthToken = {handleSetAuthToken}/>
             <Recommande />
             <ArtistList />
             <Reader />

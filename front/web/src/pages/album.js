@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState } from 'react';
 import styled from 'styled-components';
 
 import { SideBar } from '../components/sideBare';
@@ -7,12 +7,7 @@ import { Reader } from '../components/reader';
 import { GlobalStyles } from '../utils/GlobalStyles';
 
 const Album = () => {
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
-
-  useEffect(() => {
-    // This code will be executed each time the authToken value changes
-     if(authToken != null) localStorage.setItem('authToken', authToken);
-  }, [authToken]);
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
 
   function handleSetAuthToken(newToken) {
     setAuthToken(newToken);
@@ -21,13 +16,13 @@ const Album = () => {
     <>
       <GlobalStyles />
       {
-        (localStorage.getItem("authToken") == null)?
+        (localStorage.getItem("authToken") == undefined)?
           <LoginBox
             setAuthToken = {handleSetAuthToken}
           />
           :
           <>
-            <SideBar />
+            <SideBar setAuthToken = {handleSetAuthToken}/>
             <Title>Album</Title>
             <Reader />
           </>
