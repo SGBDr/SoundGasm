@@ -7,52 +7,65 @@ export const Reader = () => {
     const [musicURL, setMusicURL] = React.useState("/images/icons/Dedicace.mp3");
 
     return(
-        <Wrapper>
-            <Banner />
-            <TitleWrapper>
-                <p class="title">Living My Best Life</p>
-                <p class="artist">Ben Hector</p>
-            </TitleWrapper>
-            <Controller
-                musicURL={musicURL} />
-        </Wrapper>
+        <PlayerBox>
+            <Wrapper>
+                <TitleWrapper>
+                    <p className="title">Living My Best Life</p>
+                    <p className="artist">By : Ben Hector</p>
+                </TitleWrapper>
+                <ControlWrapper>
+                    <Banner />
+                    <Controller
+                        musicURL={musicURL} />
+                </ControlWrapper>
+            </Wrapper>
+        </PlayerBox>
     );
 
 }
+const PlayerBox = styled.div`
+    position: fixed;
+    display: block;
+    background-color: ${COLOR.background};
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    height: 220px;
+    width: 100%;
+`;
 
 const Wrapper = styled.div`
+    margin: 0 10px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    position: absolute;
-    top: 100px;
-    left: 100px;
-    width: 300px;
-    height: 400px;
+    min-width: 300px;
+    height: 200px;
     border-radius: 32px;
-    padding: 20px;
-    
+    padding: 0px 20px;
     background-color: ${COLOR.darkAlt};
 `;
 
 
 const Banner = styled.img`
     width: 200px;
-    height: 200px;
-    border-radius: 32px;
+    height: 120px;
+    border-radius: 5px;
     background-color: ${COLOR.background};
+    margin: 10px;
 `;
 
 const TitleWrapper = styled.div`
-    margin: 10px 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    height: 60px;
+    width: 100%;
+    height: 50px;
     p{
-        margin: 2px 0; 
+        margin: 2px 0px;
         padding: 0;
         font-family: Teko;
         &.title{
@@ -68,8 +81,14 @@ const TitleWrapper = styled.div`
     }
 `;
 
-
-
+const ControlWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 150px;
+`;
 
 
 

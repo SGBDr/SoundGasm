@@ -4,17 +4,18 @@ import { COLOR } from "../../../utils";
 
 export function RenderItem({ name }) {
   const [imgSrc, setSrc] = React.useState("");
-  const [mainImgWidth, setMainImgWidth] = React.useState(100);
-  const [mainImgHeight, setMainImgHeight] = React.useState(100);
+  //const [mainImgWidth, setMainImgWidth] = React.useState(100);
+  //const [mainImgHeight, setMainImgHeight] = React.useState(100);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch(
-      `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${name}`,
+    setIsLoading(true)
+    const url = `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${name}`
+    fetch(url,
       {
         method: "GET",
         headers: {
-          Token: "TOKEN_751ac079a31e8dd8d8ca66eb9784f085a716e0b6",
+          Token: localStorage.getItem('authToken'),
         },
       }
     )
@@ -23,22 +24,27 @@ export function RenderItem({ name }) {
         console.log(name);
         console.log(resp.response.musics[0]?.rep_image);
         setSrc(resp.response.musics[0]?.rep_image);
+        setIsLoading(false);
       })
       .catch((err) => console.log("ok"));
   }, []);
 
   return (
     <Wrapper>
-      <ContentWrapper>
-        <Detail> <Text style={{ position: 'absolute', left: 55, top: 10}}>{name}</Text> </Detail>
-        <Image
-          atl={name}
-          src={imgSrc}
-          layout="responsive"
-          id="heroImg"
-          priority
-        />
-      </ContentWrapper>
+        { isLoading ? (<p>loading...</p>) : 
+          (
+              <ContentWrapper>
+              <Detail> <Text style={{ position: 'absolute', left: 55, top: 10}}>{name}</Text> </Detail>
+              <Image
+                atl={name}
+                src={imgSrc}
+                layout="responsive"
+                id="heroImg"
+                priority
+              />
+              </ContentWrapper>
+          )
+        }
     </Wrapper>
   );
 }

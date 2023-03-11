@@ -52,12 +52,15 @@ export function Recommande(){
             {
               method: "GET",
               headers: {
-                Token:"TOKEN_751ac079a31e8dd8d8ca66eb9784f085a716e0b6"
+                Token: localStorage.getItem('authToken')
               }
             }
           )
             .then(res => res.json())
-            .then(result => setRecommandedData(result.response.musics))
+            .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
+                console.log("get music message : " + data.message)
+                console.log("local storage token : " + localStorage.getItem("authToken"))
+            })
             .catch(err => console.log(err) );
     }, [])
 
@@ -66,9 +69,9 @@ export function Recommande(){
         <Wrapper>
             <Title>Recommanded</Title>
             <ContentWrapper>
-                {recommandedData===undefined?null: recommandedData[0]?.music_id == undefined ? 
+                {recommandedData===undefined?null: recommandedData[0]?.music_id === undefined ? 
                     <></> : 
-                    recommandedData?.map((elm, i) => <Card key={i} item={elm} />) }
+                    recommandedData?.map((elm, i) => <Card key={elm.music_id} item={elm} />) }
             </ContentWrapper>
             
         </Wrapper>
@@ -77,7 +80,7 @@ export function Recommande(){
 
 const Wrapper = styled.div`
     position: absolute;
-    top: 96px;
+    top: 60px;
     left: 100px;
 
     

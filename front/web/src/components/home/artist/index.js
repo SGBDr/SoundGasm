@@ -5,7 +5,7 @@ import { RenderItem } from './RenderItem';
 
 export function ArtistList(){
     
-  const [artist, setArtist] = React.useState();
+  const [artist, setArtist] = React.useState([]);
   const [ok, isOk] = React.useState(false);
   React.useEffect(() => {
     fetch(
@@ -13,12 +13,15 @@ export function ArtistList(){
       {
         method: "GET",
         headers: {
-          Token: "TOKEN_751ac079a31e8dd8d8ca66eb9784f085a716e0b6"
+          Token: localStorage.getItem('authToken')
         }
       }
     )
       .then((res) => res.json())
-      .then((res) => {setArtist(res.response);console.log(res);})
+      .then((data) => {  setArtist(data.response)
+        console.log("get artist message : " + data.message)
+        console.log("local storage token : " + localStorage.getItem("authToken"))
+      })
       .catch((err) => console.log("error", err));
   }, [ok]);
 
@@ -34,7 +37,7 @@ export function ArtistList(){
 const Wrapper = styled.div`
 
     position: absolute;
-    top: 430px;
+    top: 380px;
     left: 100px;
 
     
