@@ -44,8 +44,6 @@ const ContentWrapper = styled.div`
   width: 180px;
   height: 180px;
   border-radius: 20px;
-
-  
   
 `;
 

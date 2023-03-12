@@ -52,7 +52,7 @@ export function Recommande(){
             {
               method: "GET",
               headers: {
-                Token: "TOKEN_7246016911a215bcde7134232ab43cad975dcbb1"
+                Token: "TOKEN_5d8eb3591e61a4ff112aa5b9c3a5d80f51b50bb6"
               }
             }
           )
@@ -66,7 +66,7 @@ export function Recommande(){
         <Wrapper>
             <Title>Recommanded</Title>
             <ContentWrapper>
-                { recommandedData[0]?.music_id == undefined ? 
+                { recommandedData?.length == 0 ? 
                     <></> : 
                     recommandedData?.map((elm, i) => <Card key={i} item={elm} />) }
             </ContentWrapper>

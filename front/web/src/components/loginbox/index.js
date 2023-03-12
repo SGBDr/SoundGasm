@@ -10,7 +10,8 @@ export const LoginBox = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const url = `https://https://soundgasm.herokuapp.com?controllers=auth&method=GET&email=${email}&password=${password}&log=IN`;
+        console.log(email, password);
+        const url = `https://soundgasm.herokuapp.com?controllers=auth&method=GET&email=${email}&password=${password}&log=IN`;
         fetch(url)
           .then(response => response.json())
           .then(data => {
