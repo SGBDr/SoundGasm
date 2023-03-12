@@ -5,7 +5,7 @@ export const COLOR = {
     playButtonCard: 'rgba(124, 141, 181, .7)',
     text: '#EFEEE0',
     darkAlt: '#111516',
-    transparent: '#FFFFFF00'
+    transparent: ' #FFFFFF00'
 };
 
 export const SIZE = {
