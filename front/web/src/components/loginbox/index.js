@@ -10,6 +10,7 @@ export const LoginBox = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        
         const url = `https://soundgasm.herokuapp.com?controllers=auth&method=GET&email=${email}&password=${password}&log=IN`;
         fetch(url)
           .then(response => response.json())
@@ -18,11 +19,11 @@ export const LoginBox = (props) => {
               const token = data.response.TOKEN;
               props.setAuthToken(token);
               localStorage.setItem("authToken", token)
-              console.log(token);
-            }
+              console.log("Authtoken: "+token);
+            } else throw new Error("Authentification failed");
           })
           .catch(error => {
-            console.error(error)
+            console.error(error);
             msgRef.current.style.display = 'block';
             setTimeout(() => {
               msgRef.current.style.display = 'none';
@@ -51,7 +52,7 @@ export const LoginBox = (props) => {
           onChange={(event) => setPassword(event.target.value)}
         />
         <Span ref={msgRef}>Email ou mot de passe invalide. Reéssayez !</Span>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Connecter</Button>
         <Link href="#">Forgotten Password</Link>
       </LoginForm>
     </LoginWrapper>
