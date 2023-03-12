@@ -3,33 +3,27 @@ import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import {Card} from './Card'
 
-// const Data=[
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-//     {nom: 'ok'},
-// ];
+const TERM=[
+    "dams",
+    "rap",
+    "french",
+    "sec",
+    "dad",
+    "pop",
+    "gim",
+    "ri",
+    "ca"
+];
 
 export function Recommande(){
 
     const [recommandedData, setRecommandedData] = React.useState([]);
 
     React.useEffect(()=>{
+        const rand=Math.floor(Math.random()*TERM.length);
+        console.log("rand = "+rand);
         fetch(
-            "https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=dams ",
+            `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${TERM[rand]} `,
             {
               method: "GET",
               headers: {

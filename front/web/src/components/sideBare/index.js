@@ -1,27 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import {Link} from 'gatsby';
 
 export const SideBar = (props) => {
 
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
     const handleDisconnect = () => {
-        localStorage.removeItem('authToken');
-        props.setAuthToken(undefined);
-    }
+      setShowConfirmation(true);
+    };
+
+    const handleConfirm = (evt) => {
+        const val = evt.target.textContent;
+        setShowConfirmation(false);
+        // Perform the action of disconnecting here
+        if(localStorage.getItem("authToken") && val === "Oui") {
+                localStorage.removeItem('authToken');
+                props.setAuthToken(undefined);
+        }
+    };
+
 
     return(
-        <Wrapper>
-            <ContentWrapper>
-                <Link  to="/" title='Home'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
-                <Link  to="/liked" title='Liked'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
-                <Link  to="/album" title='Album'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
-                <Link  to="/playlist" title='Playlist'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
-                <Link  to="#" title='Logout' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
-                
-            </ContentWrapper>
+        <>
+            <Wrapper>
+                <ContentWrapper>
+                    <Link  to="/" title='Home'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
+                    <Link  to="/liked" title='Liked'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
+                    <Link  to="/album" title='Album'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
+                    <Link  to="/playlist" title='Playlist'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
+                    <Link  to="#" title='Logout' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
 
-        </Wrapper>
+                </ContentWrapper>
+            </Wrapper>
+            {showConfirmation && (
+                <ConfirmationBox>
+                    <p>Vous allez être déconnecté ?</p>
+                    <div style={{width: "50%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px"}} >
+                        <button className='bttn' onClick={handleConfirm} style={{backgroundColor: `${COLOR.primary}`}} >Oui</button>
+                        <button className='bttn' onClick={handleConfirm} style={{backgroundColor: `${COLOR.secondary}`}} >Non</button>
+                    </div>
+                </ConfirmationBox>
+            )}
+        </>
     );
 
 }
@@ -39,7 +61,7 @@ const Wrapper = styled.div`
     height: 300px;
     border-radius: 32px;
 
-    
+
     background-color: ${COLOR.darkAlt};
 `;
 
@@ -48,8 +70,8 @@ const ContentWrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    
-    
+
+
     height: 250px;
 
     .icon: hover {
@@ -64,3 +86,41 @@ const Img = styled.img`
         transform: scale(2);
     }
 `
+
+const ConfirmationBox = styled.div`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    border-radius: 32px;
+    background-color: ${COLOR.background};
+    border: 10px solid ${COLOR.playButtonCard};
+    box-shadow: 0 0 10px ${COLOR.playButtonCard};
+    z-index: 9999;
+    p, .bttn{
+        font-size: 25px;
+        font-weight: 700;
+        color: white;
+    }
+
+    .bttn{
+        font-size: 20px;
+        padding: 5px 10px;
+        border-radius: 32px;
+        border: none;
+        transition: 0.3s ease-in-out;
+        :hover{
+            cursor: pointer;
+            transform: scale(1.1);
+            border: 2px solid;
+        }
+    }
+
+`;

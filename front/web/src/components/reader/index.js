@@ -1,20 +1,44 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import { Controller } from './controller';
 
 export const Reader = () => {
-    const [musicURL, setMusicURL] = React.useState("/images/icons/Dedicace.mp3");
+    const [musicInfo, setMusicInfo] = useState(undefined);
+    const [musicURL, setMusicURL] = useState(undefined);
+
+    useEffect(() => {
+        const handleStorageChange = (event) => {
+            if(event.detail.key === "musicInfo"){
+                const storedMusicInfo = event.detail.newValue;
+                if (storedMusicInfo) {
+                    setMusicInfo(JSON.parse(storedMusicInfo));
+                    localStorage.removeItem('musicInfo');
+                    
+                }
+            }
+          };
+      
+          window.addEventListener("storage", handleStorageChange);
+      
+          return () => {
+            window.removeEventListener("storage", handleStorageChange);
+          };
+      }, []);
+
+    useEffect(() => {
+        if(musicInfo) setMusicURL(musicInfo.track);
+      }, [musicInfo]);
 
     return(
         <PlayerBox>
             <Wrapper>
                 <TitleWrapper>
-                    <p className="title">Living My Best Life</p>
-                    <p className="artist">By : Ben Hector</p>
+                    <p className="title">{(musicInfo)? musicInfo.name: "Titre"}</p>
+                    <p className="artist">By : {(musicInfo)? musicInfo.artist: "Artist"}</p>
                 </TitleWrapper>
                 <ControlWrapper>
-                    <Banner />
+                    <Banner src={(musicInfo)?musicInfo.rep_image:"https://source.unsplash.com/random/200x120"} />
                     <Controller
                         musicURL={musicURL} />
                 </ControlWrapper>
@@ -26,7 +50,7 @@ export const Reader = () => {
 const PlayerBox = styled.div`
     position: fixed;
     display: block;
-    background-color: ${COLOR.background};
+    background-color: ${COLOR.transparent};
     bottom: 0px;
     right: 0px;
     left: 0px;
