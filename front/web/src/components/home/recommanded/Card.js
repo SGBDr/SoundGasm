@@ -9,7 +9,7 @@ export function Card({ item }) {
     <Wrapper>
       <ContentWrapper>
         <div className="play" style={{ position: "relative", display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50px'}}>
-            <a  onClick={localStorage.setItem("songListen", item.mus)}><img src='/images/icons/play.svg' alt='play'  /></a>
+            <img src='/images/icons/play.svg' alt='play' />
         </div>
         <div style={{ display: "flex", flexDirection: "column", height: '150px', alignItems: "center", justifyContent: "space-between",}}>
           <Image src={item.rep_image} alt={item.name} />
