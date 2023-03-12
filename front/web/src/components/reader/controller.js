@@ -8,18 +8,18 @@ export const Controller = (props) => {
     const [musicURL, setMusicURL] = useState(props.musicURL);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
-    
+    const [isPlaying, setIsPlaying] = useState({state: false, text: "play"});
+
     //Listen to changes in musicURL in parent component
     useEffect(() => {
         setMusicURL(props.musicURL);
       }, [props.musicURL]);
-    
+
     // Listen to time update in inbuild audio player
     const handleTimeUpdate = () => {
         const newTime = audioRef.current.currentTime;
         setCurrentTime(newTime);
-        if(currentTime === duration) setIsPlaying(false);
+        if(currentTime === duration) setIsPlaying({state: false, text: "play"});
     }
 
     // Listen to metadata loading in inbuild audio player
@@ -27,18 +27,25 @@ export const Controller = (props) => {
         const newDuration = audioRef.current.duration;
         setDuration(newDuration);
         audioRef.current.play();
-        setIsPlaying(true);
+        setIsPlaying({state: true, text: "pause"});
+    }
+
+    // Listen to end of music being played
+    const handleAudioEnded = () =>{
+        setIsPlaying({state: false, text: "play"});
     }
 
     // Play/pause inbuild audio player onClick
     const handlePlayPause = () => {
-        if(isPlaying) {
-            setIsPlaying(false);
-            audioRef.current.pause();
-        }
-        else{
-            setIsPlaying(true);
-            audioRef.current.play();
+        if(musicURL) {
+            if(isPlaying.state) {
+                setIsPlaying({state: false, text: "play"});
+                audioRef.current.pause();
+            }
+            else{
+                setIsPlaying({state: true, text: "pause"});
+                audioRef.current.play();
+            }
         }
     };
 
@@ -60,7 +67,7 @@ export const Controller = (props) => {
         audioRef.current.currentTime = event.target.value;
         setCurrentTime(audioRef.current.currentTime);
     };
-    
+
     // convert seconds to standard minutes
     const secondsToMinutes=(seconds)=> {
         const minutes = Math.floor(seconds / 60);
@@ -68,7 +75,7 @@ export const Controller = (props) => {
         const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
         return `${minutes}:${formattedSeconds}`;
     }
-      
+
 
     return(
         <ControlWrapper>
@@ -76,12 +83,14 @@ export const Controller = (props) => {
                 preload="metadata"
                 src={musicURL}
                 onTimeUpdate={handleTimeUpdate}
-                onLoadedMetadata={handleLoadedMetadata} 
+                onLoadedMetadata={handleLoadedMetadata}
+                onEnded={handleAudioEnded}
             />
             <ControlRangeWrapper>
                 <input className="play-range"
                     type="range"
-                    min="0" max={audioRef.current ? audioRef.current.duration : 0}
+                    min="0" max={audioRef.current ? audioRef.current.duration+0.001 : 0}
+                    step="0.01"
                     value={currentTime}
                     onChange={handleRangeChange}/>
                 <div className="start-stop">
@@ -90,11 +99,11 @@ export const Controller = (props) => {
                 </div>
             </ControlRangeWrapper>
             <ControlTabWrapper>
-                <MyButton id="b-prev"><img className="icon" alt="..." src="/images/icons/player/previous.png" /></MyButton>
-                <MyButton id="b-back" onClick={handleBackward}><img className="icon" alt="..." src="/images/icons/player/backward.png" /></MyButton>
-                <MyButton id="b-play" onClick={handlePlayPause}><img className="icon" alt="..." src={isPlaying?"/images/icons/player/pause.png":"/images/icons/player/play.png"} /></MyButton>
-                <MyButton id="b-for" onClick={handleForward}><img className="icon" alt="..." src="/images/icons/player/forward.png" /></MyButton>
-                <MyButton id="b-next"><img className="icon" alt="..." src="/images/icons/player/next.png" /></MyButton>
+                <MyButton id="b-like"> <Svg viewBox="0 0 55 55"><use xlinkHref="/images/icons/player/like.svg#like-off" /></Svg> </MyButton>
+                <MyButton id="b-prev" onClick={handleBackward}><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/change.svg#previous" /></Svg></MyButton>
+                <MyButton id="b-play" onClick={handlePlayPause}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/play.svg#${isPlaying.text}`} /></Svg></MyButton>
+                <MyButton id="b-next" onClick={handleForward}><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/change.svg#next" /></Svg></MyButton>
+                <MyButton id="b-rep"><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/repeat.svg#repeat-off" /></Svg></MyButton>
             </ControlTabWrapper>
         </ControlWrapper>
     );
@@ -104,13 +113,13 @@ export const Controller = (props) => {
 const ControlWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
     height: 100%;
+    max-width: 400px;
     width: 100%;
     margin: 0 20px;
-    // border: 1px solid red;
-    
+    // border: 1px solid orange;
 `;
 
 const ControlRangeWrapper = styled.div`
@@ -118,7 +127,8 @@ const ControlRangeWrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 20px;
+    height: auto;
+    margin-bottom: 10px;
     width: 100%;
     *{
         margin: 0;
@@ -148,8 +158,7 @@ const ControlTabWrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
-    
+    height: auto;
 `;
 
 const MyButton = styled.button`
@@ -161,8 +170,18 @@ const MyButton = styled.button`
     }
     &:hover{
         cursor: pointer;
-        border: 1px solid ${COLOR.secondary};
-        border-radius: 5px;
-        transition: 2ms ease-out;
+        use{
+            fill: ${COLOR.secondary};
+            transform: scale(1.2);
+        }
     }
 `
+const Svg = styled.svg`
+    width: 25px;
+    height: 25px;
+    use{
+        fill: white;
+        transition: 0.3s ease-in-out;
+    }
+
+`;
