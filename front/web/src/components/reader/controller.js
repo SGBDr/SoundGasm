@@ -19,13 +19,15 @@ export const Controller = (props) => {
     const handleTimeUpdate = () => {
         const newTime = audioRef.current.currentTime;
         setCurrentTime(newTime);
-        if(currentTime == duration) setIsPlaying(false);
+        if(currentTime === duration) setIsPlaying(false);
     }
 
     // Listen to metadata loading in inbuild audio player
     const handleLoadedMetadata = () => {
         const newDuration = audioRef.current.duration;
         setDuration(newDuration);
+        audioRef.current.play();
+        setIsPlaying(true);
     }
 
     // Play/pause inbuild audio player onClick
@@ -82,17 +84,17 @@ export const Controller = (props) => {
                     min="0" max={audioRef.current ? audioRef.current.duration : 0}
                     value={currentTime}
                     onChange={handleRangeChange}/>
-                <div class="start-stop">
+                <div className="start-stop">
                     <p>{secondsToMinutes(currentTime)}</p>
                     <p>{secondsToMinutes(duration-currentTime)}</p>
                 </div>
             </ControlRangeWrapper>
             <ControlTabWrapper>
-                <MyButton id="b-prev"><img class="icon" alt="..." src="/images/icons/player/previous.png" /></MyButton>
-                <MyButton id="b-back" onClick={handleBackward}><img class="icon" alt="..." src="/images/icons/player/backward.png" /></MyButton>
-                <MyButton id="b-play" onClick={handlePlayPause}><img class="icon" alt="..." src={isPlaying?"/images/icons/player/pause.png":"/images/icons/player/play.png"} /></MyButton>
-                <MyButton id="b-for" onClick={handleForward}><img class="icon" alt="..." src="/images/icons/player/forward.png" /></MyButton>
-                <MyButton id="b-next"><img class="icon" alt="..." src="/images/icons/player/next.png" /></MyButton>
+                <MyButton id="b-prev"><img className="icon" alt="..." src="/images/icons/player/previous.png" /></MyButton>
+                <MyButton id="b-back" onClick={handleBackward}><img className="icon" alt="..." src="/images/icons/player/backward.png" /></MyButton>
+                <MyButton id="b-play" onClick={handlePlayPause}><img className="icon" alt="..." src={isPlaying?"/images/icons/player/pause.png":"/images/icons/player/play.png"} /></MyButton>
+                <MyButton id="b-for" onClick={handleForward}><img className="icon" alt="..." src="/images/icons/player/forward.png" /></MyButton>
+                <MyButton id="b-next"><img className="icon" alt="..." src="/images/icons/player/next.png" /></MyButton>
             </ControlTabWrapper>
         </ControlWrapper>
     );
@@ -104,9 +106,10 @@ const ControlWrapper = styled.div`
     flex-direction: column;
     justify-content: end;
     align-items: center;
-    height: 200px;
+    height: 100%;
     width: 100%;
-    
+    margin: 0 20px;
+    // border: 1px solid red;
     
 `;
 
@@ -117,9 +120,6 @@ const ControlRangeWrapper = styled.div`
     align-items: center;
     height: 20px;
     width: 100%;
-    // &,*{
-    //     border: 2px solid red;
-    // }
     *{
         margin: 0;
         padding: 0;
@@ -127,6 +127,9 @@ const ControlRangeWrapper = styled.div`
     .play-range{
         width: 100%;
         margin: 0 0 5px  0;
+        &:hover{
+            cursor: pointer;
+        }
     }
     .start-stop{
         width: 100%;
@@ -160,5 +163,6 @@ const MyButton = styled.button`
         cursor: pointer;
         border: 1px solid ${COLOR.secondary};
         border-radius: 5px;
+        transition: 2ms ease-out;
     }
 `
