@@ -4,6 +4,7 @@ export const COLOR = {
     secondary: '#FACD66',
     playButtonCard: 'rgba(124, 141, 181, .7)',
     text: '#EFEEE0',
+    textBlur: 'rgba(239, 238, 224, 0.9)',
     darkAlt: '#111516',
     transparent: ' #FFFFFF00'
 };

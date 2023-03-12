@@ -29,6 +29,7 @@ export function Searchbar(){
     return(
         <>
             <Wrapper>
+              <div style={{position: "relative", display: "flex", width: "100%", margin: "0", padding: "0"}}>
                 <SearchBarContainer>
                     <SearchIcon src='/images/icons/search.svg' alt='...'/>
                     <SearchInput
@@ -36,12 +37,13 @@ export function Searchbar(){
                         placeholder='Research'
                         onChange={(e) => handleSubmit(e.target.value)}/>
                 </SearchBarContainer>
-                {/* <Logo src='images/soundgasm.png' /> */}
                 {term === ""?
                   <></>:
                   <RenderItem data={data} />
                   
                 }
+              </div>
+                <Logo src='images/soundgasm.png' />
             </Wrapper>
         </>
     )
@@ -99,5 +101,10 @@ const Logo = styled.img`
     width: 200px;
     height: auto;
     margin-top: 10px;
+    transition: 0.3s ease-in-out;
+    :hover{
+      cursor: pointer;
+      transform: scale(1.1);
+    }
 `;
 

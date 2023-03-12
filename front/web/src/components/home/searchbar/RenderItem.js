@@ -13,6 +13,7 @@ export function RenderItem({data}) {
         console.log("Correctly Stored in local Storage");
         // redirect to MusicPlayer component
       }
+
     const Card = ({name, src, artist, item}) =>{
         return(
             <Wrapper onClick={()=>handlePlayMusic(item)}>
@@ -21,6 +22,7 @@ export function RenderItem({data}) {
             </Wrapper>
         )
     }
+
     return(
         data === undefined || data.length == 0? 
             <></>:
@@ -35,18 +37,19 @@ export function RenderItem({data}) {
 const SearchContent = styled.div`
 
     position: absolute;
-    top: 65px;
+    top: 40px;
     left: 10px;
     z-index: 1;
 
     
-    width: 96.3%;
+    width: 99%;
     border-radius: 8px;
-    background-color: ${COLOR.text};
+    background-color: ${COLOR.textBlur};
 
     display: flex;
     flex-direction: column;
 
+    box-shadow: 0 10px 10px white;
 
 `
 
