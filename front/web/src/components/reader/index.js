@@ -49,7 +49,7 @@ export const Reader = () => {
 const PlayerBox = styled.div`
     position: fixed;
     display: block;
-    background-color: ${COLOR.background};
+    background-color: ${COLOR.transparent};
     bottom: 0px;
     right: 0px;
     left: 0px;
