@@ -23,7 +23,7 @@ export function ArtistList(){
         console.log("local storage token : " + localStorage.getItem("authToken"))
       })
       .catch((err) => console.log("error", err));
-  }, [ok]);
+  }, []);
 
     return(
         <Wrapper>

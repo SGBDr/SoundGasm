@@ -1,22 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../../utils';
+import { Modal } from 'bootstrap';
+import { RenderItem } from './RenderItem';
 
 export function Searchbar(){
     const [term, setTerm] = React.useState("");
+    const [data, setData] = React.useState([]);
 
     const handleSubmit = (text) =>{
-        console.log(term);
         setTerm(text);
     }
 
-    // React.useEffect(()=> {
-    //     fetch("https://soundgams.com", )
-    //         .then(res=> res.json)
-    //         .then(result=> console.log(result))
-    //         .catch(err => console.log(err))
-    //     console.log(term);
-    // },[term])
+    React.useEffect((e)=> {
+
+        fetch( `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${term}`,
+        {
+          method: "GET",
+          headers: {
+            Token: localStorage.getItem('authToken')
+          }
+        }  )
+            .then(res=> res.json())
+            .then(result=> {setData(term==""? []:result?.response?.musics?.slice(0,5))})
+            .catch(err => console.log(err))
+    },[term])
 
     return(
         <>
@@ -28,7 +36,12 @@ export function Searchbar(){
                         placeholder='Research'
                         onChange={(e) => handleSubmit(e.target.value)}/>
                 </SearchBarContainer>
-                <Logo src='images/soundgasm.png' />
+                {/* <Logo src='images/soundgasm.png' /> */}
+                {term === ""?
+                  <></>:
+                  <RenderItem data={data} />
+                  
+                }
             </Wrapper>
         </>
     )
@@ -37,7 +50,7 @@ export function Searchbar(){
 const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: ${COLOR.darkAlt};
   padding: 5px 10px;
   height: 25px;
@@ -87,3 +100,4 @@ const Logo = styled.img`
     height: auto;
     margin-top: 10px;
 `;
+

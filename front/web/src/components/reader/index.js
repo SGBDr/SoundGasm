@@ -39,8 +39,7 @@ export const Reader = () => {
                 </TitleWrapper>
                 <ControlWrapper>
                     <Banner src={(musicInfo)?musicInfo.rep_image:"https://source.unsplash.com/random/200x120"} />
-                    <Controller
-                        musicURL={musicURL} />
+                    <Controller musicURL={musicURL} />
                 </ControlWrapper>
             </Wrapper>
         </PlayerBox>
