@@ -5,6 +5,7 @@ import { SideBar } from '../components/sideBare';
 import { LoginBox } from '../components/loginbox';
 import { Reader } from '../components/reader';
 import { GlobalStyles } from '../utils/GlobalStyles';
+import { PlaylistList } from '../components/home/playlist';
 
 const Playlist = () => {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
@@ -25,6 +26,7 @@ const Playlist = () => {
           <>
             <SideBar setAuthToken = {handleSetAuthToken}/>
             <Title>Playlist</Title>
+      <PlaylistList />
             <Reader />
           </>
       }

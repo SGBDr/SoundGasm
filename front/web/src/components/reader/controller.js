@@ -9,6 +9,8 @@ export const Controller = (props) => {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState({state: false, text: "play"});
+    const [isLiked, setIsLiked] = useState({state: false, text: "like-off"});
+    const [isRepeating, setIsRepeating] = useState({state: false, text: "repeat-off"});
 
     //Listen to changes in musicURL in parent component
     useEffect(() => {
@@ -49,14 +51,40 @@ export const Controller = (props) => {
         }
     };
 
-    const handleForward = () => {
+    const handleLike = () => {
+        if(musicURL) {
+            if(isLiked.state) {
+                // requete pour disliker
+                setIsLiked({state: false, text: "like-off"});
+            }
+            else{
+                // requete pour liker
+                setIsLiked({state: true, text: "like-on"});
+            }
+        }
+    };
+
+    const handleRepeat = () => {
+        if(musicURL) {
+            if(isRepeating.state) {
+                // code pour annuler la boucle
+                setIsRepeating({state: false, text: "repeat-off"});
+            }
+            else{
+                // code pour lire en boucle
+                setIsRepeating({state: true, text: "repeat-on"});
+            }
+        }
+    };
+
+    const handleNext = () => {
         let newTime=currentTime+10;
         newTime=(newTime<0)?0:(newTime>duration)?duration:newTime;
         setCurrentTime(newTime);
         audioRef.current.currentTime = newTime;
     }
 
-    const handleBackward = () => {
+    const handlePrevious = () => {
         let newTime=currentTime-10;
         newTime=(newTime<0)?0:(newTime>duration)?duration:newTime;
         setCurrentTime(newTime);
@@ -99,11 +127,11 @@ export const Controller = (props) => {
                 </div>
             </ControlRangeWrapper>
             <ControlTabWrapper>
-                <MyButton id="b-like"> <Svg viewBox="0 0 55 55"><use xlinkHref="/images/icons/player/like.svg#like-off" /></Svg> </MyButton>
-                <MyButton id="b-prev" onClick={handleBackward}><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/change.svg#previous" /></Svg></MyButton>
+                <MyButton id="b-like" onClick={handleLike}> <Svg viewBox="0 0 55 55"><use xlinkHref={`/images/icons/player/like.svg#${isLiked.text}`} /></Svg> </MyButton>
+                <MyButton id="b-prev" onClick={handlePrevious}><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/change.svg#previous" /></Svg></MyButton>
                 <MyButton id="b-play" onClick={handlePlayPause}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/play.svg#${isPlaying.text}`} /></Svg></MyButton>
-                <MyButton id="b-next" onClick={handleForward}><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/change.svg#next" /></Svg></MyButton>
-                <MyButton id="b-rep"><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/repeat.svg#repeat-off" /></Svg></MyButton>
+                <MyButton id="b-next" onClick={handleNext}><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/change.svg#next" /></Svg></MyButton>
+                <MyButton id="b-rep" onClick={handleRepeat}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/repeat.svg#${isRepeating.text}`} /></Svg></MyButton>
             </ControlTabWrapper>
         </ControlWrapper>
     );

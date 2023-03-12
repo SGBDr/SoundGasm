@@ -18,18 +18,18 @@ export function ArtistList(){
       }
     )
       .then((res) => res.json())
-      .then((data) => {  setArtist(data.response)
-        console.log("get artist message : " + data.message)
+      .then((res) => {  setArtist(res.response)
+        console.log("get artist message : " + res.message)
         console.log("local storage token : " + localStorage.getItem("authToken"))
       })
       .catch((err) => console.log("error", err));
-  }, [ok]);
+  }, []);
 
     return(
         <Wrapper>
             <Title>Artist</Title>
             <ContentWrapper>
-                {artist?.slice(0, 15)?.map((elm, i) => <RenderItem key={i} name={elm.name} />)}
+                {artist===undefined?null:artist?.slice(0, 15)?.map((elm, i) => <RenderItem key={i} name={elm.name} />)}
             </ContentWrapper>
         </Wrapper>
     )
