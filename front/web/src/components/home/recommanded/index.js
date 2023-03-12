@@ -3,43 +3,16 @@ import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import {Card} from './Card'
 
-const Data=[
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
-    {nom: 'ok'},
+const TERM=[
+    "dams",
+    "rap",
+    "french",
+    "sec",
+    "dad",
+    "pop",
+    "gim",
+    "ri",
+    "ca"
 ];
 
 export function Recommande(){
@@ -47,17 +20,22 @@ export function Recommande(){
     const [recommandedData, setRecommandedData] = React.useState([]);
 
     React.useEffect(()=>{
+        const rand=Math.floor(Math.random()*TERM.length);
+        console.log("rand = "+rand);
         fetch(
-            "https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term= ",
+            `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${TERM[rand]} `,
             {
               method: "GET",
               headers: {
-                Token: "TOKEN_5d8eb3591e61a4ff112aa5b9c3a5d80f51b50bb6"
+                Token: localStorage.getItem('authToken')
               }
             }
           )
             .then(res => res.json())
-            .then(result => setRecommandedData(result.response.musics?.slice(0, 20)))
+            .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
+                console.log("get music message : " + data.message)
+                console.log("local storage token : " + localStorage.getItem("authToken"))
+            })
             .catch(err => console.log(err) );
     }, [])
 
@@ -66,9 +44,9 @@ export function Recommande(){
         <Wrapper>
             <Title>Recommanded</Title>
             <ContentWrapper>
-                { recommandedData?.length == 0 ? 
+                { recommandedData[0]?.music_id === undefined ? 
                     <></> : 
-                    recommandedData?.map((elm, i) => <Card key={i} item={elm} />) }
+                    recommandedData?.map((elm, i) => <Card key={elm.music_id} item={elm} />) }
             </ContentWrapper>
             
         </Wrapper>
@@ -77,7 +55,7 @@ export function Recommande(){
 
 const Wrapper = styled.div`
     position: absolute;
-    top: 96px;
+    top: 60px;
     left: 100px;
 
     
@@ -94,7 +72,6 @@ const Wrapper = styled.div`
     background-color: ${COLOR.darkAlt};
 `
 const ContentWrapper = styled.div`
-
     
     display: grid;
     grid-template-columns: repeat(20, 200px);
@@ -104,6 +81,7 @@ const ContentWrapper = styled.div`
     height: 200px;
     margin-left: 30px;
     margin-bottom: 20px;
+    padding-top: 10px;
     overflow: auto;
     ::-webkit-scrollbar { width: 0; display:none; };
 
@@ -112,11 +90,11 @@ const ContentWrapper = styled.div`
 `
 
 const Title = styled.p`
-    margin-bottom: 10px;
-
+    margin: 10px 0 0 0;
+    height: 40px;
     font-weight: 900;
     font-family: Teko;
     color: white;
     font-size: 28px;
-    margin-left: 30px;
+    padding-left: 30px;
 `

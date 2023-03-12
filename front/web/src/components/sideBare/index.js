@@ -3,17 +3,22 @@ import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import {Link} from 'gatsby';
 
-export const SideBar = () => {
+export const SideBar = (props) => {
 
+    const handleDisconnect = () => {
+        localStorage.removeItem('authToken');
+        props.setAuthToken(undefined);
+    }
 
     return(
         <Wrapper>
             <ContentWrapper>
-                <Link  to="/"> <img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
-                <Link  to="/liked"> <img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
-                <Link  to="/album"> <img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
-                <Link  to="/playlist"> <img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
-                <Link  to="/login"> <img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
+                <Link  to="/" title='Home'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
+                <Link  to="/liked" title='Liked'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
+                <Link  to="/album" title='Album'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
+                <Link  to="/playlist" title='Playlist'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
+                <Link  to="#" title='Logout' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
+                
             </ContentWrapper>
 
         </Wrapper>
@@ -53,11 +58,9 @@ const ContentWrapper = styled.div`
     }
 `;
 
-// const IconNavigation = styled(Link)`
-//     color: 'white';
-//     .home {
-//         backgroung: url("/images/icons/home2.svg");
-//         width: 20px;
-//         height: 20px;
-//     }
-// `
+const Img = styled.img`
+    transition: 0.2s ease-in-out;
+    :hover{
+        transform: scale(2);
+    }
+`

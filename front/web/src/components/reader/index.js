@@ -1,58 +1,96 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import { Controller } from './controller';
 
 export const Reader = () => {
-    const [musicURL, setMusicURL] = React.useState("/images/icons/Dedicace.mp3");
+    const [musicInfo, setMusicInfo] = useState(undefined);
+    const [musicURL, setMusicURL] = useState(undefined);
+
+    useEffect(() => {
+        const handleStorageChange = (event) => {
+            if(event.detail.key === "musicInfo"){
+                const storedMusicInfo = event.detail.newValue;
+                if (storedMusicInfo) {
+                    setMusicInfo(JSON.parse(storedMusicInfo));
+                    localStorage.removeItem('musicInfo');
+                    
+                }
+            }
+          };
+      
+          window.addEventListener("storage", handleStorageChange);
+      
+          return () => {
+            window.removeEventListener("storage", handleStorageChange);
+          };
+      }, []);
+
+    useEffect(() => {
+        if(musicInfo) setMusicURL(musicInfo.track);
+      }, [musicInfo]);
 
     return(
-        <Wrapper>
-            <Banner />
-            <TitleWrapper>
-                <p class="title">Living My Best Life</p>
-                <p class="artist">Ben Hector</p>
-            </TitleWrapper>
-            <Controller
-                musicURL={musicURL} />
-        </Wrapper>
+        <PlayerBox>
+            <Wrapper>
+                <TitleWrapper>
+                    <p className="title">{(musicInfo)? musicInfo.name: "Titre"}</p>
+                    <p className="artist">By : {(musicInfo)? musicInfo.artist: "Artist"}</p>
+                </TitleWrapper>
+                <ControlWrapper>
+                    <Banner src={(musicInfo)?musicInfo.rep_image:"https://source.unsplash.com/random/200x120"} />
+                    <Controller
+                        musicURL={musicURL} />
+                </ControlWrapper>
+            </Wrapper>
+        </PlayerBox>
     );
 
 }
+const PlayerBox = styled.div`
+    position: fixed;
+    display: block;
+    background-color: ${COLOR.background};
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    height: 220px;
+`;
 
 const Wrapper = styled.div`
+    position: absolute;
+    left: 100px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    position: absolute;
-    top: 100px;
-    left: 100px;
-    width: 300px;
-    height: 400px;
+    min-width: 300px;
+    width: 87.5%;
+    height: 200px;
     border-radius: 32px;
-    padding: 20px;
-    
+    padding: 0px 20px;
     background-color: ${COLOR.darkAlt};
 `;
 
 
 const Banner = styled.img`
     width: 200px;
-    height: 200px;
-    border-radius: 32px;
+    height: 120px;
+    border-radius: 5px;
     background-color: ${COLOR.background};
+    margin: 10px;
 `;
 
 const TitleWrapper = styled.div`
-    margin: 10px 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    height: 60px;
+    width: 100%;
+    height: 50px;
     p{
-        margin: 2px 0; 
+        margin: 2px 0px;
         padding: 0;
         font-family: Teko;
         &.title{
@@ -68,8 +106,14 @@ const TitleWrapper = styled.div`
     }
 `;
 
-
-
+const ControlWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 150px;
+`;
 
 
 
