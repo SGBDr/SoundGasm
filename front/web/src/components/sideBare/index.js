@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import {Link} from 'gatsby';
@@ -6,9 +6,12 @@ import {Link} from 'gatsby';
 export const SideBar = (props) => {
 
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const confRef = useRef(null);
 
     const handleDisconnect = () => {
       setShowConfirmation(true);
+      window.alert("year");
+    //   confRef.current.focus();
     };
 
     const handleConfirm = (evt) => {
@@ -35,7 +38,7 @@ export const SideBar = (props) => {
                 </ContentWrapper>
             </Wrapper>
             {showConfirmation && (
-                <ConfirmationBox>
+                <ConfirmationBox ref={confRef} tabIndex={-1}>
                     <p>Vous allez être déconnecté ?</p>
                     <div style={{width: "50%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px"}} >
                         <button className='bttn' onClick={handleConfirm} style={{backgroundColor: `${COLOR.primary}`}} >Oui</button>

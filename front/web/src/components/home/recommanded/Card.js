@@ -26,12 +26,12 @@ export function Card({ item }) {
       <ContentWrapper>
         <div className="play" onClick={()=>handlePlayMusic(item)} onKeyDown={(e)=>handleKeyDown(e,item)} 
               style={{ position: "relative", display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50px'}}
-              role="tab" aria-selected="true" tabindex="0" >
+              role="tab" aria-selected="true" tabIndex="0" >
             <img src='/images/icons/play.svg' alt='play'  />
         </div>
         <div style={{ display: "flex", flexDirection: "column", height: '150px', alignItems: "center", justifyContent: "space-between",}}>
           <Image src={item.rep_image} alt={item.name} />
-          <Text class="text">{len <=20? item.name.split("(")[0] : item.name.split("(")[0].slice(0, 17).replace(/.$/, '...')}</Text>
+          <Text className="text">{len <=20? item.name.split("(")[0] : item.name.split("(")[0].slice(0, 17).replace(/.$/, '...')}</Text>
         </div>
       </ContentWrapper>
     </Wrapper>

@@ -1,95 +1,136 @@
-import React, { useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
+import * as CL from './list';
+
+let isLoaded = false;
 
 export const Controller = (props) => {
     // initialise Ref to manipulate inbuild audio tag
     const audioRef = useRef(null);
-    const [musicURL, setMusicURL] = useState(props.musicURL);
+    const [music, setMusic] = useState(props.music);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [isPlaying, setIsPlaying] = useState({state: false, text: "play"});
-    const [isLiked, setIsLiked] = useState({state: false, text: "like-off"});
-    const [isRepeating, setIsRepeating] = useState({state: false, text: "repeat-off"});
+    const [isPlaying, setIsPlaying] = useState({ state: false, text: "play" });
+    const [isLiked, setIsLiked] = useState({ state: false, text: "like-off" });
+    const [isRepeating, setIsRepeating] = useState({ state: false, text: "repeat-off" });
 
-    //Listen to changes in musicURL in parent component
+    //Listen to changes in music in parent component
     useEffect(() => {
-        setMusicURL(props.musicURL);
-      }, [props.musicURL]);
+        setMusic(props.music);
+    }, [props.music]);
 
     // Listen to time update in inbuild audio player
     const handleTimeUpdate = () => {
         const newTime = audioRef.current.currentTime;
         setCurrentTime(newTime);
-        if(currentTime === duration) setIsPlaying({state: false, text: "play"});
+        if (currentTime === duration) setIsPlaying({ state: false, text: "play" });
     }
 
     // Listen to metadata loading in inbuild audio player
     const handleLoadedMetadata = () => {
         const newDuration = audioRef.current.duration;
         setDuration(newDuration);
-        audioRef.current.play();
-        setIsPlaying({state: true, text: "pause"});
+        if (isLoaded) {
+            audioRef.current.play();
+            setIsPlaying({ state: true, text: "pause" });
+        }
+        checkLiked();
     }
 
     // Listen to end of music being played
-    const handleAudioEnded = () =>{
-        setIsPlaying({state: false, text: "play"});
+    const handleAudioEnded = () => {
+        if (isRepeating.state)
+            setTimeout(() => {
+                audioRef.current.play();
+            }, 1000);
+        else {
+            setIsPlaying({ state: false, text: "play" });
+        }
     }
 
     // Play/pause inbuild audio player onClick
     const handlePlayPause = () => {
-        if(musicURL) {
-            if(isPlaying.state) {
-                setIsPlaying({state: false, text: "play"});
+        if (music) {
+            if (isPlaying.state) {
+                setIsPlaying({ state: false, text: "play" });
                 audioRef.current.pause();
             }
-            else{
-                setIsPlaying({state: true, text: "pause"});
+            else {
+                isLoaded = true;
+                setIsPlaying({ state: true, text: "pause" });
                 audioRef.current.play();
             }
         }
     };
 
     const handleLike = () => {
-        if(musicURL) {
-            if(isLiked.state) {
-                // requete pour disliker
-                setIsLiked({state: false, text: "like-off"});
-            }
-            else{
-                // requete pour liker
-                setIsLiked({state: true, text: "like-on"});
-            }
+        if (music) {
+            const url = `https://soundgasm.herokuapp.com/?controllers=music&method=UPDATE&action=${(isLiked.state) ? "UN" : ""}LIKE&music_id=${music.id}`;
+            console.log("URL : " + url);
+            fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        Token: localStorage.getItem('authToken')
+                    }
+                })
+                .then(res => res.json())
+                .then(result => {
+                    console.log(result.response)
+                    setIsLiked((isLiked.state) ? { state: false, text: "like-off" } : { state: true, text: "like-on" })
+                })
+                .catch(err => console.log(err))
         }
-    };
+    }
+
+    const checkLiked = () => {
+        const url = `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=LIKE`;
+        fetch(url,
+            {
+                method: "GET",
+                headers: {
+                    Token: localStorage.getItem('authToken')
+                }
+            })
+            .then(res => res.json())
+            .then(result => {
+                const likedMusics = result.response.musics;
+                console.log("Liked Musics");
+                console.log(likedMusics);
+                const mySong = likedMusics.find((song) => song.music_id === music.id);
+                setIsLiked((mySong) ? { state: true, text: "like-on" } : { state: false, text: "like-off" });
+
+            })
+            .catch(err => console.log(err))
+
+    }
+
 
     const handleRepeat = () => {
-        if(musicURL) {
-            if(isRepeating.state) {
+        if (music) {
+            if (isRepeating.state) {
                 // code pour annuler la boucle
-                setIsRepeating({state: false, text: "repeat-off"});
+                setIsRepeating({ state: false, text: "repeat-off" });
             }
-            else{
+            else {
                 // code pour lire en boucle
-                setIsRepeating({state: true, text: "repeat-on"});
+                setIsRepeating({ state: true, text: "repeat-on" });
             }
         }
-    };
+    }
 
     const handleNext = () => {
-        let newTime=currentTime+10;
-        newTime=(newTime<0)?0:(newTime>duration)?duration:newTime;
-        setCurrentTime(newTime);
-        audioRef.current.currentTime = newTime;
+        if (CL.getCurrentIndex() < CL.getList().length)
+            props.handleChange(1);
     }
 
     const handlePrevious = () => {
-        let newTime=currentTime-10;
-        newTime=(newTime<0)?0:(newTime>duration)?duration:newTime;
-        setCurrentTime(newTime);
-        audioRef.current.currentTime = newTime;
+        if (CL.getCurrentIndex() > 1)
+            props.handleChange(-1);
     }
+
+
     // Synchronise range with inbuild audio player
     const handleRangeChange = (event) => {
         audioRef.current.currentTime = event.target.value;
@@ -97,7 +138,7 @@ export const Controller = (props) => {
     };
 
     // convert seconds to standard minutes
-    const secondsToMinutes=(seconds)=> {
+    const secondsToMinutes = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = Math.floor(seconds % 60);
         const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
@@ -105,11 +146,11 @@ export const Controller = (props) => {
     }
 
 
-    return(
+    return (
         <ControlWrapper>
             <audio ref={audioRef}
                 preload="metadata"
-                src={musicURL}
+                src={(music) ? music.URL : ""}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
                 onEnded={handleAudioEnded}
@@ -117,20 +158,20 @@ export const Controller = (props) => {
             <ControlRangeWrapper>
                 <input className="play-range"
                     type="range"
-                    min="0" max={audioRef.current ? audioRef.current.duration+0.001 : 0}
+                    min="0" max={audioRef.current ? (audioRef.current.duration + 0.001).toString() : "0"}
                     step="0.01"
                     value={currentTime}
-                    onChange={handleRangeChange}/>
+                    onChange={handleRangeChange} />
                 <div className="start-stop">
                     <p>{secondsToMinutes(currentTime)}</p>
-                    <p>{secondsToMinutes(duration-currentTime)}</p>
+                    <p>{secondsToMinutes(duration - currentTime)}</p>
                 </div>
             </ControlRangeWrapper>
             <ControlTabWrapper>
                 <MyButton id="b-like" onClick={handleLike}> <Svg viewBox="0 0 55 55"><use xlinkHref={`/images/icons/player/like.svg#${isLiked.text}`} /></Svg> </MyButton>
-                <MyButton id="b-prev" onClick={handlePrevious}><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/change.svg#previous" /></Svg></MyButton>
+                <MyButton id="b-prev" onClick={handlePrevious}><Svg viewBox="0 0 50 50"><use id="u-prev" xlinkHref="/images/icons/player/change.svg#previous" /></Svg></MyButton>
                 <MyButton id="b-play" onClick={handlePlayPause}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/play.svg#${isPlaying.text}`} /></Svg></MyButton>
-                <MyButton id="b-next" onClick={handleNext}><Svg viewBox="0 0 50 50"><use xlinkHref="/images/icons/player/change.svg#next" /></Svg></MyButton>
+                <MyButton id="b-next" onClick={handleNext}><Svg viewBox="0 0 50 50"><use id="u-next" xlinkHref="/images/icons/player/change.svg#next" /></Svg></MyButton>
                 <MyButton id="b-rep" onClick={handleRepeat}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/repeat.svg#${isRepeating.text}`} /></Svg></MyButton>
             </ControlTabWrapper>
         </ControlWrapper>

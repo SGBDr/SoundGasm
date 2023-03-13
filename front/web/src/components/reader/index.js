@@ -2,33 +2,53 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import { Controller } from './controller';
+import * as CL from './list';
 
 export const Reader = () => {
     const [musicInfo, setMusicInfo] = useState(undefined);
-    const [musicURL, setMusicURL] = useState(undefined);
+    const [music, setMusic] = useState(undefined);
 
     useEffect(() => {
         const handleStorageChange = (event) => {
             if(event.detail.key === "musicInfo"){
                 const storedMusicInfo = event.detail.newValue;
                 if (storedMusicInfo) {
+                    // console.log(storedMusicInfo);
+                    console.log(CL.isPresentInList(storedMusicInfo));
+                    if( ! CL.isPresentInList(storedMusicInfo) ) {
+                        CL.addToList(storedMusicInfo);
+                        CL.setCurrentIndex(CL.getCurrentIndex()+1);
+                    }
                     setMusicInfo(JSON.parse(storedMusicInfo));
                     localStorage.removeItem('musicInfo');
-                    
+                    console.log("Current List : ")
+                    console.log(CL.getList());
+                    console.log("Current Index : "+ CL.getCurrentIndex());
                 }
             }
           };
-      
+
           window.addEventListener("storage", handleStorageChange);
-      
+          CL.initaliseList();
+          if(CL.getList().length > 0) setMusicInfo( CL.getCurrentValue() )
+          console.log(CL.getList());
           return () => {
             window.removeEventListener("storage", handleStorageChange);
           };
       }, []);
 
     useEffect(() => {
-        if(musicInfo) setMusicURL(musicInfo.track);
+        if(musicInfo) {
+            setMusic({id: musicInfo.music_id, URL: musicInfo.track});
+
+        }
       }, [musicInfo]);
+
+    const handleMusicChange = (val) => {
+        CL.setCurrentIndex(CL.getCurrentIndex() + val);
+        console.log("Current Index: "+ CL.getCurrentIndex());
+        setMusicInfo( JSON.parse(CL.getList()[CL.getCurrentIndex()-1]) );
+    }
 
     return(
         <PlayerBox>
@@ -38,9 +58,9 @@ export const Reader = () => {
                     <TitleWrapper>
                         <p className="title">{(musicInfo)? musicInfo.name: "Titre"}</p>
                         <p className="artist">By : {(musicInfo)? musicInfo.artist: "Artist"}</p>
-                    </TitleWrapper>           
+                    </TitleWrapper>
                 </InfoWrapper>
-                <Controller musicURL={musicURL} />
+                <Controller music={music} handleChange={handleMusicChange} />
             </Wrapper>
         </PlayerBox>
     );
@@ -95,8 +115,11 @@ const TitleWrapper = styled.div`
         padding: 0;
         font-family: Teko;
         &.title{
+            // border: 1px solid red;
+            // overflow: auto;
+            height: 100px;
             font-weight: 900;
-            font-size: 25px;
+            font-size: 22px;
             color: white;
         }
         &.artist{
