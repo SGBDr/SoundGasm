@@ -7,14 +7,14 @@ import { Reader } from '../components/reader';
 import { GlobalStyles } from '../utils/GlobalStyles';
 
 const Liked = () => {
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
+  // const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
 
-  function handleSetAuthToken(newToken) {
-    setAuthToken(newToken);
-  }
+  // function handleSetAuthToken(newToken) {
+  //   setAuthToken(newToken);
+  // }
   return (
     <>
-      <GlobalStyles />
+      {/* <GlobalStyles />
       {
         (localStorage.getItem("authToken") == undefined)?
           <LoginBox
@@ -22,11 +22,11 @@ const Liked = () => {
           />
           :
           <>
-            <SideBar setAuthToken = {handleSetAuthToken}/>
+            <SideBar setAuthToken = {handleSetAuthToken}/> */}
             <Title>Liked</Title>
-            <Reader />
+            {/* <Reader />
           </>
-      }
+      } */}
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLOR } from '../../../utils';
+import { COLOR } from '../../utils';
 import { Modal } from 'bootstrap';
 import { RenderItem } from './RenderItem';
 
@@ -43,7 +43,7 @@ export function Searchbar(){
                   
                 }
               </div>
-                <Logo src='images/soundgasm.png' />
+                <Logo src='/images/soundgasm.png' />
             </Wrapper>
         </>
     )

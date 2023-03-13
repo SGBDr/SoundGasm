@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { SideBar } from '../components/sideBare';
@@ -7,26 +7,10 @@ import { Reader } from '../components/reader';
 import { GlobalStyles } from '../utils/GlobalStyles';
 
 const Album = () => {
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
 
-  function handleSetAuthToken(newToken) {
-    setAuthToken(newToken);
-  }
   return (
     <>
-      <GlobalStyles />
-      {
-        (localStorage.getItem("authToken") == undefined)?
-          <LoginBox
-            setAuthToken = {handleSetAuthToken}
-          />
-          :
-          <>
-            <SideBar setAuthToken = {handleSetAuthToken}/>
-            <Title>Album</Title>
-            <Reader />
-          </>
-      }
+      <Title>Album</Title>
     </>
   )
 }

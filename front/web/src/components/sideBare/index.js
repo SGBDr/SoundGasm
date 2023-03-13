@@ -29,11 +29,11 @@ export const SideBar = (props) => {
         <>
             <Wrapper>
                 <ContentWrapper>
-                    <Link  to="/" title='Home'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
-                    <Link  to="/liked" title='Liked'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
-                    <Link  to="/album" title='Album'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
-                    <Link  to="/playlist" title='Playlist'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
-                    <Link  to="#" title='Logout' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
+                    <Link  to="/" titleTooltip='Home' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
+                    <Link  to="/liked" titleTooltip='Liked' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
+                    <Link  to="/album" titleTooltip='Album' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
+                    <Link  to="/playlist" titleTooltip='Playlist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
+                    <Link  to="#" titleTooltip='Logout' className='tooltip' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
 
                 </ContentWrapper>
             </Wrapper>
@@ -55,7 +55,7 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-
+    z-index: 9999;
     position: fixed;
     left: 20px;
     top: 96px;
@@ -81,6 +81,30 @@ const ContentWrapper = styled.div`
         fill: #DA4567;
         left: 30;
     }
+
+    .tooltip{ pointer-events: all ;}
+
+    .tooltip::after {
+        content: attr(titleTooltip);
+        position: absolute;
+        bottom: auto;
+        left: 100%;
+        // transform: translateX(-50%);
+        padding: 5px;
+        background-color: ${COLOR.text};
+        color: ${COLOR.darkAlt};
+        font-size: 15px;
+        font-weight: 700;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .tooltip:hover::after {
+  opacity: 1;
+}
+
+
 `;
 
 const Img = styled.img`
