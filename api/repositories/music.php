@@ -24,10 +24,11 @@ include_once("./api/utils/import.php");
         public function findLikeSongOfUser(int $user_id): array{
             $result = $this->con->query("SELECT music_id FROM like_music WHERE user_id = " . $user_id);
             $musics = array();
-            while($row = $result->fetch()){
+            $results = $result->fetchAll();
+            foreach($results as $row){
                 $result = $this->con->query("SELECT * FROM musics WHERE music_id = " . $row["music_id"]);
-                if($row = $result->fetch())
-                    array_push($musics, new Music($row["music_id"], $row["name"], $row["rep_image"], $row["track"], $row["artist"], $row["style"], $row["country"], new DateTime(($row["release_date"]))));
+                if($ro = $result->fetch())
+                    array_push($musics, new Music($ro["music_id"], $ro["name"], $ro["rep_image"], $ro["track"], $ro["artist"], $ro["style"], $ro["country"], new DateTime(($ro["release_date"]))));
             }
             return $musics;
         }
@@ -40,7 +41,7 @@ include_once("./api/utils/import.php");
         }
 
         public function unLikeSong(int $music_id, int $user_id){
-            $stmt = $this->con->prepare("DELETE like_music WHERE user_id = :user_id AND music_id = :music_id");
+            $stmt = $this->con->prepare("DELETE FROM like_music WHERE user_id = :user_id AND music_id = :music_id");
             $stmt->bindValue(':music_id', $music_id);
             $stmt->bindValue(':user_id', $user_id);
             return $stmt->execute();
