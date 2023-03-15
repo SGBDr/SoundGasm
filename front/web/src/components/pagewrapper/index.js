@@ -6,7 +6,7 @@ import { Searchbar } from "../searchbar"
 import { GlobalStyles } from "../../utils/GlobalStyles"
 
 const PageWrapper = ({ element, props }) => {
-    const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
+    const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || undefined);
 
     function handleSetAuthToken(newToken) {
         setAuthToken(newToken);

@@ -26,7 +26,7 @@ const Playlist = () => {
           <>
             <SideBar setAuthToken = {handleSetAuthToken}/>
             <Title>Playlist</Title>
-      <PlaylistList />
+              <PlaylistList />
             <Reader />
           </>
       }
