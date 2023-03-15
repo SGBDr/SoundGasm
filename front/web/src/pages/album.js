@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-
-import { SideBar } from '../components/sideBare';
-import { LoginBox } from '../components/loginbox';
-import { Reader } from '../components/reader';
-import { GlobalStyles } from '../utils/GlobalStyles';
 
 const Album = () => {
 

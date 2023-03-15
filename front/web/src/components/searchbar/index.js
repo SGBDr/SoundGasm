@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
-import { Modal } from 'bootstrap';
+// import { Modal } from 'bootstrap';
 import { RenderItem } from './RenderItem';
 
 export function Searchbar(){
@@ -22,7 +22,7 @@ export function Searchbar(){
           }
         }  )
             .then(res=> res.json())
-            .then(result=> {setData(term==""? []:result?.response?.musics?.slice(0,5))})
+            .then(result=> {setData(term===""? []:result?.response?.musics?.slice(0,5))})
             .catch(err => console.log(err))
     },[term])
 

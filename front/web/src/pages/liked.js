@@ -1,32 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
-import { SideBar } from '../components/sideBare';
-import { LoginBox } from '../components/loginbox';
-import { Reader } from '../components/reader';
-import { GlobalStyles } from '../utils/GlobalStyles';
 
 const Liked = () => {
-  // const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
 
-  // function handleSetAuthToken(newToken) {
-  //   setAuthToken(newToken);
-  // }
   return (
     <>
-      {/* <GlobalStyles />
-      {
-        (localStorage.getItem("authToken") == undefined)?
-          <LoginBox
-            setAuthToken = {handleSetAuthToken}
-          />
-          :
-          <>
-            <SideBar setAuthToken = {handleSetAuthToken}/> */}
-            <Title>Liked</Title>
-            {/* <Reader />
-          </>
-      } */}
+        <Title>Liked</Title>
     </>
   )
 }
