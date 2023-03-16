@@ -8,6 +8,7 @@ import { GlobalStyles } from '../utils/GlobalStyles';
 
 const Liked = () => {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
+  
 
   function handleSetAuthToken(newToken) {
     setAuthToken(newToken);
