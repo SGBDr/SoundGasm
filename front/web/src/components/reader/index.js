@@ -17,7 +17,7 @@ export const Reader = () => {
                     console.log(CL.isPresentInList(storedMusicInfo));
                     if( ! CL.isPresentInList(storedMusicInfo) ) {
                         CL.addToList(storedMusicInfo);
-                        CL.setCurrentIndex(CL.getCurrentIndex()+1);
+                        CL.setCurrentIndex(CL.getList().length+1);
                     }
                     setMusicInfo(JSON.parse(storedMusicInfo));
                     localStorage.removeItem('musicInfo');

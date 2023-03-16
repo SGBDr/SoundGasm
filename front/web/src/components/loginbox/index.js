@@ -53,7 +53,8 @@ export const LoginBox = (props) => {
         />
         <Span ref={msgRef}>Email ou mot de passe invalide. Reéssayez !</Span>
         <Button type="submit">Connecter</Button>
-        <Link href="#">Forgotten Password</Link>
+        <Link href="#">Mot de passe oublié ?</Link>
+        <Link href="#">Aucun compte ? Inscription</Link>
       </LoginForm>
     </LoginWrapper>
     </LoginContainer>

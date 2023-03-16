@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import * as CL from './list';
 
-let isLoaded = false;
-
 export const Controller = (props) => {
     // initialise Ref to manipulate inbuild audio tag
     const audioRef = useRef(null);
     const [music, setMusic] = useState(props.music);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [isPlaying, setIsPlaying] = useState({ state: false, text: "play" });
     const [isLiked, setIsLiked] = useState({ state: false, text: "like-off" });
     const [isRepeating, setIsRepeating] = useState({ state: false, text: "repeat-off" });
@@ -57,7 +56,7 @@ export const Controller = (props) => {
                 audioRef.current.pause();
             }
             else {
-                isLoaded = true;
+                setIsLoaded(true);
                 setIsPlaying({ state: true, text: "pause" });
                 audioRef.current.play();
             }

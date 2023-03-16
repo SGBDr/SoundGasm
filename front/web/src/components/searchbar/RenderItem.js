@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLOR } from '../../../utils';
+import { COLOR } from '../../utils';
 
 export function RenderItem({data}) {
     console.log("data", data)

@@ -6,7 +6,7 @@ import { RenderItem } from './RenderItem';
 export function ArtistList(){
     
   const [artist, setArtist] = React.useState([]);
-  const [ok, isOk] = React.useState(false);
+  // const [ok, isOk] = React.useState(false);
   React.useEffect(() => {
     fetch(
       "https://soundgasm.herokuapp.com/?controllers=artist&method=GET&all=true",
