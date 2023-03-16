@@ -10,11 +10,12 @@ import { GlobalStyles } from '../utils/GlobalStyles';
 
 const IndexPage = () => {
   // localStorage.removeItem('authToken');
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || null);
+  const [authToken, setAuthToken] = useState(undefined);
 
   function handleSetAuthToken(newToken) {
     setAuthToken(newToken);
   }
+  console.log('indexPage', authToken)
 
   return(
     <>
