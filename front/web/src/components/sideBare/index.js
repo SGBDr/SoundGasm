@@ -1,50 +1,109 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
-import {Link} from 'gatsby';
-
+import { Link } from 'gatsby';
+import { createRoot } from 'react-dom/client';
 export const SideBar = (props) => {
 
     const [showConfirmation, setShowConfirmation] = useState(false);
     const confRef = useRef(null);
 
+    // const handleOui = () => {
+    //     return Promise.resolve("Oui");
+    // }
+
+    // const handleNon = () => {
+    //     return Promise.resolve("Non");
+    // }
+    const ConfBox = ({ onConfirmation, onCancelation }) => {
+        return (
+            <ConfirmationBox >
+                <p>Vous allez être déconnecté ?</p>
+                <div style={{ width: "50%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px" }} >
+                    <button className='bttn' onClick={() => onConfirmation("Oui")} style={{ backgroundColor: `${COLOR.primary}` }} >Oui</button>
+                    <button className='bttn' onClick={() => onCancelation("Non")} style={{ backgroundColor: `${COLOR.secondary}` }} >Non</button>
+                </div>
+            </ConfirmationBox>
+        )
+    }
+
+    function showConfirmationBox(message) {
+        return new Promise((resolve, reject) => {
+            function handleButtonClick(value) {
+                setShowConfirmation(false);
+                if (value === "Oui") {
+                    resolve('Oui');
+                } else {
+                    reject('Non');
+                }
+            }
+            const customConfirmationBox = (
+                <ConfBox
+                    onConfirmation={(value) => handleButtonClick(value)}
+                    onCancelation={(value) => handleButtonClick(value)}
+                />
+            )
+
+            createRoot(confRef).render(customConfirmationBox)
+
+
+
+            if (window.confirm(message)) {
+                resolve('confirmed');
+            } else {
+                reject('canceled');
+            }
+        });
+    }
+
+    function onConfirm() {
+        console.log('User confirmed.');
+    }
+
+    function onCancel() {
+        console.log('User canceled.');
+    }
+
     const handleDisconnect = () => {
-      setShowConfirmation(true);
-      window.alert("year");
-    //   confRef.current.focus();
+        // Default confirm box
+        if (localStorage.getItem("authToken") && window.confirm("Vous allez être déconnecté ?")) {
+            localStorage.removeItem("authToken");
+            props.setAuthToken(undefined);
+        }
+
+        // setShowConfirmation(true);
+        // showConfirmationBox('Are you sure you want to proceed?')
+        //     .then(onConfirm)
+        //     .catch(onCancel);
+
     };
+
+
 
     const handleConfirm = (evt) => {
         const val = evt.target.textContent;
         setShowConfirmation(false);
         // Perform the action of disconnecting here
-        if(localStorage.getItem("authToken") && val === "Oui") {
-                localStorage.removeItem('authToken');
-                props.setAuthToken(undefined);
+        if (localStorage.getItem("authToken") && val === "Oui") {
+            localStorage.removeItem('authToken');
+            props.setAuthToken(undefined);
         }
     };
 
-
-    return(
+    return (
         <>
             <Wrapper>
                 <ContentWrapper>
-                    <Link  to="/" titleTooltip='Home' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
-                    <Link  to="/liked" titleTooltip='Liked' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
-                    <Link  to="/album" titleTooltip='Album' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
-                    <Link  to="/playlist" titleTooltip='Playlist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
-                    <Link  to="#" titleTooltip='Logout' className='tooltip' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
+                    <Link to="/" titleTooltip='Home' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
+                    <Link to="/liked" titleTooltip='Liked' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
+                    <Link to="/album" titleTooltip='Album' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
+                    <Link to="/playlist" titleTooltip='Playlist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
+                    <Link to="#" titleTooltip='Logout' className='tooltip' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
 
                 </ContentWrapper>
             </Wrapper>
             {showConfirmation && (
-                <ConfirmationBox ref={confRef} tabIndex={-1}>
-                    <p>Vous allez être déconnecté ?</p>
-                    <div style={{width: "50%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px"}} >
-                        <button className='bttn' onClick={handleConfirm} style={{backgroundColor: `${COLOR.primary}`}} >Oui</button>
-                        <button className='bttn' onClick={handleConfirm} style={{backgroundColor: `${COLOR.secondary}`}} >Non</button>
-                    </div>
-                </ConfirmationBox>
+                <div ref={confRef} tabIndex={-1} id="conf-box"></div>
             )}
         </>
     );

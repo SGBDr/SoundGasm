@@ -1,35 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
-import { SideBar } from '../components/sideBare';
-import { LoginBox } from '../components/loginbox';
-import { Reader } from '../components/reader';
-import { GlobalStyles } from '../utils/GlobalStyles';
 import { PlaylistList } from '../components/home/playlist';
 
 const Playlist = () => {
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
 
-  function handleSetAuthToken(newToken) {
-    setAuthToken(newToken);
-  }
-  
   return (
     <>
-      <GlobalStyles />
-      {
-        (authToken == undefined)?
-          <LoginBox
-            setAuthToken = {handleSetAuthToken}
-          />
-          :
-          <>
-            <SideBar setAuthToken = {handleSetAuthToken}/>
-            <Title>Playlist</Title>
-              <PlaylistList />
-            <Reader />
-          </>
-      }
+      <Title>Playlist</Title>
+      <PlaylistList />
     </>
   )
 }

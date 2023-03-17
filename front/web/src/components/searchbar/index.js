@@ -18,7 +18,7 @@ export function Searchbar(){
         {
           method: "GET",
           headers: {
-            Token: localStorage.getItem('authToken')
+            Token: localStorage.getItem("authToken")
           }
         }  )
             .then(res=> res.json())

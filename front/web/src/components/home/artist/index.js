@@ -13,7 +13,7 @@ export function ArtistList(){
       {
         method: "GET",
         headers: {
-          Token: localStorage.getItem('authToken')
+          Token: localStorage.getItem("authToken")
         }
       }
     )

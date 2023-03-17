@@ -71,7 +71,7 @@ export const Controller = (props) => {
                 {
                     method: "GET",
                     headers: {
-                        Token: localStorage.getItem('authToken')
+                        Token: localStorage.getItem("authToken")
                     }
                 })
                 .then(res => res.json())
@@ -89,7 +89,7 @@ export const Controller = (props) => {
             {
                 method: "GET",
                 headers: {
-                    Token: localStorage.getItem('authToken')
+                    Token: localStorage.getItem("authToken")
                 }
             })
             .then(res => res.json())
