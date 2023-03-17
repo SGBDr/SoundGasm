@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import * as CL from './list';
+import { isMusicLiked, handleMusicLike } from '../context/contextMenuManager';
 
 export const Controller = (props) => {
     // initialise Ref to manipulate inbuild audio tag
@@ -19,6 +20,18 @@ export const Controller = (props) => {
         setMusic(props.music);
     }, [props.music]);
 
+
+    // Dispatch event on isLiked Change
+    useEffect(() => {
+        window.dispatchEvent(new CustomEvent("likeChange", {
+            detail: {
+                key: "like",
+                newValue: isLiked.state,
+                id: music?.id
+            }
+        }));
+    }, [isLiked]);
+
     // Listen to time update in inbuild audio player
     const handleTimeUpdate = () => {
         const newTime = audioRef.current.currentTime;
@@ -34,18 +47,18 @@ export const Controller = (props) => {
             audioRef.current.play();
             setIsPlaying({ state: true, text: "pause" });
         }
-        checkLiked();
+        isMusicLiked(music.id, setIsLiked, true);
     }
 
     // Listen to end of music being played
     const handleAudioEnded = () => {
-        if (isRepeating.state)
-            setTimeout(() => {
+        setTimeout(() => {
+            if (isRepeating.state)
                 audioRef.current.play();
-            }, 1000);
-        else {
-            setIsPlaying({ state: false, text: "play" });
-        }
+            else {
+                handleNext();
+            }
+        }, 1000);
     }
 
     // Play/pause inbuild audio player onClick
@@ -65,45 +78,16 @@ export const Controller = (props) => {
 
     const handleLike = () => {
         if (music) {
-            const url = `https://soundgasm.herokuapp.com/?controllers=music&method=UPDATE&action=${(isLiked.state) ? "UN" : ""}LIKE&music_id=${music.id}`;
-            console.log("URL : " + url);
-            fetch(url,
-                {
-                    method: "GET",
-                    headers: {
-                        Token: localStorage.getItem("authToken")
-                    }
-                })
-                .then(res => res.json())
-                .then(result => {
-                    console.log(result.response)
-                    setIsLiked((isLiked.state) ? { state: false, text: "like-off" } : { state: true, text: "like-on" })
-                })
-                .catch(err => console.log(err))
+            console.log('previous state: ' + isLiked.state);
+            handleMusicLike(music.id, isLiked.state, setIsLiked, true);
         }
     }
 
-    const checkLiked = () => {
-        const url = `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=LIKE`;
-        fetch(url,
-            {
-                method: "GET",
-                headers: {
-                    Token: localStorage.getItem("authToken")
-                }
-            })
-            .then(res => res.json())
-            .then(result => {
-                const likedMusics = result.response.musics;
-                console.log("Liked Musics");
-                console.log(likedMusics);
-                const mySong = likedMusics.find((song) => song.music_id === music.id);
-                setIsLiked((mySong) ? { state: true, text: "like-on" } : { state: false, text: "like-off" });
-
-            })
-            .catch(err => console.log(err))
-
-    }
+    // const checkLiked = () => {
+    //     const val =isMusicLiked(music.id)
+    //     setIsLiked((val) ? { state: true, text: "like-on" } : { state: false, text: "like-off" });
+    //     console.log("Check isLiked: "+val);
+    // }
 
 
     const handleRepeat = () => {
@@ -122,6 +106,7 @@ export const Controller = (props) => {
     const handleNext = () => {
         if (CL.getCurrentIndex() < CL.getList().length)
             props.handleChange(1);
+        else setIsPlaying({ state: false, text: "play" });
     }
 
     const handlePrevious = () => {

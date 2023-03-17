@@ -7,16 +7,18 @@ export const getList = () => {
 }
 
 export const initaliseList = () => {
-    const myList = JSON.parse(localStorage.getItem("currentList"));
-    const index = JSON.parse(localStorage.getItem("currentIndex"));
+    const userName = localStorage.getItem("userName");
+    const myList = JSON.parse(localStorage.getItem(`${userName}CurrentList`));
+    const index = JSON.parse(localStorage.getItem(`${userName}CurrentIndex`));
     if (myList) list = myList;
     if (index) current = index;
     return list;
 }
 
 export const updateList = () => {
-    localStorage.setItem("currentList", JSON.stringify(list));
-    localStorage.setItem("currentIndex", current);
+    const userName = localStorage.getItem("userName");
+    localStorage.setItem(`${userName}CurrentList`, JSON.stringify(list));
+    localStorage.setItem(`${userName}CurrentIndex`, current);
     window.dispatchEvent(new CustomEvent("storage",{
         detail: { key: "currentList",
                   newValue: JSON.stringify(list) }
@@ -38,6 +40,8 @@ export const getCurrentValue = () => {
 }
 
 export const addToList = (value) => {
+    if(list.length < 20);
+    console.log(value);
     list.push(value);
     updateList();
 }

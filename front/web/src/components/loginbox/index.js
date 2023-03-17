@@ -18,7 +18,8 @@ export const LoginBox = (props) => {
             if(data.response.logIn){
               const token = data.response.TOKEN;
               props.setAuthToken(token);
-              localStorage.setItem("authToken", token)
+              localStorage.setItem("authToken", token);
+              localStorage.setItem("userName", email.split('@')[0]);
               console.log("Authtoken: "+token);
             } else throw new Error("Authentification failed");
           })

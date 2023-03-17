@@ -21,8 +21,8 @@ export const Reader = () => {
                     }
                     setMusicInfo(JSON.parse(storedMusicInfo));
                     localStorage.removeItem('musicInfo');
-                    console.log("Current List : ")
-                    console.log(CL.getList());
+                    // console.log("Current List : ")
+                    // console.log(CL.getList());
                     console.log("Current Index : " + CL.getCurrentIndex());
                 }
             }

@@ -4,7 +4,7 @@ import { Reader } from "../reader"
 import { LoginBox } from "../loginbox"
 import { Searchbar } from "../searchbar"
 import { GlobalStyles } from "../../utils/GlobalStyles"
-import { ConfirmDialogProvider } from "../confimBox/confirmDialog"
+import { ContextDialogProvider } from "../context/contextDialog"
 
 const PageWrapper = ({ element, props }) => {
     const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || undefined);
@@ -14,7 +14,7 @@ const PageWrapper = ({ element, props }) => {
     }
     // const pages=["/","/album/","/liked/","/playlist/"];
     return (
-        <ConfirmDialogProvider>
+        <ContextDialogProvider>
             <div style={{ height: "98.2vh", padding: "0", margin: "0" }}>
                 {
                     (props.path === "/404/") ? <> {React.cloneElement(element, { ...props })} </> :
@@ -32,7 +32,7 @@ const PageWrapper = ({ element, props }) => {
                         </>
                 }
             </div>
-        </ConfirmDialogProvider>
+        </ContextDialogProvider>
     )
 }
 

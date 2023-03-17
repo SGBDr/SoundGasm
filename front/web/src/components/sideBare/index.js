@@ -1,85 +1,21 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import { Link } from 'gatsby';
-import useConfirm from '../confimBox/confirmDialog';
+import useMyContext from '../context/contextDialog';
 
 export const SideBar = (props) => {
-
-    // const [showConfirmation, setShowConfirmation] = useState(false);
-    const confirm = useConfirm();
-
-    // const handleOui = () => {
-    //     return Promise.resolve("Oui");
-    // }
-
-    // const handleNon = () => {
-    //     return Promise.resolve("Non");
-    // }
-
-
-    // function showConfirmationBox(message) {
-    //     return new Promise((resolve, reject) => {
-    //         function handleButtonClick(value) {
-    //             setShowConfirmation(false);
-    //             if (value === "Oui") {
-    //                 resolve('Oui');
-    //             } else {
-    //                 reject('Non');
-    //             }
-    //         }
-    //         const customConfirmationBox = (
-    //             <ConfBox
-    //                 onConfirmation={(value) => handleButtonClick(value)}
-    //                 onCancelation={(value) => handleButtonClick(value)}
-    //             />
-    //         )
-    //         createRoot(confRef).render(customConfirmationBox)
-    //         if (window.confirm(message)) {
-    //             resolve('confirmed');
-    //         } else {
-    //             reject('canceled');
-    //         }
-    //     });
-    // }
-
-    // function onConfirm() {
-    //     console.log('User confirmed.');
-    // }
-
-    // function onCancel() {
-    //     console.log('User canceled.');
-    // }
+    const confirm = useMyContext();
 
     const handleDisconnect = async () => {
-        // Default confirm box
         if (localStorage.getItem("authToken")){
-            const choice = await confirm({ message: "Vous voulez vous déconnectez ?", confirmBtnLabel: "Déconnecter" });
+            const choice = await confirm("confirm", { message: "Vous voulez vous déconnectez ?", confirmBtnLabel: "Déconnecter" });
             if(choice){
-                // window.confirm("Vous allez être déconnecté ?")) {
                 localStorage.removeItem("authToken");
                 props.setAuthToken(undefined);
             }
         }
-
-        // setShowConfirmation(true);
-        // showConfirmationBox('Are you sure you want to proceed?')
-        //     .then(onConfirm)
-        //     .catch(onCancel);
-
     };
-
-
-
-    // const handleConfirm = (evt) => {
-    //     const val = evt.target.textContent;
-    //     setShowConfirmation(false);
-    //     // Perform the action of disconnecting here
-    //     if (localStorage.getItem("authToken") && val === "Oui") {
-    //         localStorage.removeItem('authToken');
-    //         props.setAuthToken(undefined);
-    //     }
-    // };
 
     return (
         <>
@@ -102,7 +38,7 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999;
+    z-index: 1;
     position: absolute;
     left: 20px;
     top: 96px;
@@ -136,7 +72,6 @@ const ContentWrapper = styled.div`
         position: absolute;
         bottom: auto;
         left: 100%;
-        // transform: translateX(-50%);
         padding: 5px;
         background-color: ${COLOR.text};
         color: ${COLOR.darkAlt};

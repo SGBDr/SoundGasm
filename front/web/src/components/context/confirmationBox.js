@@ -9,7 +9,7 @@ export function ConfirmBox ({ isOpen, onClose, message, confirmBtnLabel, onConfi
                 <ConfirmationBox >
                     <p>{message}</p>
                     <div style={{ width: "auto", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px", gap: "20px" }} >
-                        <button className='bttn' onClick={() => {onConfirm(); onClose();}} style={{ backgroundColor: `${COLOR.primary}` }} >{confirmBtnLabel}</button>
+                        <button className='bttn' onClick={() => {onConfirm()}} style={{ backgroundColor: `${COLOR.primary}` }} >{confirmBtnLabel}</button>
                         <button className='bttn' onClick={() => onClose()} style={{ backgroundColor: "orange" }} >Annuler</button>
                     </div>
                 </ConfirmationBox>
