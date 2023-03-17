@@ -2,11 +2,12 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import { Link } from 'gatsby';
-import { createRoot } from 'react-dom/client';
+import useConfirm from '../confimBox/confirmDialog';
+
 export const SideBar = (props) => {
 
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const confRef = useRef(null);
+    // const [showConfirmation, setShowConfirmation] = useState(false);
+    const confirm = useConfirm();
 
     // const handleOui = () => {
     //     return Promise.resolve("Oui");
@@ -15,60 +16,50 @@ export const SideBar = (props) => {
     // const handleNon = () => {
     //     return Promise.resolve("Non");
     // }
-    const ConfBox = ({ onConfirmation, onCancelation }) => {
-        return (
-            <ConfirmationBox >
-                <p>Vous allez être déconnecté ?</p>
-                <div style={{ width: "50%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px" }} >
-                    <button className='bttn' onClick={() => onConfirmation("Oui")} style={{ backgroundColor: `${COLOR.primary}` }} >Oui</button>
-                    <button className='bttn' onClick={() => onCancelation("Non")} style={{ backgroundColor: `${COLOR.secondary}` }} >Non</button>
-                </div>
-            </ConfirmationBox>
-        )
-    }
-
-    function showConfirmationBox(message) {
-        return new Promise((resolve, reject) => {
-            function handleButtonClick(value) {
-                setShowConfirmation(false);
-                if (value === "Oui") {
-                    resolve('Oui');
-                } else {
-                    reject('Non');
-                }
-            }
-            const customConfirmationBox = (
-                <ConfBox
-                    onConfirmation={(value) => handleButtonClick(value)}
-                    onCancelation={(value) => handleButtonClick(value)}
-                />
-            )
-
-            createRoot(confRef).render(customConfirmationBox)
 
 
+    // function showConfirmationBox(message) {
+    //     return new Promise((resolve, reject) => {
+    //         function handleButtonClick(value) {
+    //             setShowConfirmation(false);
+    //             if (value === "Oui") {
+    //                 resolve('Oui');
+    //             } else {
+    //                 reject('Non');
+    //             }
+    //         }
+    //         const customConfirmationBox = (
+    //             <ConfBox
+    //                 onConfirmation={(value) => handleButtonClick(value)}
+    //                 onCancelation={(value) => handleButtonClick(value)}
+    //             />
+    //         )
+    //         createRoot(confRef).render(customConfirmationBox)
+    //         if (window.confirm(message)) {
+    //             resolve('confirmed');
+    //         } else {
+    //             reject('canceled');
+    //         }
+    //     });
+    // }
 
-            if (window.confirm(message)) {
-                resolve('confirmed');
-            } else {
-                reject('canceled');
-            }
-        });
-    }
+    // function onConfirm() {
+    //     console.log('User confirmed.');
+    // }
 
-    function onConfirm() {
-        console.log('User confirmed.');
-    }
+    // function onCancel() {
+    //     console.log('User canceled.');
+    // }
 
-    function onCancel() {
-        console.log('User canceled.');
-    }
-
-    const handleDisconnect = () => {
+    const handleDisconnect = async () => {
         // Default confirm box
-        if (localStorage.getItem("authToken") && window.confirm("Vous allez être déconnecté ?")) {
-            localStorage.removeItem("authToken");
-            props.setAuthToken(undefined);
+        if (localStorage.getItem("authToken")){
+            const choice = await confirm({ message: "Vous voulez vous déconnectez ?", confirmBtnLabel: "Déconnecter" });
+            if(choice){
+                // window.confirm("Vous allez être déconnecté ?")) {
+                localStorage.removeItem("authToken");
+                props.setAuthToken(undefined);
+            }
         }
 
         // setShowConfirmation(true);
@@ -80,15 +71,15 @@ export const SideBar = (props) => {
 
 
 
-    const handleConfirm = (evt) => {
-        const val = evt.target.textContent;
-        setShowConfirmation(false);
-        // Perform the action of disconnecting here
-        if (localStorage.getItem("authToken") && val === "Oui") {
-            localStorage.removeItem('authToken');
-            props.setAuthToken(undefined);
-        }
-    };
+    // const handleConfirm = (evt) => {
+    //     const val = evt.target.textContent;
+    //     setShowConfirmation(false);
+    //     // Perform the action of disconnecting here
+    //     if (localStorage.getItem("authToken") && val === "Oui") {
+    //         localStorage.removeItem('authToken');
+    //         props.setAuthToken(undefined);
+    //     }
+    // };
 
     return (
         <>
@@ -102,9 +93,6 @@ export const SideBar = (props) => {
 
                 </ContentWrapper>
             </Wrapper>
-            {showConfirmation && (
-                <div ref={confRef} tabIndex={-1} id="conf-box"></div>
-            )}
         </>
     );
 
@@ -114,7 +102,7 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 999;
     position: absolute;
     left: 20px;
     top: 96px;
@@ -173,40 +161,3 @@ const Img = styled.img`
     }
 `
 
-const ConfirmationBox = styled.div`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    height: 150px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 10px;
-    border-radius: 32px;
-    background-color: ${COLOR.background};
-    border: 10px solid ${COLOR.playButtonCard};
-    box-shadow: 0 0 10px ${COLOR.playButtonCard};
-    z-index: 9999;
-    p, .bttn{
-        font-size: 25px;
-        font-weight: 700;
-        color: white;
-    }
-
-    .bttn{
-        font-size: 20px;
-        padding: 5px 10px;
-        border-radius: 32px;
-        border: none;
-        transition: 0.3s ease-in-out;
-        :hover{
-            cursor: pointer;
-            transform: scale(1.1);
-            border: 2px solid;
-        }
-    }
-
-`;

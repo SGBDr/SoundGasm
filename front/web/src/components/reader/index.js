@@ -51,32 +51,19 @@ export const Reader = () => {
     }
 
     return (
-        // <PlayerBox>
-            <Wrapper>
-                <InfoWrapper>
-                    <Banner src={(musicInfo) ? musicInfo.rep_image : "https://source.unsplash.com/random/200x120"} />
-                    <TitleWrapper>
-                        <p className="title">{(musicInfo) ? musicInfo.name : "Titre"}</p>
-                        <p className="artist">By : {(musicInfo) ? musicInfo.artist : "Artist"}</p>
-                    </TitleWrapper>
-                </InfoWrapper>
-                <Controller music={music} handleChange={handleMusicChange} />
-            </Wrapper>
-        // </PlayerBox>
+        <Wrapper>
+            <InfoWrapper>
+                <Banner src={(musicInfo) ? musicInfo.rep_image : "https://source.unsplash.com/random/200x120"} />
+                <TitleWrapper>
+                    <p className="title">{(musicInfo) ? musicInfo.name : "Titre"}</p>
+                    <p className="artist">By : {(musicInfo) ? musicInfo.artist : "Artist"}</p>
+                </TitleWrapper>
+            </InfoWrapper>
+            <Controller music={music} handleChange={handleMusicChange} />
+        </Wrapper>
     );
 
 }
-const PlayerBox = styled.div`
-    position: absolute;
-    display: block;
-    background-color: ${COLOR.transparent};
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-    margin: 0;
-    padding: 0;
-    height: 120px;
-`;
 
 const Wrapper = styled.div`
     bottom: 15px;
@@ -112,15 +99,13 @@ const TitleWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: space-between;
-    // width: 100%;
     height: 50px;
     p{
         margin: 2px 0px;
         padding: 0;
         font-family: Teko;
         &.title{
-            // border: 1px solid red;
-            // overflow: auto;
+
             height: 100px;
             font-weight: 900;
             font-size: 22px;
@@ -142,7 +127,6 @@ const InfoWrapper = styled.div`
     width: 100%;
     height: 100px;
     gap: 10px;
-    // border: 1px solid red;
 `;
 
 

@@ -61,7 +61,6 @@ const Wrapper = styled.div`
     
     display: grid;
 
-    // width: 90%;
     height: 300px;
 
     overflow: auto;
