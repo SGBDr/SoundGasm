@@ -35,12 +35,9 @@ const Wrapper = styled.div`
     position: absolute;
     top: 98px;
     left: 100px;
-
-    
+    right: 50px;
     display: grid;
 
-    width: 90%;
-    height: 78%;
 
     overflow: auto;
     ::-webkit-scrollbar { width: 0;};

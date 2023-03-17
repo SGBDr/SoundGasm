@@ -94,11 +94,11 @@ export const SideBar = (props) => {
         <>
             <Wrapper>
                 <ContentWrapper>
-                    <Link to="/" titleTooltip='Home' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
-                    <Link to="/liked" titleTooltip='Liked' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
-                    <Link to="/album" titleTooltip='Album' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
-                    <Link to="/playlist" titleTooltip='Playlist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
-                    <Link to="#" titleTooltip='Logout' className='tooltip' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
+                    <Link to="/" data-tooltip='Home' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
+                    <Link to="/liked" data-tooltip='Liked' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
+                    <Link to="/album" data-tooltip='Album' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
+                    <Link to="/playlist" data-tooltip='Playlist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
+                    <Link to="#" data-tooltip='Logout' className='tooltip' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
 
                 </ContentWrapper>
             </Wrapper>
@@ -115,7 +115,7 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    position: fixed;
+    position: absolute;
     left: 20px;
     top: 96px;
 
@@ -144,7 +144,7 @@ const ContentWrapper = styled.div`
     .tooltip{ pointer-events: all ;}
 
     .tooltip::after {
-        content: attr(titleTooltip);
+        content: attr(data-tooltip);
         position: absolute;
         bottom: auto;
         left: 100%;

@@ -81,10 +81,11 @@ const SearchIcon = styled.img`
 const Wrapper = styled.div`
     position: absolute;
     height: 60px;
-    width: 90%;
+    // width: 90%;
     top: 0;
     gap: 30px;
     left: 100px;
+    right: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;

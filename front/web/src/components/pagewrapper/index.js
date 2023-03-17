@@ -13,7 +13,7 @@ const PageWrapper = ({ element, props }) => {
     }
     // const pages=["/","/album/","/liked/","/playlist/"];
     return (
-        <>  
+        <div style={{height: "98.2vh", border: "1px solid blue", padding: "0", margin: "0"}}>  
             {   
                 (props.path === "/404/") ? <> {React.cloneElement(element, { ...props })} </> :
                     <>
@@ -29,10 +29,8 @@ const PageWrapper = ({ element, props }) => {
                         }
                     </>
             }
-        </>
+        </div>
     )
 }
 
-export default PageWrapper
-
-
+export default PageWrapper;

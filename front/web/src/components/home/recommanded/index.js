@@ -57,11 +57,11 @@ const Wrapper = styled.div`
     position: absolute;
     top: 60px;
     left: 100px;
-
+    right: 50px;
     
     display: grid;
 
-    width: 90%;
+    // width: 90%;
     height: 300px;
 
     overflow: auto;
