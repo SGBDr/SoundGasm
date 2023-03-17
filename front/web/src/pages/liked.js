@@ -1,24 +1,39 @@
 import React from 'react';
+import { Like } from '../components/liked';
 
 import styled from 'styled-components';
 
 const Liked = () => {
 
   return (
-    <>
+    <Wrapper>
         <Title>Liked</Title>
-    </>
+        <Like />
+    </Wrapper>
   )
 }
 
 export default Liked
 
 export const Head = () => <title>Liked</title>
-const Title = styled.p`
-    position: absolute;
-    top: 25px;
-    left: 150px;
 
+const Wrapper = styled.div`
+
+    position: relative;
+    left: 100px;
+    top: 50px;
+
+    width: 90%;
+    height: 605px;
+
+`
+
+const Title = styled.div`
+    position: relative;
+    top: 0px;
+    left: 0px; 
+
+    padding: 3px;
     font-weight: 900;
     font-family: Teko;
     font-size: 28px;

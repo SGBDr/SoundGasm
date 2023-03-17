@@ -1,0 +1,35 @@
+import React from "react";
+import { LikeRecommand } from "./likeRecommand";
+import styled from "styled-components";
+import { List } from "./list";
+
+export function Like() {
+
+    const [data, setData] = React.useState([]);
+
+    React.useEffect(()=>{
+        fetch(
+            `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=LIKE`,
+            {
+              method: "GET",
+              headers: {
+                Token: "TOKEN_5e9234e1d7f9778089233419799ca7cb27136cb7"
+              }
+            }
+          )
+            .then(res => res.json())
+            .then(data => { console.log(data?.response?.musics); setData(data?.response?.musics)
+            })
+            .catch(err => console.log(err) );
+    }, [])
+
+    return (
+        data[0]?.music_id === undefined ? <></> :
+      <>
+        <div style={{display: 'flex', flexDirection:'row',}}>
+          <LikeRecommand data={data[data.length-1]} />
+          <List data={data} />
+        </div>
+      </>
+    );
+}

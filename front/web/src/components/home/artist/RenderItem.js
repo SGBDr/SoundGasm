@@ -15,7 +15,7 @@ export function RenderItem({ name }) {
       {
         method: "GET",
         headers: {
-          Token: localStorage.getItem('authToken'),
+          Token: "TOKEN_5e9234e1d7f9778089233419799ca7cb27136cb7",
         },
       }
     )
@@ -27,7 +27,7 @@ export function RenderItem({ name }) {
         setIsLoading(false);
       })
       .catch((err) => console.log("ok"));
-  }, []);
+  }, [name]);
 
   return (
     <Wrapper>
