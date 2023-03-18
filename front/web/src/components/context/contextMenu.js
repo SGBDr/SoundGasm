@@ -37,7 +37,7 @@ const RightClickWrap = styled.div`
 const MenuElement = styled.div`
     color: #222222;
     font-weight: 700;
-    font-color: Roboto;
+    font-color: Teko;
     cursor: pointer;
     padding: 10px;
     border-bottom: 1px solid rgba(40, 40, 40, 0.5);

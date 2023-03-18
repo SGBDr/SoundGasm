@@ -8,6 +8,7 @@ export const showNav = async (event, context, item, isLiked, setIsLiked) => {
     };
 
     const elmts = ["Ajouter à la liste", "Ajouter à la playlist", `${!isLiked ? "Ajouter aux" : "Retirer des"} favoris`, "Voir l'artiste"];
+    if (isLiked === undefined) elmts.splice(2, 1);
     const choice = await context("menu", { elements: elmts, xyPosition: position })
     if (choice) {
         console.log("choice =" + choice);

@@ -16,27 +16,29 @@ const TERM=[
 ];
 
 export function Recommande(){
-
+    const [isOk, setisOk] = React.useState(false)
     const [recommandedData, setRecommandedData] = React.useState([]);
 
     React.useEffect(()=>{
         const rand=Math.floor(Math.random()*TERM.length);
         console.log("rand = "+rand);
-        fetch(
-            `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${TERM[rand]} `,
-            {
-              method: "GET",
-              headers: {
-                Token: localStorage.getItem("authToken")
-              }
-            }
-          )
-            .then(res => res.json())
-            .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
-                console.log("get music message : " + data.message)
-                console.log("local storage token : " + localStorage.getItem("authToken"))
-            })
-            .catch(err => console.log(err) );
+        if(!isOk)
+            fetch(
+                `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${TERM[rand]} `,
+                {
+                method: "GET",
+                headers: {
+                    Token: localStorage.getItem("authToken")
+                }
+                }
+            )
+                .then(res => res.json())
+                .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
+                    setisOk(true);
+                    console.log("get music message : " + data.message)
+                    console.log("local storage token : " + localStorage.getItem("authToken"))
+                })
+                .catch(err => console.log(err) );
     }, [])
 
 

@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../../utils";
 
-export function RenderItem({ name }) {
+export function RenderItem({ id, name }) {
   const [imgSrc, setSrc] = React.useState("");
-  //const [mainImgWidth, setMainImgWidth] = React.useState(100);
+  const [isPref, setIsPref] = React.useState(false);
   //const [mainImgHeight, setMainImgHeight] = React.useState(100);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -29,11 +29,31 @@ export function RenderItem({ name }) {
       .catch((err) => console.log("ok"));
   }, [name]);
 
+  const handlePrefArtist = () => {
+    const url = `https://soundgasm.herokuapp.com/?controllers=artist&method=UPDATE&for=ADD_PREF&artist_id=${id}`
+    console.log("is Preference : "+isPref);
+    if(!isPref)
+      fetch(url,
+        {
+          method: "GET",
+          headers: {
+            Token: localStorage.getItem("authToken"),
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((resp) => {
+          console.log(resp.response);
+          setIsPref(true);
+        })
+        .catch((err) => console.log(err.message));
+  }
+
   return (
     <Wrapper>
         { isLoading ? (<p style={{color: "white", fontSize: "20px"}}>loading...</p>) : 
           (
-              <ContentWrapper>
+              <ContentWrapper className="tooltip" data-tooltip={(!isPref)?"Suivre l'artist ?":"Déjà suivi"} onClick={handlePrefArtist}>
               <Detail> <Text style={{ position: 'absolute', left: 55, top: 10}}>{name}</Text> </Detail>
               <Image
                 atl={name}
@@ -61,11 +81,30 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-
   display: flex;
   flex-direction: row;
-
   align-items: center;
+
+  &.tooltip{ pointer-events: all ;}
+
+  &.tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 80%;
+      left: 50%;
+      padding: 5px;
+      background-color: ${COLOR.playButtonCard};
+      color: ${COLOR.darkAlt};
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+  &.tooltip:hover::after {
+      opacity: 1;
+  }
 `;
 
 const Image = styled.img`

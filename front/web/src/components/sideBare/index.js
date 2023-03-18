@@ -23,7 +23,7 @@ export const SideBar = (props) => {
                 <ContentWrapper>
                     <Link to="/" data-tooltip='Home' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/home2.svg" /> </Link>
                     <Link to="/liked" data-tooltip='Liked' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
-                    <Link to="/album" data-tooltip='Album' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
+                    <Link to="/artist" data-tooltip='Artist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
                     <Link to="/playlist" data-tooltip='Playlist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
                     <Link to="#" data-tooltip='Logout' className='tooltip' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
 

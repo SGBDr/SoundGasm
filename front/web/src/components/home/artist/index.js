@@ -6,8 +6,9 @@ import { RenderItem } from './RenderItem';
 export function ArtistList(){
 
   const [artist, setArtist] = React.useState([]);
-  // const [ok, isOk] = React.useState(false);
+  const [isOk, setIsOk] = React.useState(false);
   React.useEffect(() => {
+    if(!isOk)
     fetch(
       "https://soundgasm.herokuapp.com/?controllers=artist&method=GET&all=true",
       {
@@ -19,6 +20,7 @@ export function ArtistList(){
     )
       .then((res) => res.json())
       .then((res) => {  setArtist(res.response)
+        setIsOk(true);
         console.log("get artist message : " + res.message)
         console.log("local storage token : " + localStorage.getItem("authToken"))
       })
@@ -29,7 +31,7 @@ export function ArtistList(){
         <Wrapper>
             <Title>Artist</Title>
             <ContentWrapper>
-                {artist===undefined?null:artist?.slice(0, 20)?.map((elm, i) => <RenderItem key={i} name={elm.name} />)}
+                {artist===undefined?null:artist?.slice(0, 20)?.map((elm, i) => <RenderItem key={i}  id={elm.artist_id} name={elm.name} />)}
             </ContentWrapper>
         </Wrapper>
     )
