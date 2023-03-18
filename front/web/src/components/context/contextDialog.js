@@ -3,7 +3,7 @@ import { ConfirmBox } from './confirmationBox';
 import { RightContext } from './contextMenu';
 const ContextDialog = createContext();
 
-export  const ContextDialogProvider = ({ children }) => {
+export  const ContextDialogProvider = React.memo(({ children }) => {
     const [diagState, setDiagState] = useState({isOpen: false});
     const [rightState, setRightState] = useState({isOpen: false});
 
@@ -46,7 +46,7 @@ export  const ContextDialogProvider = ({ children }) => {
             />
         </ContextDialog.Provider>
     )
-}
+})
 
 export default function useMyContext(){
     return useContext(ContextDialog);

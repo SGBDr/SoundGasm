@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import { RenderItem } from './RenderItem';
 
-export function MusicList(){
+export const MusicList = React.memo(() => {
   const [artist, setArtist] = useState(undefined);
   const [musics, setMusics] = useState([]);
 
@@ -39,13 +39,13 @@ export function MusicList(){
 
     return(
         <Wrapper>
-            <Title>Musics</Title>
+            <Title>{`${artist} Musics`}</Title>
             <ContentWrapper>
                 {musics===undefined?null:musics?.slice(0, 20)?.map((elm, i) => <RenderItem key={elm.music_id} name={elm.name} item={elm}/>)}
             </ContentWrapper>
         </Wrapper>
     )
-}
+})
 
 const Wrapper = styled.div`
 

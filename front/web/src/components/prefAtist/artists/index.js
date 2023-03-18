@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import {Card} from './Card'
 
-export function PrefArtists(){
+export const PrefArtists = React.memo(() => {
 
     const [artists, setArtists] = useState([]);
 
@@ -30,12 +30,12 @@ export function PrefArtists(){
         <Wrapper>
             <Title>Followed Artists</Title>
             <ContentWrapper>
-                {artists===undefined?null:artists?.map((elm, i) => <Card key={i} name={elm.name} />) }
+                {artists===undefined?null:artists?.map((elm, i) => <Card key={i} name={elm.name} id={elm.artist_id} />) }
             </ContentWrapper>
             
         </Wrapper>
     );
-}
+})
 
 const Wrapper = styled.div`
     position: absolute;

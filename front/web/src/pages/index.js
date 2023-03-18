@@ -2,7 +2,7 @@ import React from 'react';
 import { ArtistList } from '../components/home/artist';
 import { Recommande } from '../components/home/recommanded';
 
-const IndexPage = () => {
+const IndexPage = React.memo(() => {
 
   return (
     <div style={{margin: "0", padding: "0", display: "flex", flexDirection: "column"}}>
@@ -11,7 +11,7 @@ const IndexPage = () => {
     </div>
   )
 
-}
+})
 
 export default IndexPage
 

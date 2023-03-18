@@ -6,7 +6,7 @@ import { Searchbar } from "../searchbar"
 import { GlobalStyles } from "../../utils/GlobalStyles"
 import { ContextDialogProvider } from "../context/contextDialog"
 
-const PageWrapper = ({ element, props }) => {
+const PageWrapper = React.memo(({ element, props }) => {
     const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || undefined);
 
     function handleSetAuthToken(newToken) {
@@ -34,6 +34,6 @@ const PageWrapper = ({ element, props }) => {
             </div>
         </ContextDialogProvider>
     )
-}
+})
 
 export default PageWrapper;

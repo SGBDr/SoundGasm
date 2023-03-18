@@ -3,9 +3,19 @@ import styled from "styled-components";
 import { COLOR } from "../../../utils";
 
 
-export function Card({ name }) {
+export const Card = React.memo(({ name, id }) => {
   const [imgSrc, setSrc] = React.useState("");
-  // const [isLoading, setIsLoading] = React.useState(true);
+  const [isSelected, setIsSelected] = React.useState(false);
+
+  useEffect(()=>{
+    const checkSelected = (evt) => {
+      console.log("I get the event");
+      if (evt.detail.key === "artist" && evt.detail.newId === id)
+        setIsSelected(true);
+      else setIsSelected(false);
+    }
+    window.addEventListener("artistChange", checkSelected);
+  },[])
 
   useEffect(() => {
     // setIsLoading(true)
@@ -25,30 +35,23 @@ export function Card({ name }) {
         setSrc(resp.response.musics[0]?.rep_image);
         // setIsLoading(false);
       })
-      .catch((err) => console.log("ok"));
+      .catch((err) => console.log(err.message));
   }, [name]);
 
   const handleClickArtist = () => {
     window.dispatchEvent(new CustomEvent("artistChange", {
       detail: {
         key: "artist",
-        newValue: name
+        newValue: name,
+        newId: id
       }
     }));
   }
 
-  // function handleKeyDown(event, musicInfo) {
-  //   if (event.key === 'Enter') {
-  //     handlePlayMusic(musicInfo);
-  //   }
-  // }
-
-  // const context = useMyContext();
-
   const len = name.split("(")[0].length;
   // console.log(len);
   return (
-    <Wrapper>
+    <Wrapper className={(isSelected)?"select":""}>
       <ContentWrapper onClick={handleClickArtist}>
         <div style={{ display: "flex", flexDirection: "column", height: '150px', alignItems: "center", justifyContent: "space-between", }}>
           <Image src={imgSrc} alt={name} />
@@ -57,7 +60,7 @@ export function Card({ name }) {
       </ContentWrapper>
     </Wrapper>
   );
-}
+})
 
 const Wrapper = styled.div`
   color: rgba(255, 255, 255, 1);
@@ -70,11 +73,16 @@ const Wrapper = styled.div`
   height: 200px;
   border-radius: 20px;
 
+  &.select{
+    background-color: ${COLOR.menu};
+  }
+
   background-color: ${COLOR.text};
   transition: 0.3s ease-in-out;
   :hover {
+    cursor: pointer;
     transform: translateY(-5px);
-    background-color: #FFE2D3;
+    background-color: #FFED3;
   }
 `;
 const ContentWrapper = styled.div`

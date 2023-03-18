@@ -15,14 +15,14 @@ const TERM=[
     "ca"
 ];
 
-export function Recommande(){
-    const [isOk, setisOk] = React.useState(false)
+export const Recommande = React.memo(() => {
+    // const [isOk, setisOk] = React.useState(false)
     const [recommandedData, setRecommandedData] = React.useState([]);
 
     React.useEffect(()=>{
         const rand=Math.floor(Math.random()*TERM.length);
         console.log("rand = "+rand);
-        if(!isOk)
+        // if(!isOk)
             fetch(
                 `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${TERM[rand]} `,
                 {
@@ -34,7 +34,7 @@ export function Recommande(){
             )
                 .then(res => res.json())
                 .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
-                    setisOk(true);
+                    // setisOk(true);
                     console.log("get music message : " + data.message)
                     console.log("local storage token : " + localStorage.getItem("authToken"))
                 })
@@ -53,7 +53,7 @@ export function Recommande(){
             
         </Wrapper>
     );
-}
+})
 
 const Wrapper = styled.div`
     position: absolute;

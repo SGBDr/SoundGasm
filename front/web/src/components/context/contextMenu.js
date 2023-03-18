@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../utils";
 
-export const RightContext = ({ isOpen, onClose, elements, xyPosition, onChoice }) => {
+export const RightContext = React.memo(({ isOpen, onClose, elements, xyPosition, onChoice }) => {
     
     return (
         isOpen && (
@@ -13,7 +13,7 @@ export const RightContext = ({ isOpen, onClose, elements, xyPosition, onChoice }
             </ContentBox>
         )
     )
-}
+})
 
 const ContentBox = styled.div`
     height: 100%;

@@ -3,7 +3,7 @@ import { Like } from '../components/liked';
 
 import styled from 'styled-components';
 
-const Liked = () => {
+const Liked = React.memo(() => {
 
   return (
     <Wrapper>
@@ -11,7 +11,7 @@ const Liked = () => {
         <Like />
     </Wrapper>
   )
-}
+})
 
 export default Liked
 

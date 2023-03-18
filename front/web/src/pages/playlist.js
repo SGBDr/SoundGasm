@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { PlaylistList } from '../components/home/playlist';
 
-const Playlist = () => {
+const Playlist = React.memo(() => {
 
   return (
     <>
@@ -11,7 +11,7 @@ const Playlist = () => {
       <PlaylistList />
     </>
   )
-}
+})
 
 export default Playlist
 

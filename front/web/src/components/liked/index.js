@@ -1,9 +1,9 @@
 import React from "react";
 import { LikeRecommand } from "./likeRecommand";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { List } from "./list";
 
-export function Like() {
+export const Like = React.memo(() => {
 
     const [data, setData] = React.useState([]);
 
@@ -32,4 +32,4 @@ export function Like() {
         </div>
       </>
     );
-}
+})

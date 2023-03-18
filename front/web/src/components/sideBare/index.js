@@ -4,13 +4,13 @@ import { COLOR } from '../../utils';
 import { Link } from 'gatsby';
 import useMyContext from '../context/contextDialog';
 
-export const SideBar = (props) => {
+export const SideBar = React.memo((props) => {
     const confirm = useMyContext();
 
     const handleDisconnect = async () => {
-        if (localStorage.getItem("authToken")){
+        if (localStorage.getItem("authToken")) {
             const choice = await confirm("confirm", { message: "Vous voulez vous déconnectez ?", confirmBtnLabel: "Déconnecter" });
-            if(choice){
+            if (choice) {
                 localStorage.removeItem("authToken");
                 props.setAuthToken(undefined);
             }
@@ -32,7 +32,7 @@ export const SideBar = (props) => {
         </>
     );
 
-}
+})
 
 const Wrapper = styled.div`
     display: flex;
@@ -82,11 +82,9 @@ const ContentWrapper = styled.div`
         transition: opacity 0.3s ease;
       }
 
-      .tooltip:hover::after {
-  opacity: 1;
-}
-
-
+    .tooltip:hover::after {
+        opacity: 1;
+    }
 `;
 
 const Img = styled.img`

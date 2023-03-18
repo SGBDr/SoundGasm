@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../../utils";
 
-export function RenderItem({ id, name }) {
+export const RenderItem = React.memo(({ id, name }) => {
   const [imgSrc, setSrc] = React.useState("");
   const [isPref, setIsPref] = React.useState(false);
   //const [mainImgHeight, setMainImgHeight] = React.useState(100);
@@ -67,7 +67,7 @@ export function RenderItem({ id, name }) {
         }
     </Wrapper>
   );
-}
+})
 
 const Wrapper = styled.div`
   position: relative;
@@ -77,6 +77,7 @@ const Wrapper = styled.div`
   transition: 0.3s ease-in-out;
   :hover {
     transform: translateY(-5px);
+    cursor: pointer;
   }
 `;
 

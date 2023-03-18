@@ -4,7 +4,7 @@ import { COLOR } from '../../utils';
 import { Controller } from './controller';
 import * as CL from './list';
 
-export const Reader = () => {
+export const Reader = React.memo(() => {
     const [musicInfo, setMusicInfo] = useState(undefined);
     const [music, setMusic] = useState(undefined);
 
@@ -63,7 +63,7 @@ export const Reader = () => {
         </Wrapper>
     );
 
-}
+})
 
 const Wrapper = styled.div`
     bottom: 15px;

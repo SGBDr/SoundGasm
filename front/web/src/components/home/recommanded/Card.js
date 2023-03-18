@@ -23,19 +23,22 @@ function handleKeyDown(event, musicInfo) {
   }
 }
 
-export function Card({ item }) {
+export const Card = React.memo(({ item }) => {
   const [isLiked, setIsLiked] = useState(false);
+
+  // Initialisation with useEffect
   useEffect(() => {
     isMusicLiked(item.music_id, setIsLiked, false);
-
     const handleIsLikedChange = (event) => {
-      console.log("he he hey");
       if (event.detail.key === "like" && event.detail.id === item.music_id)
         setIsLiked(event.detail.newValue)
     }
-
     window.addEventListener("likeChange", handleIsLikedChange);
-  }, []);
+  }, [ item ]);
+
+  // Changes in Liked state in reader are sent to recomended cards but not the reverse
+  // Liking current playing music via recommended tab won't update like on reader
+  
 
   const context = useMyContext();
 
@@ -56,7 +59,7 @@ export function Card({ item }) {
       </ContentWrapper>
     </Wrapper>
   );
-}
+})
 
 const Wrapper = styled.div`
   color: rgba(255, 255, 255, 1);
@@ -97,7 +100,7 @@ const ContentWrapper = styled.div`
     &:hover{
       width: 36px;
       height: 36px;
-      background-color: ${COLOR.secondary};
+      background-color: orange;
       cursor: pointer;
     }
   }  

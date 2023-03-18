@@ -4,7 +4,7 @@ import { COLOR } from '../../utils';
 import * as CL from './list';
 import { isMusicLiked, handleMusicLike } from '../context/contextMenuManager';
 
-export const Controller = (props) => {
+export const Controller = React.memo((props) => {
     // initialise Ref to manipulate inbuild audio tag
     const audioRef = useRef(null);
     const [music, setMusic] = useState(props.music);
@@ -20,14 +20,14 @@ export const Controller = (props) => {
         setMusic(props.music);
     }, [props.music]);
 
-    useEffect(()=>{
+    useEffect(() => {
         const handleMusicEvent = (event) => {
             if (event.detail.key === "musicInfo")
-             setIsLoaded(true);
-          }
-      
-          window.addEventListener("storage", handleMusicEvent);
-    })
+                setIsLoaded(true);
+        }
+
+        window.addEventListener("storage", handleMusicEvent);
+    }, [])
 
     // Dispatch event on isLiked Change
     useEffect(() => {
@@ -114,7 +114,11 @@ export const Controller = (props) => {
     const handleNext = () => {
         if (CL.getCurrentIndex() < CL.getList().length)
             props.handleChange(1);
-        else setIsPlaying({ state: false, text: "play" });
+        else {
+            setIsPlaying({ state: false, text: "play" });
+            audioRef.current.currentTime = duration;
+            audioRef.current.pause();
+        }
     }
 
     const handlePrevious = () => {
@@ -146,7 +150,7 @@ export const Controller = (props) => {
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
                 onEnded={handleAudioEnded}
-            />
+            ><track kind="captions" src="" label="English" /></audio>
             <ControlRangeWrapper>
                 <input className="play-range"
                     type="range"
@@ -169,7 +173,7 @@ export const Controller = (props) => {
         </ControlWrapper>
     );
 
-}
+})
 
 const ControlWrapper = styled.div`
     display: flex;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function List({artist, id}){
+export const List = React.memo(({artist, id}) => {
 
     const [data, setData] = React.useState([]);
 
@@ -26,4 +26,4 @@ export function List({artist, id}){
             <></> :
             data?.filter(elm => elm.music_id !== id)?.map(elm => <p>{elm.name}</p>)
     )
-}
+})

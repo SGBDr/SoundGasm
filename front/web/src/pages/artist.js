@@ -1,7 +1,7 @@
 import React from 'react';
 import { PrefArtists } from '../components/prefAtist/artists';
 import { MusicList } from '../components/prefAtist/musics';
-const Artist = () => {
+const Artist = React.memo(() => {
 
   return (
     <>
@@ -9,7 +9,7 @@ const Artist = () => {
       <MusicList />
     </>
   )
-}
+})
 
 export default Artist
 

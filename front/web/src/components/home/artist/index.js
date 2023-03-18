@@ -3,12 +3,11 @@ import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import { RenderItem } from './RenderItem';
 
-export function ArtistList(){
+export const ArtistList = React.memo(() => {
 
   const [artist, setArtist] = React.useState([]);
-  const [isOk, setIsOk] = React.useState(false);
+  // const [isOk, setIsOk] = React.useState(false);
   React.useEffect(() => {
-    if(!isOk)
     fetch(
       "https://soundgasm.herokuapp.com/?controllers=artist&method=GET&all=true",
       {
@@ -20,7 +19,7 @@ export function ArtistList(){
     )
       .then((res) => res.json())
       .then((res) => {  setArtist(res.response)
-        setIsOk(true);
+        // setIsOk(true);
         console.log("get artist message : " + res.message)
         console.log("local storage token : " + localStorage.getItem("authToken"))
       })
@@ -35,7 +34,7 @@ export function ArtistList(){
             </ContentWrapper>
         </Wrapper>
     )
-}
+})
 
 const Wrapper = styled.div`
 

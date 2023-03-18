@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 
-export function ConfirmBox ({ isOpen, onClose, message, confirmBtnLabel, onConfirm }) {
+export const ConfirmBox = React.memo(({ isOpen, onClose, message, confirmBtnLabel, onConfirm }) => {
     return (
         isOpen && (
             <Box>
@@ -16,7 +16,7 @@ export function ConfirmBox ({ isOpen, onClose, message, confirmBtnLabel, onConfi
             </Box>
         )
     )
-}
+});
 
 const Box = styled.div`
     height: 100%;
