@@ -10,8 +10,8 @@ export const initaliseList = () => {
     const userName = localStorage.getItem("userName");
     const myList = JSON.parse(localStorage.getItem(`${userName}CurrentList`));
     const index = JSON.parse(localStorage.getItem(`${userName}CurrentIndex`));
-    if (myList) list = myList;
-    if (index) current = index;
+    list = (myList) ? myList: [];
+    current = (index)? index: 0;
     return list;
 }
 
@@ -26,7 +26,7 @@ export const updateList = () => {
 }
 
 export const setCurrentIndex = (val) => {
-    console.log(val+" % "+list.length);
+    console.log(val+" / "+list.length);
     current = (val) ;
     updateList();
 }
@@ -36,14 +36,16 @@ export const getCurrentIndex = () => {
 }
 
 export const getCurrentValue = () => {
+    console.log("element courant : "+current);
+    if(current > 0 && current <= list.length)
     return JSON.parse(list[current-1]);
 }
 
 export const addToList = (value) => {
-    if(list.length < 20);
-    console.log(value);
-    list.push(value);
-    updateList();
+    if(list.length < 20){
+        list.push(value);
+        updateList();
+    }
 }
 
 export const batchAddToList = (values) => {

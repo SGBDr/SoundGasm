@@ -20,6 +20,14 @@ export const Controller = (props) => {
         setMusic(props.music);
     }, [props.music]);
 
+    useEffect(()=>{
+        const handleMusicEvent = (event) => {
+            if (event.detail.key === "musicInfo")
+             setIsLoaded(true);
+          }
+      
+          window.addEventListener("storage", handleMusicEvent);
+    })
 
     // Dispatch event on isLiked Change
     useEffect(() => {

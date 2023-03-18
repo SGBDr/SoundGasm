@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
+import { initaliseList } from '../reader/list';
 
 export const LoginBox = (props) => {
     // const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +21,8 @@ export const LoginBox = (props) => {
               props.setAuthToken(token);
               localStorage.setItem("authToken", token);
               localStorage.setItem("userName", email.split('@')[0]);
+              initaliseList();
+              console.log("UserName: "+email.split('@')[0]);
               console.log("Authtoken: "+token);
             } else throw new Error("Authentification failed");
           })
