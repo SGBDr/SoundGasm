@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
+import * as cleanUp from "../../utils/authClean";
 
 const AccountCreationForm = React.memo(({ setCreating }) => {
     const [name, setName] = useState("");
@@ -8,7 +9,7 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
     const [email, setEmail] = useState("");
     const [telephone, setTelephone] = useState("");
     const [password, setPassword] = useState("");
-
+    const  msgRef = useRef(null);
     const handleSubmit = (event) => {
         event.preventDefault();
         fetch(
@@ -18,10 +19,18 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
           }
         )
           .then((res) => res.json())
-          .then((data) => console.log(data))
-          .catch((err) => console.log("error", err))
-        setTimeout(()=>setCreating(false), 1000);
-        ;
+          .then((data) => {
+            if(!data.response.Inscription) {
+              msgRef.current.style.display = 'block';
+              setTimeout(() => {
+                msgRef.current.style.display = 'none';
+              }, 3000);
+            } else setTimeout(()=>setCreating(false), 1000);
+            console.log(data)
+        })
+        .catch((err) => console.log(err));
+        
+        
         // Handle account creation logic
     };
 
@@ -45,6 +54,7 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
                     <Label>
                         Mot de passe: <Input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
                     </Label>
+                    <Span ref={msgRef}>Une erreur s'est produite. Reéssayez !</Span>
                     <Button type="submit">Creer compte</Button>
                 </LoginForm>
             </LoginWrapper>
@@ -121,4 +131,11 @@ const Button = styled.button`
     color: ${COLOR.text};
     transition: 0.2s ease-out;
   }
+`;
+
+const Span = styled.span`
+  color: red;
+  font-size: 16px;
+  display: none;
+  transition: 0.2s ease-out;
 `;

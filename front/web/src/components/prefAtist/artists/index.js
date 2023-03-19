@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import {Card} from './Card'
+import * as cleanUp from '../../../utils/authClean';
 
 export const PrefArtists = React.memo(() => {
 
@@ -19,10 +20,10 @@ export const PrefArtists = React.memo(() => {
           )
             .then(res => res.json())
             .then(data => { setArtists(data.response)
-                console.log("get music message : " + data.message)
+                if(data.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
                 console.log("local storage token : " + localStorage.getItem("authToken"))
             })
-            .catch(err => console.log(err) );
+            .catch((err) => console.log(err));
     }, [])
 
 

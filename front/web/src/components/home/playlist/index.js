@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import { CardAlbum } from './CardAlbum';
 import {Link} from 'gatsby';
+import * as cleanUp from '../../../utils/authClean';
 
 export function PlaylistList(){
     
@@ -20,8 +21,13 @@ export function PlaylistList(){
       }
     )
       .then((res) => res.json())
-      .then((res) => {setPlaylist(res.response.playlists);console.log(res);})
-      .catch((err) => console.log("error", err));
+      .then((res) => {
+        if(res.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+        setPlaylist(res.response.playlists);
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+
   }, [ok]);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -47,8 +53,11 @@ export function PlaylistList(){
           }
         )
           .then((res) => res.json())
-          .then((data) => console.log(data))
-          .catch((err) => console.log("error", err));
+          .then((data) => {
+            if(data.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+            console.log(data)
+          })
+          .catch((err) => console.log(err));
       }
   };
 

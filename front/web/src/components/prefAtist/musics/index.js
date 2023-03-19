@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import { RenderItem } from './RenderItem';
+import * as cleanUp from '../../../utils/authClean';
 
 export const MusicList = React.memo(() => {
   const [artist, setArtist] = useState(undefined);
@@ -30,11 +31,12 @@ export const MusicList = React.memo(() => {
         }
       )
         .then((res) => res.json())
-        .then((data) => {  setMusics(data.response.musics)
-          console.log("get music message : " + data.message)
-          console.log("local storage token : " + localStorage.getItem("authToken"))
+        .then((data) => { 
+          if(data.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+           setMusics(data.response.musics)
+           console.log("local storage token : " + localStorage.getItem("authToken"))
         })
-        .catch((err) => console.log("error", err));
+        .catch((err) => console.log(err));
   }, [artist]);
 
     return(

@@ -35,6 +35,7 @@ export const LoginBox = (props) => {
               msgRef.current.style.display = 'none';
             }, 3000);
           });
+          
     };
 
   return (

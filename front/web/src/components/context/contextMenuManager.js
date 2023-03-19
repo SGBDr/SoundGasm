@@ -1,4 +1,5 @@
 import { addToList } from "../reader/list";
+import * as cleanUp from "../../utils/authClean";
 
 export const showNav = async (event, context, item, isLiked, setIsLiked) => {
     event.preventDefault();
@@ -52,6 +53,7 @@ export const isMusicLiked = (id, setIsLiked, player) => {
         })
         .then(res => res.json())
         .then(result => {
+            if(result.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
             const likedMusics = result.response.musics;
             // console.log("Liked Musics");
             // console.log(likedMusics);
@@ -59,9 +61,7 @@ export const isMusicLiked = (id, setIsLiked, player) => {
             if (player) setIsLiked((mySong) ? { state: true, text: "like-on" } : { state: false, text: "like-off" });
             else setIsLiked((mySong) ? true : false);
         })
-        .catch(err => {
-            console.log(err)
-        });
+        .catch((err) => console.log(err));
 }
 
 export const handleMusicLike = (id, isLiked, setIsLiked, player) => {
@@ -77,9 +77,10 @@ export const handleMusicLike = (id, isLiked, setIsLiked, player) => {
         })
         .then(res => res.json())
         .then(result => {
+            if(result.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
             console.log(result.response)
             if (player) setIsLiked((isLiked) ? { state: false, text: "like-off" } : { state: true, text: "like-on" });
             else setIsLiked((isLiked) ? false : true);
         })
-        .catch(err => console.log(err))
+        .catch((err) => console.log(err));
 }
