@@ -8,7 +8,7 @@ import { GlobalStyles } from '../utils/GlobalStyles';
 import { PlaylistList } from '../components/home/playlist';
 
 const Playlist = () => {
-  const [authToken, setAuthToken] = useState("TOKEN_5e9234e1d7f9778089233419799ca7cb27136cb7");
+  const [authToken, setAuthToken] = useState("TOKEN_01036ee5c48a425148cf6a127cdfe4d3a416d8cb");
 
   function handleSetAuthToken(newToken) {
     setAuthToken(newToken);
