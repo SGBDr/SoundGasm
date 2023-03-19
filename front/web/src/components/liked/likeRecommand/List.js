@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {COLOR} from '../../../utils/index'
+import {COLOR} from '../../../utils/index';
 
-export const List = React.memo(({artist, id}) => {
+export const List = React.memo(({artist, id}) =>{
 
     const [data, setData] = React.useState([]);
 
@@ -41,10 +41,9 @@ export const List = React.memo(({artist, id}) => {
             <></> :
             data?.filter(elm => elm.music_id !== id)?.slice(0, 5)?.map(elm => <Render elm={elm} />)
     )
-}
+})
 
 const Wrapper = styled.div`
-
   display: flex;
   flex-direction: column;
   
