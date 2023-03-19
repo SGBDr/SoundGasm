@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { List } from "./List";
+import {COLOR} from "../../../utils/index"
 
 export const LikeRecommand = React.memo(({data}) => {
     const {name, rep_image, artist} = data
@@ -21,8 +22,8 @@ export const LikeRecommand = React.memo(({data}) => {
                 </TextWrapper>
 
             </ContentWrapper>
-            <div style={{border: '1px solid white', marginTop:'30px'}}>
-                <List data={data} />
+            <div style={{marginTop:'30px', background: COLOR.darkAlt, borderRadius: "12px"}}>
+                <List artist={artist} id={data.music_id} />
             </div>
         </Wrapper>
     );
