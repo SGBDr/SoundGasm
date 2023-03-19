@@ -18,7 +18,7 @@ export function Searchbar(){
         {
           method: "GET",
           headers: {
-            Token: "TOKEN_01036ee5c48a425148cf6a127cdfe4d3a416d8cb",
+            Token: localStorage.getItem("authToken")
           }
         }  )
             .then(res=> res.json())
@@ -81,10 +81,11 @@ const SearchIcon = styled.img`
 const Wrapper = styled.div`
     position: absolute;
     height: 60px;
-    width: 90%;
+    // width: 90%;
     top: 0;
     gap: 30px;
     left: 100px;
+    right: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;

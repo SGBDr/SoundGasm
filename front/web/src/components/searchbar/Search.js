@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 // import Image from "next/image";
 // import { articleHref, getCookie } from "./Tools";
 
-export default function Search() {
+  const Search = React.memo(() => {
 //   const router = useRouter();
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -169,4 +169,6 @@ export default function Search() {
       </div>
     </div>
   );
-}
+})
+
+export default Search;

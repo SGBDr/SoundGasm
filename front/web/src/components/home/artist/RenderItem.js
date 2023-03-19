@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { COLOR } from "../../../utils";
 
-export function RenderItem({ name }) {
+export const RenderItem = React.memo(({ id, name }) => {
   const [imgSrc, setSrc] = React.useState("");
-  //const [mainImgWidth, setMainImgWidth] = React.useState(100);
+  const [isPref, setIsPref] = React.useState(false);
   //const [mainImgHeight, setMainImgHeight] = React.useState(100);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -15,7 +15,7 @@ export function RenderItem({ name }) {
       {
         method: "GET",
         headers: {
-          Token: "TOKEN_01036ee5c48a425148cf6a127cdfe4d3a416d8cb",
+          Token: localStorage.getItem("authToken"),
         },
       }
     )
@@ -29,11 +29,31 @@ export function RenderItem({ name }) {
       .catch((err) => console.log("ok"));
   }, [name]);
 
+  const handlePrefArtist = () => {
+    const url = `https://soundgasm.herokuapp.com/?controllers=artist&method=UPDATE&for=ADD_PREF&artist_id=${id}`
+    console.log("is Preference : "+isPref);
+    if(!isPref)
+      fetch(url,
+        {
+          method: "GET",
+          headers: {
+            Token: localStorage.getItem("authToken"),
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((resp) => {
+          console.log(resp.response);
+          setIsPref(true);
+        })
+        .catch((err) => console.log(err.message));
+  }
+
   return (
     <Wrapper>
         { isLoading ? (<p style={{color: "white", fontSize: "20px"}}>loading...</p>) : 
           (
-              <ContentWrapper>
+              <ContentWrapper className="tooltip" data-tooltip={(!isPref)?"Suivre l'artist ?":"Déjà suivi"} onClick={handlePrefArtist}>
               <Detail> <Text style={{ position: 'absolute', left: 55, top: 10}}>{name}</Text> </Detail>
               <Image
                 atl={name}
@@ -47,7 +67,7 @@ export function RenderItem({ name }) {
         }
     </Wrapper>
   );
-}
+})
 
 const Wrapper = styled.div`
   position: relative;
@@ -57,15 +77,35 @@ const Wrapper = styled.div`
   transition: 0.3s ease-in-out;
   :hover {
     transform: translateY(-5px);
+    cursor: pointer;
   }
 `;
 
 const ContentWrapper = styled.div`
-
   display: flex;
   flex-direction: row;
-
   align-items: center;
+
+  &.tooltip{ pointer-events: all ;}
+
+  &.tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 80%;
+      left: 50%;
+      padding: 5px;
+      background-color: ${COLOR.playButtonCard};
+      color: ${COLOR.darkAlt};
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+  &.tooltip:hover::after {
+      opacity: 1;
+  }
 `;
 
 const Image = styled.img`

@@ -15,28 +15,30 @@ const TERM=[
     "ca"
 ];
 
-export function Recommande(){
-
+export const Recommande = React.memo(() => {
+    // const [isOk, setisOk] = React.useState(false)
     const [recommandedData, setRecommandedData] = React.useState([]);
 
     React.useEffect(()=>{
         const rand=Math.floor(Math.random()*TERM.length);
         console.log("rand = "+rand);
-        fetch(
-            `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${TERM[rand]} `,
-            {
-              method: "GET",
-              headers: {
-                Token: "TOKEN_01036ee5c48a425148cf6a127cdfe4d3a416d8cb",
-              }
-            }
-          )
-            .then(res => res.json())
-            .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
-                console.log("get music message : " + data.message)
-                console.log("local storage token : " + localStorage.getItem("authToken"))
-            })
-            .catch(err => console.log(err) );
+        // if(!isOk)
+            fetch(
+                `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${TERM[rand]} `,
+                {
+                method: "GET",
+                headers: {
+                    Token: localStorage.getItem("authToken")
+                }
+                }
+            )
+                .then(res => res.json())
+                .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
+                    // setisOk(true);
+                    console.log("get music message : " + data.message)
+                    console.log("local storage token : " + localStorage.getItem("authToken"))
+                })
+                .catch(err => console.log(err) );
     }, [])
 
 
@@ -51,17 +53,16 @@ export function Recommande(){
             
         </Wrapper>
     );
-}
+})
 
 const Wrapper = styled.div`
     position: absolute;
     top: 60px;
     left: 100px;
-
+    right: 50px;
     
     display: grid;
 
-    width: 90%;
     height: 300px;
 
     overflow: auto;

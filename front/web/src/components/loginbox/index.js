@@ -1,11 +1,14 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
+import { initaliseList } from '../reader/list';
+import AccountCreationForm from './accountCreation';
 
 export const LoginBox = (props) => {
     // const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isCreating, setIsCreating] = useState(false);
     const msgRef = useRef(null);
 
     const handleSubmit = (event) => {
@@ -18,7 +21,10 @@ export const LoginBox = (props) => {
             if(data.response.logIn){
               const token = data.response.TOKEN;
               props.setAuthToken(token);
-              localStorage.setItem("authToken", token)
+              localStorage.setItem("authToken", token);
+              localStorage.setItem("userName", email.split('@')[0]);
+              initaliseList();
+              console.log("UserName: "+email.split('@')[0]);
               console.log("Authtoken: "+token);
             } else throw new Error("Authentification failed");
           })
@@ -32,6 +38,7 @@ export const LoginBox = (props) => {
     };
 
   return (
+    (!isCreating) ? 
     <LoginContainer>
       <Title>Login</Title>
       <LoginWrapper>
@@ -54,10 +61,11 @@ export const LoginBox = (props) => {
         <Span ref={msgRef}>Email ou mot de passe invalide. Reéssayez !</Span>
         <Button type="submit">Connecter</Button>
         <Link href="#">Mot de passe oublié ?</Link>
-        <Link href="#">Aucun compte ? Inscription</Link>
+        <Link href="#" onClick={()=>setIsCreating(true)}>Aucun compte ? Inscription</Link>
       </LoginForm>
     </LoginWrapper>
     </LoginContainer>
+    : <AccountCreationForm setCreating={setIsCreating} />
     
   );
 

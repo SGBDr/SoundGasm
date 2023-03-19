@@ -1,9 +1,9 @@
 import React from "react";
 import { LikeRecommand } from "./likeRecommand";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { List } from "./list";
 
-export function Like() {
+export const Like = React.memo(() => {
 
     const [data, setData] = React.useState([]);
 
@@ -13,7 +13,7 @@ export function Like() {
             {
               method: "GET",
               headers: {
-                Token: "TOKEN_01036ee5c48a425148cf6a127cdfe4d3a416d8cb",
+                Token: localStorage.getItem("authToken")
               }
             }
           )
@@ -32,4 +32,4 @@ export function Like() {
         </div>
       </>
     );
-}
+})

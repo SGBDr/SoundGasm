@@ -3,22 +3,23 @@ import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import { RenderItem } from './RenderItem';
 
-export function ArtistList(){
-    
+export const ArtistList = React.memo(() => {
+
   const [artist, setArtist] = React.useState([]);
-  // const [ok, isOk] = React.useState(false);
+  // const [isOk, setIsOk] = React.useState(false);
   React.useEffect(() => {
     fetch(
       "https://soundgasm.herokuapp.com/?controllers=artist&method=GET&all=true",
       {
         method: "GET",
         headers: {
-          Token: "TOKEN_01036ee5c48a425148cf6a127cdfe4d3a416d8cb",
+          Token: localStorage.getItem("authToken")
         }
       }
     )
       .then((res) => res.json())
       .then((res) => {  setArtist(res.response)
+        // setIsOk(true);
         console.log("get artist message : " + res.message)
         console.log("local storage token : " + localStorage.getItem("authToken"))
       })
@@ -29,43 +30,41 @@ export function ArtistList(){
         <Wrapper>
             <Title>Artist</Title>
             <ContentWrapper>
-                {artist===undefined?null:artist?.slice(0, 15)?.map((elm, i) => <RenderItem key={i} name={elm.name} />)}
+                {artist===undefined?null:artist?.slice(0, 20)?.map((elm, i) => <RenderItem key={i}  id={elm.artist_id} name={elm.name} />)}
             </ContentWrapper>
         </Wrapper>
     )
-}
+})
 
 const Wrapper = styled.div`
 
     position: absolute;
     top: 380px;
     left: 100px;
+    right: 50px;
+    bottom: 130px;
 
-    
-    display: grid;
-    align-items:space-between;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    justify-content: space-evenly;
 
-    width:90%;
-    height: 320px;
-    margin-bottom: 30px;
     border-radius: 20px;
-
+    // border: 1px solid red;
     background-color: ${COLOR.darkAlt};
 
 `;
 
 const ContentWrapper = styled.div`
     display: flex;
+    flex 1;
     flex-wrap: wrap;
     padding: 0 30px;
-    height: 240px;
-
     overflow: auto;
     ::-webkit-scrollbar { width: 0;};
-
+    // border: 1px solid blue;
     justify-content:space-between;
-    
+
 `;
 
 const Title = styled.p`
@@ -76,4 +75,5 @@ const Title = styled.p`
     color: white;
     font-size: 28px;
     padding-left: 30px;
+    // border: 1px solid orange;
 `;

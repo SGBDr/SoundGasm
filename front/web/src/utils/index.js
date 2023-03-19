@@ -6,7 +6,9 @@ export const COLOR = {
     text: '#EFEEE0',
     textBlur: 'rgba(239, 238, 224, 0.9)',
     darkAlt: '#111516',
-    transparent: ' #FFFFFF00'
+    transparent: ' #FFFFFF00',
+    menuHover: 'rgba(48, 60, 70, 0.8)',
+    menu: 'rgba(124, 141, 181, .9)'
 };
 
 export const SIZE = {

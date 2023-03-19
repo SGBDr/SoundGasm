@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { List } from "./List";
 import {COLOR} from "../../../utils/index"
 
-export function LikeRecommand({data}){
+export const LikeRecommand = React.memo(({data}) => {
     const {name, rep_image, artist} = data
     return(
         <Wrapper style={{marginTop: '15px', width: "50%",}}>
@@ -27,7 +27,7 @@ export function LikeRecommand({data}){
             </div>
         </Wrapper>
     );
-}
+})
 
 const Wrapper = styled.div`
     display: flex;

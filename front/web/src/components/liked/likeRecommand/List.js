@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {COLOR} from '../../../utils/index'
 
-export function List({artist, id}){
+export const List = React.memo(({artist, id}) => {
 
     const [data, setData] = React.useState([]);
 
@@ -13,7 +13,7 @@ export function List({artist, id}){
             {
               method: "GET",
               headers: {
-                Token: "TOKEN_01036ee5c48a425148cf6a127cdfe4d3a416d8cb",
+                Token: localStorage.getItem("authToken")
               }
             }
           )
