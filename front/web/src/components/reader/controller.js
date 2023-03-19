@@ -116,7 +116,8 @@ export const Controller = React.memo((props) => {
             props.handleChange(1);
         else {
             setIsPlaying({ state: false, text: "play" });
-            audioRef.current.currentTime = duration;
+            console.log('hey you');
+            audioRef.current.currentTime = 0;
             audioRef.current.pause();
         }
     }
