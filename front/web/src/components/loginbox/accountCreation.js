@@ -11,6 +11,7 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        
         setTimeout(()=>setCreating(false), 1000);
         ;
         // Handle account creation logic
