@@ -11,7 +11,15 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
+        fetch(
+          "https://soundgasm.herokuapp.com/?controllers=auth&method=POST&email="+email+"&password="+password+"&action=inscription",
+          {
+            method: "POST",
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => console.log(data))
+          .catch((err) => console.log("error", err))
         setTimeout(()=>setCreating(false), 1000);
         ;
         // Handle account creation logic
@@ -21,7 +29,7 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
         <LoginContainer>
             <Title>Créeé votre compte</Title>
             <LoginWrapper>
-                <LoginForm onSubmit={handleSubmit}>
+                <LoginForm onSubmit={handleSubmit} method="POST">
                     <Label>
                         Nom: <Input type="text" value={name} onChange={(event) => setName(event.target.value)} />
                     </Label>
