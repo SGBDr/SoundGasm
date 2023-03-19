@@ -50,6 +50,19 @@ include_once("./api/utils/import.php");
                 return new Identifier($row["identifier_id"], $row["email"], "*******", $row["active"], $row["role"]);
             return null;             
         }
+        /**
+         * Summary of findByEmail
+         * @param string $email
+         * @return Identifier | null
+         */
+        public function findByEmail(string $email): Identifier | null{
+            // get identifier by email (trying authetification)
+            $result = $this->con->query("SELECT * FROM identifiers WHERE email = '".$email."''");
+            if($row = $result->fetch())
+                return new Identifier($row["identifier_id"], $row["email"], "*******", $row["active"], $row["role"]);
+            return null;             
+        }
+
 
         /**
          * Summary of update
@@ -82,17 +95,18 @@ include_once("./api/utils/import.php");
 
         /**
          * Summary of add
-         * @param Identifier $identifier
+         * @param string $email
+         * @param string $password
          * @return Identifier | null
          */
-        public function save(Identifier $identifier): Identifier | null{
+        public function save(string $email,string $password): Identifier | null{
             $stmt = $this->con->prepare("INSERT INTO musics(email,password,active,role) VALUES(:email, :password, :active, :role)");
-            $stmt->bindValue(':email', $identifier->getEmail());
-            $stmt->bindValue(':password', sha1($identifier->getPassword()));
-            $stmt->bindValue(':active', $identifier->getActive());
-            $stmt->bindValue(':role', $identifier->getRole());
+            $stmt->bindValue(':email', $email);
+            $stmt->bindValue(':password', sha1($password));
+            $stmt->bindValue(':active', 1);
+            $stmt->bindValue(':role', "USER");
             if($stmt->execute()){
-                $identifier->setIdentifier_id($this->con->lastInsertId());
+                $identifier=new Identifier($this->con->lastInsertId(),$email,$password,1,"USER");
                 return $identifier;
             }
             return null;

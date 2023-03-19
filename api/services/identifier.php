@@ -19,6 +19,10 @@ include_once("./api/utils/import.php");
             $identifier = $this->identifierRepo->findByEmailAndPassword($email, $password);
             return $identifier == null ? null : $identifier->json();
         }
+        public function getByEmail(string $email){
+            $identifier = $this->identifierRepo->findByEmail($email);
+            return $identifier == null ? null : $identifier->json();
+        }
 
         public function update(Identifier $identifier){
             if($identifier->getPassword() == "*")
@@ -31,8 +35,8 @@ include_once("./api/utils/import.php");
             return $this->identifierRepo->updateActive($identifier_id, $value);
         }
 
-        public function add(Identifier $identifier){
-            return $this->identifierRepo->save($identifier);
+        public function add(string $email,string $password){
+            return $this->identifierRepo->save($email,$password);
         }
 
 

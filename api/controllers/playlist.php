@@ -31,6 +31,4 @@ if($method == "GET"){
 // www.domain.com?controllers=playlist&method=PUT&name=:name
 else if ($method == "PUT")
     echo json_encode(array("response" => array("add" => $playlistServ->add($name,$ID)), "HttpCode" => 200, "datetime" => new datetime()));
-
-
 ?> 
