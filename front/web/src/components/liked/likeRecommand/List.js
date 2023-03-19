@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {COLOR} from '../../../utils/index'
 
-export const List = React.memo(({artist, id}) => {
+export const List = ({artist, id}) => {
 
     const [data, setData] = React.useState([]);
 
