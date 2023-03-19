@@ -47,7 +47,7 @@ include_once("./api/utils/import.php");
      */
     public function findByName(string $name, int $user_id): array{
         $playlists = array();
-        $stmt = $this->con->query("SELECT * FROM playlists WHERE user_id = ".$user_id." lower(name) Like '%".strtolower($name)."%'");
+        $stmt = $this->con->query("SELECT * FROM playlists WHERE user_id = ".$user_id." AND lower(name) LIKE '%".strtolower($name)."%' ");
         while($row = $stmt->fetch())
             array_push($playlists, $this->findById($row["playlist_id"]));
         

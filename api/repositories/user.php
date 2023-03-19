@@ -14,7 +14,6 @@ class UserRepo {
      * @param int $user_id
      * @return User
      */
-    /*
     public function getUserById(int $user_id): User {
         $stmt = $this->con->query("SELECT * FROM users WHERE user_id = ". $user_id);
         $result = $stmt->fetch();
@@ -41,7 +40,7 @@ class UserRepo {
         return 0;
     }
 
-   */
+   
 }
 
 ?>

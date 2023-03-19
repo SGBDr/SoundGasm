@@ -129,12 +129,13 @@
             <div class="bg-light p-2">
                 <small>token must be present in the header of the request</small>
                 <h5>Add music in playlist</h5>
-                <code>url format : www.domain.com?controllers=playlist&method=UPDATE&action=ADD&music_id=:music_id</code>
+                <code>url format : www.domain.com?controllers=playlist&method=UPDATE&action=ADD&music_id=:music_id&playlist_id=:playlist_id</code>
                 <div>
                     <div class="">
                         <h3>Input</h3>
                         <code>
                             :music_id = value of the music_id 
+                            :playlist_id = value of the playlist_id
                         </code>
                     </div>
                     <div class="">
@@ -151,12 +152,13 @@
             <div class="bg-light p-2">
                 <small>token must be present in the header of the request</small>
                 <h5>Remove music in playlist</h5>
-                <code>url format : www.domain.com?controllers=playlist&method=UPDATE&action=REMOVE&music_id=:music_id</code>
+                <code>url format : www.domain.com?controllers=playlist&method=UPDATE&action=REMOVE&music_id=:music_id&playlist_id=:playlist_id</code>
                 <div>
                     <div class="">
                         <h3>Input</h3>
                         <code>
                             :music_id = value of the music_id 
+                            :playlist_id = value of the playlist_id
                         </code>
                     </div>
                     <div class="">
