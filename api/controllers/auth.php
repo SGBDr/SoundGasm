@@ -28,9 +28,8 @@
                 $ide = $identifierServ->add($params_p["email"],$params_p["password"]);
                 if($ide != null){
                     $user = $userServ->add($params_p["name"], $params_p["birthday"], $ide->getIdentifier_id());
-                    if($added != null)
+                    if($user != null)
                         echo json_encode(array("response" => array("inscription" => true, "TOKEN" => $token), "HttpCode" => 200, "datetime" => new datetime()));
-            
                 }else
                     echo json_encode(array("response" => array("Inscription" => false) , "HttpCode" => 200, "datetime" => new datetime()));
             }
