@@ -57,7 +57,7 @@ include_once("./api/utils/import.php");
          */
         public function findByEmail(string $email): Identifier | null{
             // get identifier by email (trying authetification)
-            $result = $this->con->query("SELECT * FROM identifiers WHERE email = '".$email."''");
+            $result = $this->con->query("SELECT * FROM identifiers WHERE email = '".$email."'");
             if($row = $result->fetch())
                 return new Identifier($row["identifier_id"], $row["email"], "*******", $row["active"], $row["role"]);
             return null;             
@@ -100,7 +100,7 @@ include_once("./api/utils/import.php");
          * @return Identifier | null
          */
         public function save(string $email,string $password): Identifier | null{
-            $stmt = $this->con->prepare("INSERT INTO musics(email,password,active,role) VALUES(:email, :password, :active, :role)");
+            $stmt = $this->con->prepare("INSERT INTO identifiers(email,password,active,role) VALUES(:email, :password, :active, :role)");
             $stmt->bindValue(':email', $email);
             $stmt->bindValue(':password', sha1($password));
             $stmt->bindValue(':active', 1);

@@ -40,6 +40,14 @@ class UserRepo {
         return 0;
     }
 
+    public function addUser(string $name, string $birthday, int $identifier_id){
+        $stmt = $this->con->prepare("INSERT INTO users(name,birthday,identifier_id) VALUES(:name, :birthday, :identifier_id)");
+        $stmt->bindValue(":name", $name);
+        $stmt->bindValue(":birthday", $birthday);
+        $stmt->bindValue(":identifier_id", $identifier_id);
+        return $stmt->execute();
+    }
+
    
 }
 

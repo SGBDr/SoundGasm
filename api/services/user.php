@@ -8,9 +8,12 @@
 
       
         public function __construct() {
-          $this->userRepo = new UserRepo();
           $this->identifierRepo = new IdentifierRepo();
           $this->userRepo = new UserRepo();
+        }
+
+        public function add($name, $birthday, $identifier_id){
+            return $this->userRepo->addUser($name, $birthday, $identifier_id);
         }
     }
 
