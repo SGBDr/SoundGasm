@@ -27,7 +27,7 @@ export const Like = React.memo(() => {
         data[0]?.music_id === undefined ? <></> :
       <>
         <div style={{display: 'flex', flexDirection:'row',}}>
-          <LikeRecommand data={data[data.length-1]} />
+          <LikeRecommand data={data[0]} />
           <List data={data} />
         </div>
       </>
