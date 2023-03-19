@@ -41,7 +41,7 @@ export const List = ({artist, id}) => {
             <></> :
             data?.filter(elm => elm.music_id !== id)?.slice(0, 5)?.map(elm => <Render elm={elm} />)
     )
-})
+}
 
 const Wrapper = styled.div`
   display: flex;

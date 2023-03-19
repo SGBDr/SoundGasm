@@ -12,7 +12,7 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         fetch(
-          "https://soundgasm.herokuapp.com/?controllers=auth&method=POST&email="+email+"&password="+password+"&action=inscription",
+          "https://soundgasm.herokuapp.com/?controllers=auth&method=POST&action=inscription&email="+email+"&password="+password+"&name="+name+"&birthday=12/02/2022",
           {
             method: "POST",
           }
