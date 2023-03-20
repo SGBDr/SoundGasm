@@ -22,12 +22,12 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
         )
           .then((res) => res.json())
           .then((data) => {
-            // if(!data.response.Inscription) {
-            //   msgRef.current.style.display = 'block';
-            //   setTimeout(() => {
-            //     msgRef.current.style.display = 'none';
-            //   }, 3000);
-            // } else setTimeout(()=>setCreating(false), 1000);
+            if(!data.response.Inscription) {
+              msgRef.current.style.display = 'block';
+              setTimeout(() => {
+                msgRef.current.style.display = 'none';
+              }, 3000);
+            } else setTimeout(()=>setCreating(false), 1000);
             console.log(data)
         })
         .catch((err) => console.log(err));        
@@ -36,7 +36,7 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
 
     return (
         <LoginContainer>
-            <Title>Créeé votre compte</Title>
+            <Title>Créez votre compte</Title>
             <LoginWrapper>
                 <LoginForm onSubmit={(event)=>handleSubmit(onSubmit(event))} method="POST">
                     <Label>

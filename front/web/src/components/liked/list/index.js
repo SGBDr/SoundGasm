@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 display: flex;
 flex-direction: column;
 border-radius: 12px;
-
+right: 50px;
 width: 49%;
 height: 540px;
 

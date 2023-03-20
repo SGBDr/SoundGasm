@@ -61,10 +61,10 @@ const Wrapper = styled.div`
   height: auto;
   width: auto;
   position: absolute;
-  top: 10%;
-  bottom: 10%;
-  right: 10%;
-  left: 10%;
+  top: 60px;
+  bottom: 130px;
+  right: 50px;
+  left: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

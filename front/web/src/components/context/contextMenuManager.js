@@ -24,7 +24,7 @@ export const showPlayList = async (event, context, musicId) => {
     const userName = localStorage.getItem("userName");
     const playString = localStorage.getItem(`${userName}Playlist`);
     const playLists =  JSON.parse(playString);
-    const elmts = playLists.map((elm, i) => (elm.name));
+    const elmts = playLists.map((elm) => (elm.name));
     const position = {
         x: event.pageX - 200 / 2,
         y: event.pageY - elmts.length * 40 - 20,
