@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import { CardAlbum } from './CardAlbum';
 import { Link } from 'gatsby';
-import * as cleanUp from '../../../utils/authClean';
+import * as cleanUp from '../../utils/authClean';
 
 export function PlaylistList() {
 

@@ -2,16 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import {COLOR} from '../../../utils/index'
 
-export function List({data}){
+export function List({data, handlePlay}){
 
     return(
         <Wrapper  style={{marginTop: '15px', position: "relative", left: "1%"}}>
             {data.map(elm => 
-                <ContentWrapper >
+                <ContentWrapper onClick={() => handlePlay(elm)}>
                     <div style={{width:'80%'}}><p>{elm.artist} {elm.name}</p></div>
                     <div style={{width:'20%'}}><p>{elm.style}</p></div>
-                    
-                    
                 </ContentWrapper>
             )}
         </Wrapper>
@@ -44,6 +42,7 @@ const ContentWrapper = styled.div`
 
 :hover{
     background-color: #111550;
+    cursor:pointer;
 }
 
 `
