@@ -35,5 +35,4 @@ else if ($method == "PUT")
 else if ($method == "DELETE")
     echo json_encode(array("response" => array("remove" => $playlistServ->delete($params_p["playlist_id"])), "HttpCode" => 200, "datetime" => new datetime()));
 
-
 ?> 
