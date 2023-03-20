@@ -12,7 +12,6 @@ export function CardAlbum({ item }) {
             <img src='/images/icons/play.svg' alt='play'  />
         </div>
         <div style={{ display: "flex", flexDirection: "column", height: '150px', alignItems: "center", justifyContent: "space-between",}}>
-          <Image src={item.rep_image} alt={item.name} />
           <Text>{len <=20? item.name.split("(")[0] : item.name.split("(")[0].slice(0, 17).replace(/.$/, '...')}</Text>
           <div style={{ display: "flex", flexDirection: "row", height: '150px', alignItems: "center", justifyContent: "space-between",}}>
           
@@ -33,7 +32,7 @@ const Wrapper = styled.div`
   justify-content: center;
 
   width: 200px;
-  height: 200px;
+  height: 100px;
   border-radius: 20px;
 
   background-color: ${COLOR.text};
@@ -47,7 +46,7 @@ const ContentWrapper = styled.div`
   justify-content: center;
 
   width: 180px;
-  height: 180px;
+  height: 90px;
   border-radius: 20px;
 
   
@@ -57,12 +56,6 @@ const ContentWrapper = styled.div`
 const Text = styled.p`
   text-align: center;
   margin-bottom: 0px;
-  
+  fo
 `;
 
-const Image = styled.img`
-  width: 125px;
-  height: 125px;
-
-  resize-mode: contain;
-`;

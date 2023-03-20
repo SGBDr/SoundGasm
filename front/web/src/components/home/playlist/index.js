@@ -110,8 +110,7 @@ const ContentWrapper = styled.div`
 
 const Title = styled.p`
     margin-bottom: 10px;
-
-    font-weight: 900;
+    font-weight: 1100;
     font-family: Teko;
     color: white;
     font-size: 28px;
@@ -162,7 +161,7 @@ const ConfirmationBox = styled.div`
 `;
 const Input = styled.input`
   padding: 10px;
-  width: 100%;
+  width: 80%;
   margin-bottom: 10px;
   border: none;
   border-radius: 5px;
