@@ -44,6 +44,10 @@ include_once("./api/utils/import.php");
             return $this->playlistRepo->update($name, $playlist_id);
         }
 
+        public function delete(int $playlist_id){
+            return $this->playlistRepo->delete($playlist_id);
+        }
+
     }
 
 ?>
