@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import { RenderItem } from './RenderItem';
+import * as cleanUp from '../../../utils/authClean';
 
 export const ArtistList = React.memo(() => {
 
@@ -18,12 +19,12 @@ export const ArtistList = React.memo(() => {
       }
     )
       .then((res) => res.json())
-      .then((res) => {  setArtist(res.response)
-        // setIsOk(true);
-        console.log("get artist message : " + res.message)
+      .then((res) => {  
+        if(res.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+        setArtist(res.response)
         console.log("local storage token : " + localStorage.getItem("authToken"))
       })
-      .catch((err) => console.log("error", err));
+      .catch((err) => console.log(err));
   }, []);
 
     return(

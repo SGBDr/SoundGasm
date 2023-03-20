@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { SideBar } from "../sideBare"
 import { Reader } from "../reader"
 import { LoginBox } from "../loginbox"
@@ -9,6 +9,14 @@ import { ContextDialogProvider } from "../context/contextDialog"
 const PageWrapper = React.memo(({ element, props }) => {
     const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || undefined);
 
+    useEffect(()=>{
+        const handleTokenError=(evt)=>{
+            console.log("I met an error with token");
+            if(evt.detail.key === "authToken")
+                setAuthToken(evt.detail.newValue);
+        }
+        window.addEventListener("token", handleTokenError)
+    }, [])
     function handleSetAuthToken(newToken) {
         setAuthToken(newToken);
     }
@@ -19,11 +27,11 @@ const PageWrapper = React.memo(({ element, props }) => {
                 {
                     (props.path === "/404/") ? <> {React.cloneElement(element, { ...props })} </> :
                         <>
-                            <SideBar setAuthToken={handleSetAuthToken} />
                             <GlobalStyles />
                             {
                                 (authToken === undefined) ? <LoginBox setAuthToken={handleSetAuthToken} /> :
                                     <>
+                                        <SideBar setAuthToken={handleSetAuthToken} />
                                         <Searchbar />
                                         {React.cloneElement(element, { ...props })}
                                         <Reader />

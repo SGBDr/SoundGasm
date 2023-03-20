@@ -31,6 +31,7 @@ import React, { useState, useEffect, useRef } from "react";
       } catch (err) {
         setLoading(false);
         console.log(err);
+        if(err == cleanUp.errMsg) cleanUp.tokenCleanUp();
       }
     }, 800);
   }

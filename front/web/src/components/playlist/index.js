@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import { CardAlbum } from './CardAlbum';
 import { Link } from 'gatsby';
+import * as cleanUp from '../../../utils/authClean';
 
 export function PlaylistList() {
 
@@ -20,8 +21,13 @@ export function PlaylistList() {
       }
     )
       .then((res) => res.json())
-      .then((res) => { setPlaylist(res.response.playlists); console.log(res); })
-      .catch((err) => console.log("error", err));
+      .then((res) => {
+        if (res.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+        setPlaylist(res.response.playlists);
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+
   }, [ok]);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -44,11 +50,13 @@ export function PlaylistList() {
           headers: {
             Token: localStorage.getItem('authToken')
           }
-        }
-      )
+        })
         .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log("error", err));
+        .then((data) => {
+          if (data.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+          console.log(data)
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -126,8 +134,7 @@ const ContentWrapper = styled.div`
 
 const Title = styled.p`
     margin-bottom: 10px;
-
-    font-weight: 900;
+    font-weight: 1100;
     font-family: Teko;
     color: white;
     font-size: 28px;
@@ -178,7 +185,7 @@ const ConfirmationBox = styled.div`
 `;
 const Input = styled.input`
   padding: 10px;
-  width: 100%;
+  width: 80%;
   margin-bottom: 10px;
   border: none;
   border-radius: 5px;

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import {COLOR} from '../../../utils/index'
+import * as cleanUp from '../../../utils/authClean';
+import {COLOR} from '../../../utils/index';
 
 export const List = ({artist, id}) => {
 
@@ -18,9 +19,12 @@ export const List = ({artist, id}) => {
             }
           )
             .then(res => res.json())
-            .then(rep => {console.log(rep.response.musics); setData(rep.response.musics.filter(elm => elm.artist === artist))
+            .then(rep => {
+              if(rep.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+              console.log(rep.response.musics); 
+              setData(rep.response.musics.filter(elm => elm.artist === artist))
             })
-            .catch(err => console.log(err) );
+            .catch((err) =>  console.log(err));
     }, [])
     
     const Render = ({elm}) =>{
@@ -44,7 +48,6 @@ export const List = ({artist, id}) => {
 }
 
 const Wrapper = styled.div`
-
   display: flex;
   flex-direction: column;
   

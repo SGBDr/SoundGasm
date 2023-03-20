@@ -1,6 +1,6 @@
 import React from "react";
 import { LikeRecommand } from "./likeRecommand";
-// import styled from "styled-components";
+import * as cleanUp from "../../utils/authClean";
 import { List } from "./list";
 
 export const Like = React.memo(() => {
@@ -18,9 +18,12 @@ export const Like = React.memo(() => {
             }
           )
             .then(res => res.json())
-            .then(data => { console.log(data?.response?.musics); setData(data?.response?.musics)
+            .then(data => { 
+              if(data.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+              console.log(data?.response?.musics); 
+              setData(data?.response?.musics)
             })
-            .catch(err => console.log(err) );
+            .catch((err) => console.log(err));
     }, [])
 
     return (

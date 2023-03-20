@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../../utils';
 import {Card} from './Card'
+import * as cleanUp from '../../../utils/authClean';
 
 const TERM=[
     "dams",
@@ -33,12 +34,12 @@ export const Recommande = React.memo(() => {
                 }
             )
                 .then(res => res.json())
-                .then(data => { setRecommandedData(data.response.musics?.slice(0, 20))
-                    // setisOk(true);
-                    console.log("get music message : " + data.message)
+                .then(data => { 
+                    if(data.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+                    setRecommandedData(data.response.musics?.slice(0, 20))
                     console.log("local storage token : " + localStorage.getItem("authToken"))
                 })
-                .catch(err => console.log(err) );
+                .catch((err) => console.log(err));
     }, [])
 
 

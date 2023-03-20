@@ -1,52 +1,55 @@
 import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
-// import { Modal } from 'bootstrap';
+import * as cleanUp from '../../utils/authClean';
 import { RenderItem } from './RenderItem';
 
-export function Searchbar(){
-    const [term, setTerm] = React.useState("");
-    const [data, setData] = React.useState([]);
+export function Searchbar() {
+  const [term, setTerm] = React.useState("");
+  const [data, setData] = React.useState([]);
 
-    const handleSubmit = (text) =>{
-        setTerm(text);
-    }
+  const handleSubmit = (text) => {
+    setTerm(text);
+  }
 
-    React.useEffect((e)=> {
+  React.useEffect((e) => {
 
-        fetch( `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${term}`,
-        {
-          method: "GET",
-          headers: {
-            Token: localStorage.getItem("authToken")
+    fetch(`https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=TERM&term=${term}`,
+      {
+        method: "GET",
+        headers: {
+          Token: localStorage.getItem("authToken")
+        }
+      })
+      .then(res => res.json())
+      .then(result => { 
+        if(result.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+        setData(term === "" ? [] : result?.response?.musics?.slice(0, 5)) 
+      })
+      .catch((err) => console.log(err));
+  }, [term])
+
+  return (
+    <>
+      <Wrapper>
+        <div style={{ position: "relative", display: "flex", width: "100%", margin: "0", padding: "0" }}>
+          <SearchBarContainer>
+            <SearchIcon src='/images/icons/search.svg' alt='...' />
+            <SearchInput
+              type='text'
+              placeholder='Research'
+              onChange={(e) => handleSubmit(e.target.value)} />
+          </SearchBarContainer>
+          {term === "" ?
+            <></> :
+            <RenderItem data={data} />
+
           }
-        }  )
-            .then(res=> res.json())
-            .then(result=> {setData(term===""? []:result?.response?.musics?.slice(0,5))})
-            .catch(err => console.log(err))
-    },[term])
-
-    return(
-        <>
-            <Wrapper>
-              <div style={{position: "relative", display: "flex", width: "100%", margin: "0", padding: "0"}}>
-                <SearchBarContainer>
-                    <SearchIcon src='/images/icons/search.svg' alt='...'/>
-                    <SearchInput
-                        type='text'
-                        placeholder='Research'
-                        onChange={(e) => handleSubmit(e.target.value)}/>
-                </SearchBarContainer>
-                {term === ""?
-                  <></>:
-                  <RenderItem data={data} />
-                  
-                }
-              </div>
-                <Logo src='/images/soundgasm.png' />
-            </Wrapper>
-        </>
-    )
+        </div>
+        <Logo src='/images/soundgasm.png' />
+      </Wrapper>
+    </>
+  )
 }
 
 const SearchBarContainer = styled.div`

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { COLOR } from "../../../utils";
-
+import * as cleanUp from "../../../utils/authClean";
 
 export const Card = React.memo(({ name, id }) => {
   const [imgSrc, setSrc] = React.useState("");
@@ -30,12 +30,14 @@ export const Card = React.memo(({ name, id }) => {
     )
       .then((res) => res.json())
       .then((resp) => {
+        if(resp.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
         console.log(name);
         console.log(resp.response.musics[0]?.rep_image);
         setSrc(resp.response.musics[0]?.rep_image);
         // setIsLoading(false);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err));
+
   }, [name]);
 
   const handleClickArtist = () => {
