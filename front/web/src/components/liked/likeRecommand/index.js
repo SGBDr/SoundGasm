@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { List } from "./List";
 import {COLOR} from "../../../utils/index"
 
-export const LikeRecommand = React.memo(({data}) => {
+export const LikeRecommand = React.memo(({data, handlePlay}) => {
     const {name, rep_image, artist} = data
     return(
         <Wrapper style={{marginTop: '15px', width: "50%",}}>
-            <ContentWrapper 
+            <ContentWrapper
+            onClick={() => handlePlay(data)}
             style={{
             position: "relative",
             top: "0px",
@@ -23,7 +24,7 @@ export const LikeRecommand = React.memo(({data}) => {
 
             </ContentWrapper>
             <div style={{marginTop:'30px', background: COLOR.darkAlt, borderRadius: "12px"}}>
-                <List artist={artist} id={data.music_id} />
+                <List artist={artist} id={data.music_id} handlePlay={handlePlay} />
             </div>
         </Wrapper>
     );
@@ -45,6 +46,10 @@ const ContentWrapper = styled.div`
     display: flex;
     flex-direction: row;
     border-radius: 12px;
+
+    :hover{
+        cursor:pointer;
+    }
 
 `
 
