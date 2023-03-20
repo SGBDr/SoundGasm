@@ -17,7 +17,7 @@ export const Reader = React.memo(() => {
                     console.log(CL.isPresentInList(storedMusicInfo));
                     if (!CL.isPresentInList(storedMusicInfo)) {
                         CL.addToList(storedMusicInfo);
-                        CL.setCurrentIndex(CL.getList().length + 1);
+                        CL.setCurrentIndex(CL.getList().length);
                     }
                     setMusicInfo(JSON.parse(storedMusicInfo));
                     localStorage.removeItem('musicInfo');
@@ -28,7 +28,13 @@ export const Reader = React.memo(() => {
             }
         };
 
+        const readPlaylist = (evt) => {
+            if(evt.detail.key === "batchPlay")
+                setMusicInfo(CL.getCurrentValue());
+        }
+
         window.addEventListener("storage", handleStorageChange);
+        window.addEventListener("playlist", readPlaylist);
         CL.initaliseList();
         if (CL.getList().length > 0) setMusicInfo(CL.getCurrentValue())
         console.log(CL.getList());
@@ -47,7 +53,7 @@ export const Reader = React.memo(() => {
     const handleMusicChange = (val) => {
         CL.setCurrentIndex(CL.getCurrentIndex() + val);
         console.log("Current Index: " + CL.getCurrentIndex());
-        setMusicInfo(JSON.parse(CL.getList()[CL.getCurrentIndex() - 1]));
+        setMusicInfo(CL.getCurrentValue());
     }
 
     return (
@@ -59,6 +65,7 @@ export const Reader = React.memo(() => {
                     <p className="artist">By : {(musicInfo) ? musicInfo.artist : "Artist"}</p>
                 </TitleWrapper>
             </InfoWrapper>
+            <MyButton title="vider la liste de lecture" onClick={() => CL.initVoidList()}> <Svg viewBox="0 0 55 55"><use xlinkHref={`/images/icons/delete.svg#del`} /></Svg> </MyButton>
             <Controller music={music} handleChange={handleMusicChange} />
         </Wrapper>
     );
@@ -127,6 +134,31 @@ const InfoWrapper = styled.div`
     width: 100%;
     height: 100px;
     gap: 10px;
+`;
+
+const MyButton = styled.button`
+    background: transparent;
+    border: none;
+    .icon{
+        width: 25px;
+        height: 25px;
+    }
+    &:hover{
+        cursor: pointer;
+        use{
+            fill: ${COLOR.secondary};
+            transform: scale(1.2);
+        }
+    }
+`
+const Svg = styled.svg`
+    width: 25px;
+    height: 25px;
+    use{
+        fill: white;
+        transition: 0.3s ease-in-out;
+    }
+
 `;
 
 

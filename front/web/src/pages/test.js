@@ -1,47 +1,74 @@
 import React from 'react';
-import styled from 'styled-components';
+import { css, keyframes } from '@emotion/react';
 
-
-import { ConfirmBox } from '../components/context/confirmationBox';
-import useMyContext from '../components/context/contextDialog';
-
-const IndexPage = () => {
-  const context = useMyContext();
-
-   const showNav = async (event) => {
-        event.preventDefault();
-        const position = {
-            x: event.pageX,
-            y: event.pageY,
-        };
-        const elmts=["Ajouter à la liste","Ajouter à la playlist","Ajouter aux favoris", "Voir l'artiste"];
-        const choice = await context("menu", {elements: elmts, xyPosition: position})
-    };
-  // const [isOpen, setIsOpen] = React.useState(true);
-  const handleClose = async () => {
-    // const choise = await confirm({ message: "Vous voulez vous déconnectez ?", confirmBtnLabel: "Déconnecter" })
-    // setIsOpen(false);
+// Define the animation keyframes
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
   }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
+// Define the styles for the clipart
+const clipartStyles = css`
+  display: block;
+  margin: 0 auto;
+  animation: ${pulse} 2s ease-in-out infinite;
+`;
+
+// Define the styles for the "Coming soon!" text
+const textStyles = css`
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  margin-top: 40px;
+`;
+
+// Define the styles for the date text
+const dateStyles = css`
+  text-align: center;
+  font-size: 24px;
+  margin-top: 20px;
+`;
+
+function IndexPage() {
   return (
-    <>
-      <div style={{position: "relative", top: "200px", left: "200px"}}>
-        <p style={{color: "white", fontSize: "20px"}}>Here I am the best</p>
-        <button onClick={handleClose}>Confirm ?</button>
-      </div>
-      <ContentWrapper onContextMenu={showNav}>
-      </ContentWrapper>
-
-    </>
-  )
+    <div>
+      <img
+        src="https://example.com/your-clipart.png"
+        alt="Coming Soon Clipart"
+        css={clipartStyles}
+      />
+      <div css={textStyles}>Coming soon!</div>
+      <div css={dateStyles}>27th March 2023 :)</div>
+    </div>
+  );
 }
 
 export default IndexPage
 
 export const Head = () => <title>Test</title>
 
-const ContentWrapper = styled.div`
-  height: 500px;
-  width: 300px;
-  background: red;
-`
+// const ContentWrapper = styled.div`
+//   height: auto;
+//   width: 300px;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   background: ${COLOR.menu};
+// `;
+
+// const Tab = styled.p`
+//   margin: 0px;
+//   padding: 2px;
+//   font-family: Teko;
+//   font-size: 15px;
+//   font-weight: 700;
+//   color: ${COLOR.text};
+// `;

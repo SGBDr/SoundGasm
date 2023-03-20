@@ -37,7 +37,7 @@ export  const ContextDialogProvider = React.memo(({ children }) => {
             <ConfirmBox isOpen={diagState.isOpen}
                 {...diagState}
                 onClose={()=>diag.current(false)}
-                onConfirm={()=>diag.current(true)}
+                onConfirm={(value)=>diag.current(value)}
             />
             <RightContext isOpen={rightState}
                 {...rightState}
@@ -51,3 +51,4 @@ export  const ContextDialogProvider = React.memo(({ children }) => {
 export default function useMyContext(){
     return useContext(ContextDialog);
 }
+

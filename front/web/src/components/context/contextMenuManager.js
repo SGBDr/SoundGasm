@@ -19,6 +19,43 @@ export const showNav = async (event, context, item, isLiked, setIsLiked) => {
 
 };
 
+export const showPlayList = async (event, context, musicId) => {
+    event.preventDefault();
+    const userName = localStorage.getItem("userName");
+    const playString = localStorage.getItem(`${userName}Playlist`);
+    const playLists =  JSON.parse(playString);
+    const elmts = playLists.map((elm, i) => (elm.name));
+    const position = {
+        x: event.pageX - 200 / 2,
+        y: event.pageY - elmts.length * 40 - 20,
+    };
+
+    const choice = await context("menu", { elements: elmts, xyPosition: position, playlist: true });
+    if (choice) {
+        const playlistId = playLists[choice-1].id
+        const url = `https://soundgasm.herokuapp.com/?controllers=playlist&method=UPDATE&action=ADD&music_id=${musicId}&playlist_id=${playlistId}`;
+        fetch(url,
+            {
+                method: "GET",
+                headers: {
+                    Token: localStorage.getItem("authToken")
+                }
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+                console.log(result.response);
+                window.dispatchEvent(new CustomEvent("playlist", {
+                    detail: {
+                      key: "playlistAdd",
+                      newValue: null
+                    }
+                  }));
+            })
+            .catch((err) => console.log(err));
+    }
+}
+
 const handleChoice = (choice, item, isLiked, setIsLiked) => {
     switch (choice) {
         // Ajout à la liste
@@ -42,7 +79,7 @@ const handleChoice = (choice, item, isLiked, setIsLiked) => {
 }
 
 export const isMusicLiked = (id, setIsLiked, player) => {
-    console.log("music_id: "+id);
+    console.log("music_id: " + id);
     const url = `https://soundgasm.herokuapp.com/?controllers=music&method=GET&by=LIKE`;
     fetch(url,
         {
@@ -53,7 +90,7 @@ export const isMusicLiked = (id, setIsLiked, player) => {
         })
         .then(res => res.json())
         .then(result => {
-            if(result.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+            if (result.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
             const likedMusics = result.response.musics;
             // console.log("Liked Musics");
             // console.log(likedMusics);
@@ -77,7 +114,7 @@ export const handleMusicLike = (id, isLiked, setIsLiked, player) => {
         })
         .then(res => res.json())
         .then(result => {
-            if(result.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+            if (result.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
             console.log(result.response)
             if (player) setIsLiked((isLiked) ? { state: false, text: "like-off" } : { state: true, text: "like-on" });
             else setIsLiked((isLiked) ? false : true);

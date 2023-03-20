@@ -1,15 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 
-export const ConfirmBox = React.memo(({ isOpen, onClose, message, confirmBtnLabel, onConfirm }) => {
+export const ConfirmBox = React.memo(({ isOpen, onClose, message, confirmBtnLabel, onConfirm , isEdit}) => {
+    const [name, setName] = useState("");
     return (
         isOpen && (
             <Box>
                 <ConfirmationBox >
                     <p>{message}</p>
+                    {
+                        (isEdit) ? (<Input type="text" placeholder='Nom de la playList' value={name} onChange={(evt) => setName(evt.target.value)} />): null
+                    }
                     <div style={{ width: "auto", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px", gap: "20px" }} >
-                        <button className='bttn' onClick={() => {onConfirm()}} style={{ backgroundColor: `${COLOR.primary}` }} >{confirmBtnLabel}</button>
+                        <button className='bttn' onClick={() => {if(isEdit) onConfirm(name); onConfirm(true)}} style={{ backgroundColor: `${COLOR.primary}` }} >{confirmBtnLabel}</button>
                         <button className='bttn' onClick={() => onClose()} style={{ backgroundColor: "orange" }} >Annuler</button>
                     </div>
                 </ConfirmationBox>
@@ -35,12 +39,12 @@ const ConfirmationBox = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     width: 400px;
-    height: 150px;
+    padding: 40px;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    padding: 10px;
     border-radius: 32px;
     background-color: ${COLOR.background};
     border: 10px solid ${COLOR.playButtonCard};
@@ -69,4 +73,12 @@ const ConfirmationBox = styled.div`
         }
     }
 
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
 `;

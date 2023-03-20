@@ -19,8 +19,9 @@ export const PrefArtists = React.memo(() => {
             }
           )
             .then(res => res.json())
-            .then(data => { setArtists(data.response)
+            .then(data => { 
                 if(data.response === cleanUp.errMsg) cleanUp.tokenCleanUp();
+                setArtists(data.response)
                 console.log("local storage token : " + localStorage.getItem("authToken"))
             })
             .catch((err) => console.log(err));

@@ -2,7 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../utils';
 import * as CL from './list';
+import useMyContext from '../context/contextDialog';
 import { isMusicLiked, handleMusicLike } from '../context/contextMenuManager';
+import { showPlayList } from '../context/contextMenuManager';
 
 export const Controller = React.memo((props) => {
     // initialise Ref to manipulate inbuild audio tag
@@ -15,6 +17,7 @@ export const Controller = React.memo((props) => {
     const [isLiked, setIsLiked] = useState({ state: false, text: "like-off" });
     const [isRepeating, setIsRepeating] = useState({ state: false, text: "repeat-off" });
 
+    const context = useMyContext();
     //Listen to changes in music in parent component
     useEffect(() => {
         setMusic(props.music);
@@ -127,6 +130,10 @@ export const Controller = React.memo((props) => {
             props.handleChange(-1);
     }
 
+    const handleAdd = (event) => {
+        if(music)
+            showPlayList(event, context, props.music.id);
+    }
 
     // Synchronise range with inbuild audio player
     const handleRangeChange = (event) => {
@@ -141,6 +148,7 @@ export const Controller = React.memo((props) => {
         const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
         return `${minutes}:${formattedSeconds}`;
     }
+
 
 
     return (
@@ -165,11 +173,12 @@ export const Controller = React.memo((props) => {
                 </div>
             </ControlRangeWrapper>
             <ControlTabWrapper>
-                <MyButton id="b-like" onClick={handleLike}> <Svg viewBox="0 0 55 55"><use xlinkHref={`/images/icons/player/like.svg#${isLiked.text}`} /></Svg> </MyButton>
-                <MyButton id="b-prev" onClick={handlePrevious}><Svg viewBox="0 0 50 50"><use id="u-prev" xlinkHref="/images/icons/player/change.svg#previous" /></Svg></MyButton>
-                <MyButton id="b-play" onClick={handlePlayPause}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/play.svg#${isPlaying.text}`} /></Svg></MyButton>
-                <MyButton id="b-next" onClick={handleNext}><Svg viewBox="0 0 50 50"><use id="u-next" xlinkHref="/images/icons/player/change.svg#next" /></Svg></MyButton>
-                <MyButton id="b-rep" onClick={handleRepeat}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/repeat.svg#${isRepeating.text}`} /></Svg></MyButton>
+                <MyButton className='tooltip' id="Add" onClick={handleAdd}> <Svg viewBox="0 0 55 55"><use xlinkHref={`/images/icons/player/plus.svg#plus`} /></Svg> </MyButton>
+                <MyButton className='tooltip' id="like" onClick={handleLike}> <Svg viewBox="0 0 55 55"><use xlinkHref={`/images/icons/player/like.svg#${isLiked.text}`} /></Svg> </MyButton>
+                <MyButton className='tooltip' id="prev" onClick={handlePrevious}><Svg viewBox="0 0 50 50"><use id="u-prev" xlinkHref="/images/icons/player/change.svg#previous" /></Svg></MyButton>
+                <MyButton className='tooltip' id="play" onClick={handlePlayPause}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/play.svg#${isPlaying.text}`} /></Svg></MyButton>
+                <MyButton className='tooltip' id="next" onClick={handleNext}><Svg viewBox="0 0 50 50"><use id="u-next" xlinkHref="/images/icons/player/change.svg#next" /></Svg></MyButton>
+                <MyButton className='tooltip' id="repeat" onClick={handleRepeat}><Svg viewBox="0 0 50 50"><use xlinkHref={`/images/icons/player/repeat.svg#${isRepeating.text}`} /></Svg></MyButton>
             </ControlTabWrapper>
         </ControlWrapper>
     );
@@ -225,6 +234,27 @@ const ControlTabWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     height: auto;
+
+    .tooltip{ pointer-events: all ;}
+
+    .tooltip::after {
+        content: attr(id);
+        position: absolute;
+        bottom: 0%;
+        // left: 50%;
+        padding: 5px;
+        background-color: ${COLOR.text};
+        color: ${COLOR.darkAlt};
+        font-size: 15px;
+        font-weight: 700;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+    .tooltip:hover::after {
+        opacity: 1;
+    }
 `;
 
 const MyButton = styled.button`
