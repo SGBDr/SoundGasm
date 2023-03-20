@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
+import { useForm } from "react-hook-form";
 import { COLOR } from '../../utils';
 
 const AccountCreationForm = React.memo(({ setCreating }) => {
+    const { register,handleSubmit, formState: { errors } } = useForm();
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [telephone, setTelephone] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = (event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
         fetch(
           "https://soundgasm.herokuapp.com/?controllers=auth&method=POST&action=inscription&email="+email+"&password="+password+"&name="+name+"&birthday=12/02/2022",
@@ -29,22 +31,43 @@ const AccountCreationForm = React.memo(({ setCreating }) => {
         <LoginContainer>
             <Title>Créeé votre compte</Title>
             <LoginWrapper>
-                <LoginForm onSubmit={handleSubmit} method="POST">
+                <LoginForm onSubmit={(event)=>handleSubmit(onSubmit(event))} method="POST">
                     <Label>
-                        Nom: <Input type="text" value={name} onChange={(event) => setName(event.target.value)} />
+                        Nom: <Input type="text" {...register("name", {
+                              required: "le nom est requis",
+                              pattern: {
+                                value: /^[A-Z0-9._%+-]{2,}$/i,
+                                message: "Nom Invalide",
+                              },
+                            })} value={name} onChange={(event) => setName(event.target.value)} />
                     </Label>
+                    {errors.name && <Span>{errors.name.message}</Span>}
                     <Label>
                         Prénom: <Input type="text" value={surname} onChange={(event) => setSurname(event.target.value)} />
                     </Label>
                     <Label>
-                        Email: <Input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                        Email: <Input type="email" {...register("email", {
+                              required: "l'email est requis",
+                              pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Adresse Email invalide",
+                              },
+                            })} value={email} onChange={(event) => setEmail(event.target.value)} />
                     </Label>
+                    {errors.email && <Span>{errors.email.message}</Span>}
                     <Label>
                         Téléphone: <Input type="tel" value={telephone} onChange={(event) => setTelephone(event.target.value)} />
                     </Label>
                     <Label>
-                        Mot de passe: <Input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                        Mot de passe: <Input type="password" {...register("password", {
+                              required: "mot de passe requis",
+                              pattern: {
+                                value: /^[A-Z0-9._%+-]{8,}$/i,
+                                message: "au moins 8 characteres ",
+                              },
+                            })}value={password} onChange={(event) => setPassword(event.target.value)} />
                     </Label>
+                    {errors.password && <Span>{errors.password.message}</Span>}
                     <Button type="submit">Creer compte</Button>
                 </LoginForm>
             </LoginWrapper>
@@ -59,6 +82,12 @@ const Title = styled.p`
     font-family: Teko;
     font-size: 28px;
     color: white;
+`;
+const Span = styled.span`
+    font-weight: 200;
+    font-family: Teko;
+    font-size: 12px;
+    color: orange;
 `;
 
 const LoginContainer = styled.div`
