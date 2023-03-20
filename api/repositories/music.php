@@ -22,7 +22,7 @@ include_once("./api/utils/import.php");
         }
 
         public function findLikeSongOfUser(int $user_id): array{
-            $result = $this->con->query("SELECT music_id FROM like_music WHERE user_id = " . $user_id);
+            $result = $this->con->query("SELECT music_id FROM like_music WHERE user_id = " . $user_id." ORDER BY add_date");
             $musics = array();
             $results = $result->fetchAll();
             foreach($results as $row){
@@ -34,7 +34,7 @@ include_once("./api/utils/import.php");
         }
 
         public function likeSong(int $music_id, int $user_id){
-            $stmt = $this->con->prepare("INSERT INTO like_music(user_id,music_id) VALUES(:user_id,:music_id)");
+            $stmt = $this->con->prepare("INSERT INTO like_music(user_id,music_id,add_date) VALUES(:user_id,:music_id, now())");
             $stmt->bindValue(':music_id', $music_id);
             $stmt->bindValue(':user_id', $user_id);
             return $stmt->execute();
