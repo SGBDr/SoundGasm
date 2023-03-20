@@ -1,11 +1,11 @@
-import React, { useState,useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { COLOR } from '../../../utils';
+import { COLOR } from '../../utils';
 import { CardAlbum } from './CardAlbum';
-import {Link} from 'gatsby';
+import { Link } from 'gatsby';
 
-export function PlaylistList(){
-    
+export function PlaylistList() {
+
   const [playlist, setPlaylist] = React.useState();
   const [name, setName] = useState("");
   const [ok, isOk] = React.useState(false);
@@ -20,7 +20,7 @@ export function PlaylistList(){
       }
     )
       .then((res) => res.json())
-      .then((res) => {setPlaylist(res.response.playlists);console.log(res);})
+      .then((res) => { setPlaylist(res.response.playlists); console.log(res); })
       .catch((err) => console.log("error", err));
   }, [ok]);
 
@@ -29,52 +29,65 @@ export function PlaylistList(){
 
   const handleNewPlaylist = () => {
     setShowConfirmation(true);
-  //   confRef.current.focus();
+    //   confRef.current.focus();
   };
 
   const handleConfirm = (evt) => {
-      const val = evt.target.textContent;
-      setShowConfirmation(false);
-      // Perform the action of disconnecting here
-      if(localStorage.getItem("authToken") && val === "valider") {
-        fetch(
-          "https://soundgasm.herokuapp.com/?controllers=playlist&method=PUT&name="+name,
-          {
-            method: "POST",
-            headers: {
-              Token: localStorage.getItem('authToken')
-            }
+    const val = evt.target.textContent;
+    setShowConfirmation(false);
+    // Perform the action of disconnecting here
+    if (localStorage.getItem("authToken") && val === "valider") {
+      fetch(
+        "https://soundgasm.herokuapp.com/?controllers=playlist&method=PUT&name=" + name,
+        {
+          method: "POST",
+          headers: {
+            Token: localStorage.getItem('authToken')
           }
-        )
-          .then((res) => res.json())
-          .then((data) => console.log(data))
-          .catch((err) => console.log("error", err));
-      }
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log("error", err));
+    }
   };
 
-    return(
-      <>
-        <Wrapper>
-        <Link  to="#" onClick={handleNewPlaylist}> <Img className='icon' alt="kk" src="/images/icons/setting.svg" /> </Link>
-            <ContentWrapper>
-                {playlist===undefined?null:playlist?.map((elm, i) => <CardAlbum key={i} item={elm} />)}
-            </ContentWrapper>
-        </Wrapper>
-        {showConfirmation && (
-                <ConfirmationBox ref={confRef} tabIndex={-1}>
-                    <p>entrer les infos de la playlist</p>
-                    <Label>
-                        Nom: <Input type="text" value={name} onChange={(event) => setName(event.target.value)} />
-                    </Label>
-                    <div style={{width: "65%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px"}} >
-                        <button className='bttn' onClick={handleConfirm} style={{backgroundColor: `${COLOR.primary}`}} >valider</button>
-                        <button className='bttn' onClick={handleConfirm} style={{backgroundColor: `${COLOR.secondary}`}} >annuler</button>
-                    </div>
-                </ConfirmationBox>
-            )}
-      </>
-    )
+  return (
+    <>
+
+      <Wrapper>
+        <TitleHead>Playlist</TitleHead>
+        <Link style={{ position: 'absolute', left: '125px', top: '26px' }} to="#" onClick={handleNewPlaylist}> <Img className='icon' alt="kk" src="/images/icons/setting.svg" /> </Link>
+
+        <ContentWrapper>
+          {playlist === undefined ? null : playlist?.map((elm, i) => <CardAlbum key={i} item={elm} />)}
+        </ContentWrapper>
+      </Wrapper>
+      {showConfirmation && (
+        <ConfirmationBox ref={confRef} tabIndex={-1}>
+          <p>entrer les infos de la playlist</p>
+          <Label>
+            Nom: <Input type="text" value={name} onChange={(event) => setName(event.target.value)} />
+          </Label>
+          <div style={{ width: "65%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0, 20px" }} >
+            <button className='bttn' onClick={handleConfirm} style={{ backgroundColor: `${COLOR.primary}` }} >valider</button>
+            <button className='bttn' onClick={handleConfirm} style={{ backgroundColor: `${COLOR.secondary}` }} >annuler</button>
+          </div>
+        </ConfirmationBox>
+      )}
+    </>
+  )
 }
+
+const TitleHead = styled.p`
+margin: 10px 0 0 0;
+height: 40px;
+font-weight: 900;
+font-family: Teko;
+color: white;
+font-size: 28px;
+padding-left: 30px;
+`
 
 const Wrapper = styled.div`
     position: absolute;
@@ -82,7 +95,9 @@ const Wrapper = styled.div`
     left: 100px;
     right: 50px;
     display: grid;
-    height: 65%;
+    height: 280px;
+
+    align-items: center;
 
     overflow: auto;
     ::-webkit-scrollbar { width: 0;};
@@ -98,9 +113,10 @@ const ContentWrapper = styled.div`
     gap: 50px;
 
     width: 95%;
-    height: 200px;
+    height: 230px;
     margin-left: 30px;
-    margin-bottom: 20px;
+    margin-top: 20px;
+
     overflow: auto;
     ::-webkit-scrollbar { width: 0; display:none; };
 

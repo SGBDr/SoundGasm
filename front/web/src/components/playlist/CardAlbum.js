@@ -1,10 +1,23 @@
 import React from "react";
 import styled from "styled-components";
-import { COLOR } from "../../../utils";
+import { COLOR } from "../../utils";
 
 export function CardAlbum({ item }) {
   const len = item.name.split("(")[0].length;
   console.log(len)
+
+  
+
+  const handleClickArtist = () => {
+    window.dispatchEvent(new CustomEvent("playlistChange", {
+      detail: {
+        key: "playlist",
+        newValue: item.name,
+        newId: id
+      }
+    }));
+  }
+
   return (
     <Wrapper>
       <ContentWrapper>
@@ -32,8 +45,8 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 200px;
-  height: 200px;
+  width: 170px;
+  height: 170px;
   border-radius: 20px;
 
   background-color: ${COLOR.text};
