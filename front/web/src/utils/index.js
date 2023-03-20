@@ -1,3 +1,6 @@
+import {tokenCleanUp, errMsg} from './authClean';
+
+
 export const COLOR = {
     background: '#1D2123',
     primary: '#307DB8',
@@ -22,3 +25,8 @@ export const SIZE = {
              font-weigth: bold`,
     text:   `font-size: 14px`,
 }
+
+export {
+    tokenCleanUp,
+    errMsg
+};

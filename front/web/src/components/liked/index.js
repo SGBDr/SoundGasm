@@ -6,6 +6,21 @@ import { List } from "./list";
 export const Like = React.memo(() => {
 
     const [data, setData] = React.useState([]);
+    const [count, setCount] = React.useState([]);
+    const [likeButton, setLikeButton] = React.useState([]);
+    const handlePlayMusic = (musicInfo) => {
+      localStorage.setItem('musicInfo', JSON.stringify(musicInfo));
+      window.dispatchEvent(new CustomEvent("storage", {
+          detail: {
+              key: "musicInfo",
+              newValue: JSON.stringify(musicInfo)
+          }
+      }));
+      console.log("Correctly Stored in local Storage");
+      // redirect to MusicPlayer component
+  }
+
+    
 
     React.useEffect(()=>{
         fetch(
@@ -24,14 +39,23 @@ export const Like = React.memo(() => {
               setData(data?.response?.musics)
             })
             .catch((err) => console.log(err));
-    }, [])
+    }, [likeButton])
+
+    React.useEffect(()=>{
+      const handleIsLikedChange = (event) => {
+        if (event.detail.key === "like")
+          console.log(event.detail);
+          setLikeButton(!likeButton);
+      }
+      window.addEventListener("likeChange", handleIsLikedChange)
+    },[data])
 
     return (
         data[0]?.music_id === undefined ? <></> :
       <>
         <div style={{display: 'flex', flexDirection:'row',}}>
-          <LikeRecommand data={data[0]} />
-          <List data={data} />
+          <LikeRecommand data={data[0]} handlePlay={handlePlayMusic} />
+          <List data={data} handlePlay={handlePlayMusic} />
         </div>
       </>
     );

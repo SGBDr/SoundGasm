@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as cleanUp from '../../../utils/authClean';
 import {COLOR} from '../../../utils/index';
 
-export const List = ({artist, id}) => {
+export const List = ({artist, id, handlePlay}) => {
 
     const [data, setData] = React.useState([]);
 
@@ -31,7 +31,7 @@ export const List = ({artist, id}) => {
 
       return(
         <Wrapper>
-          <ContentWrapper>
+          <ContentWrapper onClick={() => handlePlay(elm)}>
             <img style={{borderRadius: "12px", width: "50px", height: "50px"}} src={elm.rep_image} alt={elm.name} />
             <div>
               <p style={{marginLeft: "30px"}}>{elm.name}</p>
@@ -66,5 +66,6 @@ const ContentWrapper = styled.div`
 
   :hover{
       background-color: #111550;
+      cursor:pointer;
   }
 `
