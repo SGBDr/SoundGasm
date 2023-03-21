@@ -25,7 +25,8 @@ export const SideBar = React.memo((props) => {
                     <Link to="/liked" data-tooltip='Liked' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/heart.svg" /> </Link>
                     <Link to="/artist" data-tooltip='Artist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/album.svg" /> </Link>
                     <Link to="/playlist" data-tooltip='Playlist' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/playlist.svg" /> </Link>
-                    <Link to="#" data-tooltip='Logout' className='tooltip' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
+                    <Link to="/group" data-tooltip='Groups' className='tooltip'> <Img className='icon' alt="kk" src="/images/icons/group.png" width="20px"/> </Link>
+                   <Link to="#" data-tooltip='Logout' className='tooltip' onClick={handleDisconnect}> <Img className='icon' alt="kk" src="/images/icons/profil.svg" /> </Link>
 
                 </ContentWrapper>
             </Wrapper>
