@@ -48,7 +48,7 @@ export const Card = React.memo(({ item }) => {
     <Wrapper>
       <ContentWrapper onContextMenu={(event) => showNav(event, context, item, isLiked, setIsLiked)}>
         <div className="play" onClick={() => handlePlayMusic(item)} onKeyDown={(e) => handleKeyDown(e, item)}
-          style={{ position: "relative", display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50px' }}
+          style={{ position: "relative", display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50px', zIndex: '1', top: '42%' }}
           role="tab" aria-selected="true" tabIndex="0" >
           <img src='/images/icons/play.svg' alt='play' />
         </div>
