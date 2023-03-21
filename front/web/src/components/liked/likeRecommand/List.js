@@ -25,7 +25,7 @@ export const List = ({artist, id, handlePlay}) => {
               setData(rep.response.musics.filter(elm => elm.artist === artist))
             })
             .catch((err) =>  console.log(err));
-    }, [])
+    }, [artist])
     
     const Render = ({elm}) =>{
 
