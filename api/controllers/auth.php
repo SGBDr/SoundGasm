@@ -29,7 +29,7 @@
                 if($ide != null){
                     $user = $userServ->add($params_p["name"], $params_p["birthday"], $ide->getIdentifier_id());
                     if($user != null)
-                        echo json_encode(array("response" => array("inscription" => true), "HttpCode" => 200, "datetime" => new datetime()));
+                        echo json_encode(array("response" => array("Inscription" => true), "HttpCode" => 200, "datetime" => new datetime()));
                 }else
                     echo json_encode(array("response" => array("Inscription" => false) , "HttpCode" => 200, "datetime" => new datetime()));
             }
