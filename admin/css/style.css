@@ -1,0 +1,191 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+.sidebar{
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #e6d3d3;
+    width: 25%;
+    height: 100%;
+    bottom: 0;
+    padding-top: 20px;
+    /* position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #bbb2b2;
+    z-index: 1;
+    overflow-x: hidden;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1); */
+}
+
+.sidebar a {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background-color: #ddd;
+  }
+
+
+  .sidebar a.active {
+    background-color: #ccc;
+  }
+
+/* Style the buttons inside the tab */
+.sidebar button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.sidebar button:hover {
+    background-color: #ddd;
+}
+
+ /* Create an active/current "tab button" class */
+ .sidebar button.active {
+    background-color: #ccc;
+  }
+
+.sidebar-item{
+    padding-top: 10%;
+}
+
+
+.logo img{
+    width: 60px;
+    height: 60px;
+    border-radius: 25%;
+}
+
+.logo span{
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+/* a{
+    position: relative;
+    color: rgb(85, 83, 83);
+    font-size: 14spx;
+    display: table;
+    width: 300px;
+    padding: 10px;
+} */
+
+#mod, .fa {
+    position: relative;
+    /* width: 70px;
+    height: 40px; */
+    top: 0px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.fa-chart-bar, .fa-music, .fa-user, .fa-users, .fa-sign-out-alt{
+    position: relative;
+    width: 70px;
+    height: 40px;
+    top: 0px;
+    font-size: 20px;
+    text-align: center;
+}
+
+/* a:hover{
+   background: #eee; 
+} */
+
+.logout{
+    position: relative;
+    margin-top: 55%;
+}
+
+/* .main {
+    margin-left: 300px; /* Same as the width of the sidenav */
+    /* padding: 0px 10px;
+    background: #576980;
+    height: 100%;
+    position: relative; */
+  /* } */ 
+
+  
+  /* Style the tab content */
+  /* .tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 75%;
+    border-left: none;
+    height: 300px;
+  } */
+
+  .row{
+    margin-left: 10px;
+  }
+
+  /* #search_music{
+    width : 50px;
+    height: 100%;
+    margin-left: 55%;
+    justify-content: center;
+    align-items: center;
+    background: rgb(162, 162, 191);
+    color: pink;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 25;
+    /* cursor: pointer; */
+  
+
+  h1{
+    text-align: center;
+  }
+
+  /* #test{
+    right: 0%;
+  } */
+
+  #infoUser{
+    text-align: center;
+
+  }
+  
+
+  /* #myChart{
+    width: 200px;
+    height: 100px;
+  } */
